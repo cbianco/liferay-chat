@@ -2,8 +2,8 @@ Bundle-Name: topic-api
 Bundle-SymbolicName: topic.api
 Bundle-Version: 1.0.0
 Export-Package:\
-	topic.exception,\
-	topic.model,\
-	topic.service,\
-	topic.service.persistence
+	it.cm.liferay.chat.topic.exception,\
+	it.cm.liferay.chat.topic.model,\
+	it.cm.liferay.chat.topic.service,\
+	it.cm.liferay.chat.topic.service.persistence
 -includeresource: META-INF/service.xml=../topic-service/service.xml
