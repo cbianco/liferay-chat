@@ -55,12 +55,44 @@ import it.cm.liferay.chat.topic.service.TopicServiceUtil;
  */
 @ProviderType
 public class TopicServiceHttp {
+	public static it.cm.liferay.chat.topic.model.Topic addTopic(
+		HttpPrincipal httpPrincipal, long companyId, long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
+					"addTopic", _addTopicParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					companyId, groupId, userId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (it.cm.liferay.chat.topic.model.Topic)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static it.cm.liferay.chat.topic.model.Topic getTopic(
 		HttpPrincipal httpPrincipal, long topicId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
-					"getTopic", _getTopicParameterTypes0);
+					"getTopic", _getTopicParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
 
@@ -87,7 +119,10 @@ public class TopicServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(TopicServiceHttp.class);
-	private static final Class<?>[] _getTopicParameterTypes0 = new Class[] {
+	private static final Class<?>[] _addTopicParameterTypes0 = new Class[] {
+			long.class, long.class, long.class
+		};
+	private static final Class<?>[] _getTopicParameterTypes1 = new Class[] {
 			long.class
 		};
 }

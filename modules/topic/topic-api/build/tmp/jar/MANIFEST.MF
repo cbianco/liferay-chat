@@ -41,8 +41,5 @@ Import-Package: com.liferay.expando.kernel.model;version="[1.0,2)",com
 Javac-Debug: on
 Javac-Deprecation: off
 Javac-Encoding: UTF-8
-Private-Package: it.cm.liferay.chat.topic.service.exception,it.cm.life
- ray.chat.topic.service.model,it.cm.liferay.chat.topic.service.service
- .persistence
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
 Tool: Bnd-3.5.0.201709291849

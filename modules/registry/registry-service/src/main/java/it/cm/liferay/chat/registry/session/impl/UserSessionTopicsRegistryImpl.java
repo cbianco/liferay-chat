@@ -3,7 +3,7 @@ package it.cm.liferay.chat.registry.session.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import it.cm.liferay.chat.client.message.ClientMessage;
+import it.cm.liferay.chat.registry.client.message.ClientMessage;
 import it.cm.liferay.chat.registry.session.UserSession;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import it.cm.liferay.chat.topic.model.Topic;
@@ -39,12 +39,18 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		if (!_userSessionTopicsMap.containsKey(userSession)) {
 
+			_log.debug("Added user to session topic registry: " +
+					   userSession.getUserId());
+
 			_userSessionTopicsMap.put(
 				userSession,
 				new LinkedList<>());
 		}
 
 		try {
+			_log.debug("Try to add user(" + userSession.getUserId() + ")" +
+					   " to topic registry: " + topicId);
+
 			_userSessionTopicsMap.get(userSession)
 				.add(_topicService.getTopic(topicId));
 		}

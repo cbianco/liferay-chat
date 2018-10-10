@@ -32,6 +32,13 @@ public class TopicServiceWrapper implements TopicService,
 		_topicService = topicService;
 	}
 
+	@Override
+	public it.cm.liferay.chat.topic.model.Topic addTopic(long companyId,
+		long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _topicService.addTopic(companyId, groupId, userId);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

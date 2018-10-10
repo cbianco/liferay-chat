@@ -32,6 +32,13 @@ public class TopicLocalServiceWrapper implements TopicLocalService,
 		_topicLocalService = topicLocalService;
 	}
 
+	@Override
+	public it.cm.liferay.chat.topic.model.Topic addTopic(long companyId,
+		long groupId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _topicLocalService.addTopic(companyId, groupId, userId);
+	}
+
 	/**
 	* Adds the topic to the database. Also notifies the appropriate model listeners.
 	*

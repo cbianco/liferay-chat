@@ -14,7 +14,13 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import com.liferay.counter.kernel.model.Counter;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.base.TopicLocalServiceBaseImpl;
+
+import java.util.Date;
 
 /**
  * The implementation of the topic local service.
@@ -36,4 +42,28 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.TopicLocalServiceUtil} to access the topic local service.
 	 */
+
+	@Override
+	public Topic addTopic(
+			long companyId, long groupId, long userId)
+		throws PortalException {
+
+		Topic topic = topicPersistence.create(
+			counterLocalService.increment());
+
+		User user = userLocalService.getUser(userId);
+		Date createDate = new Date();
+
+		topic.setCompanyId(companyId);
+		topic.setCreateDate(createDate);
+		topic.setGroupId(groupId);
+		topic.setUserId(userId);
+		topic.setUserName(user.getFullName());
+		topic.setModifiedDate(createDate);
+
+		// TODO validate
+
+		return topicPersistence.update(topic);
+	}
+
 }

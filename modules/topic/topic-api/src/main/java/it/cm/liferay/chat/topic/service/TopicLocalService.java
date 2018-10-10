@@ -63,6 +63,8 @@ public interface TopicLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TopicLocalServiceUtil} to access the topic local service. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public Topic addTopic(long companyId, long groupId, long userId)
+		throws PortalException;
 
 	/**
 	* Adds the topic to the database. Also notifies the appropriate model listeners.
