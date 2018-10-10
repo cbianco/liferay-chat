@@ -1,6 +1,6 @@
-package it.cm.liferay.chat.topic.decoder;
+package it.cm.liferay.chat.registry.decoder;
 
-import it.cm.liferay.chat.client.message.ClientMessage;
+import it.cm.liferay.chat.registry.client.message.ClientMessage;
 
 import javax.websocket.DecodeException;
 import javax.websocket.Decoder;

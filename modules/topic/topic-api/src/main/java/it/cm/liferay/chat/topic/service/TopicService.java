@@ -52,6 +52,8 @@ public interface TopicService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TopicServiceUtil} to access the topic remote service. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public Topic addTopic(long companyId, long groupId, long userId)
+		throws PortalException;
 
 	/**
 	* Returns the OSGi service identifier.

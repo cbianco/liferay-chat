@@ -1,7 +1,8 @@
-package it.cm.liferay.chat.topic.registry;
+package it.cm.liferay.chat.registry;
 
-import it.cm.liferay.chat.topic.decoder.MessageDecoder;
-import it.cm.liferay.chat.topic.encoder.MessageEncoder;
+import it.cm.liferay.chat.registry.decoder.MessageDecoder;
+import it.cm.liferay.chat.registry.encoder.MessageEncoder;
+import it.cm.liferay.chat.registry.endpoint.ConversationRegistryEndpoint;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 

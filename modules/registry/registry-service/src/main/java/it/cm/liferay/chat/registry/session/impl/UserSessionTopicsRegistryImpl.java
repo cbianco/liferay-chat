@@ -3,7 +3,7 @@ package it.cm.liferay.chat.registry.session.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import it.cm.liferay.chat.client.message.ClientMessage;
+import it.cm.liferay.chat.registry.client.message.ClientMessage;
 import it.cm.liferay.chat.registry.session.UserSession;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import it.cm.liferay.chat.topic.model.Topic;

@@ -1,4 +1,4 @@
-package it.cm.liferay.chat.topic.encoder;
+package it.cm.liferay.chat.registry.encoder;
 
 import it.cm.liferay.chat.topic.model.Message;
 

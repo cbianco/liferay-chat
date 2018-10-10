@@ -39,6 +39,15 @@ public class TopicServiceImpl extends TopicServiceBaseImpl {
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.TopicServiceUtil} to access the topic remote service.
 	 */
 
+	@Override
+	public Topic addTopic(
+			long companyId, long groupId, long userId)
+		throws PortalException {
+		
+		return topicLocalService.addTopic(companyId, groupId, userId);
+	}
+
+	@Override
 	public Topic getTopic(long topicId) throws PortalException {
 		// TODO Add permission controls
 		return topicLocalService.getTopic(topicId);

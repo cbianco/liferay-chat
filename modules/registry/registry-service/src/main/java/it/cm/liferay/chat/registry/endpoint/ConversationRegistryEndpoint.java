@@ -1,10 +1,9 @@
-package it.cm.liferay.chat.topic.registry;
+package it.cm.liferay.chat.registry.endpoint;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import it.cm.liferay.chat.client.message.ClientMessage;
-import it.cm.liferay.chat.registry.session.UserSessionRegistry;
-import org.osgi.service.component.annotations.Reference;
+import it.cm.liferay.chat.registry.client.message.ClientMessage;
+import it.cm.liferay.chat.registry.session.UserSessionRegistryUtil;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Endpoint;
@@ -29,7 +28,7 @@ public class ConversationRegistryEndpoint extends Endpoint {
 				@Override
 				public void onMessage(ClientMessage message) {
 
-					_userSessionRegistry.addUserTopicSession(
+					UserSessionRegistryUtil.addUserTopicSession(
 						message, session);
 
 					_log.debug("It's just arrived a new message.");
@@ -50,9 +49,6 @@ public class ConversationRegistryEndpoint extends Endpoint {
 		);
 
 	}
-
-	@Reference
-	private UserSessionRegistry _userSessionRegistry;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ConversationRegistryEndpoint.class);
