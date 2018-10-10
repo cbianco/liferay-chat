@@ -1,5 +1,5 @@
 Bundle-Name: Liferay Chat Rx Js Loader
-Bundle-SymbolicName: it.cm.liferay.chat
+Bundle-SymbolicName: it.cm.liferay.chat.rx.js.loader
 Bundle-Version: 1.0.0
 Liferay-JS-Config: /META-INF/resources/config.js
 Liferay-Releng-Module-Group-Description:
