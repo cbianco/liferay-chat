@@ -16,16 +16,18 @@ Import-Package: com.liferay.counter.kernel.service;version="[1.0,2)",c
  rsion="[7.0,8)",com.liferay.portal.kernel.model;version="[1.0,2)",com
  .liferay.portal.kernel.model.impl;version="[1.0,2)",com.liferay.porta
  l.kernel.module.framework.service;version="[1.0,2)",com.liferay.porta
- l.kernel.search;version="[7.2,8)",com.liferay.portal.kernel.service;v
- ersion="[1.3,2)",com.liferay.portal.kernel.service.persistence;versio
- n="[1.1,2)",com.liferay.portal.kernel.service.persistence.impl;versio
- n="[1.2,2)",com.liferay.portal.kernel.transaction;version="[7.0,8)",c
- om.liferay.portal.kernel.util;version="[7.3,8)",com.liferay.portal.ke
- rnel.uuid;version="[6.2,7)",com.liferay.portal.spring.extender.servic
- e;version="[1.0,2)",it.cm.liferay.chat.topic.exception;version="[1.0,
- 2)",it.cm.liferay.chat.topic.model;version="[1.0,1.1)",it.cm.liferay.
- chat.topic.service;version="[1.0,1.1)",it.cm.liferay.chat.topic.servi
- ce.persistence;version="[1.0,1.1)",javax.sql
+ l.kernel.search;version="[7.2,8)",com.liferay.portal.kernel.security.
+ auth;version="[1.0,2)",com.liferay.portal.kernel.service;version="[1.
+ 3,2)",com.liferay.portal.kernel.service.http;version="[1.0,2)",com.li
+ feray.portal.kernel.service.persistence;version="[1.1,2)",com.liferay
+ .portal.kernel.service.persistence.impl;version="[1.2,2)",com.liferay
+ .portal.kernel.transaction;version="[7.0,8)",com.liferay.portal.kerne
+ l.util;version="[7.3,8)",com.liferay.portal.kernel.uuid;version="[6.2
+ ,7)",com.liferay.portal.spring.extender.service;version="[1.0,2)",it.
+ cm.liferay.chat.topic.exception;version="[1.0,2)",it.cm.liferay.chat.
+ topic.model;version="[1.0,1.1)",it.cm.liferay.chat.topic.service;vers
+ ion="[1.0,1.1)",it.cm.liferay.chat.topic.service.persistence;version=
+ "[1.0,1.1)",javax.sql
 Javac-Debug: on
 Javac-Deprecation: off
 Javac-Encoding: UTF-8
@@ -34,12 +36,8 @@ Liferay-Service: true
 Liferay-Spring-Context: META-INF/spring
 Private-Package: it.cm.liferay.chat.topic.model.impl,it.cm.liferay.cha
  t.topic.service.base,it.cm.liferay.chat.topic.service.http,it.cm.life
- ray.chat.topic.service.impl,it.cm.liferay.chat.topic.service.model.im
- pl,it.cm.liferay.chat.topic.service.persistence.impl,it.cm.liferay.ch
- at.topic.service.service.base,it.cm.liferay.chat.topic.service.servic
- e.http,it.cm.liferay.chat.topic.service.service.impl,it.cm.liferay.ch
- at.topic.service.service.persistence.impl,it.cm.liferay.chat.topic.se
- rvice.util,topic.service.util
+ ray.chat.topic.service.impl,it.cm.liferay.chat.topic.service.persiste
+ nce.impl,it.cm.liferay.chat.topic.service.util
 Provide-Capability: osgi.service;objectClass:List<String>="it.cm.lifer
  ay.chat.topic.service.MessageLocalService",osgi.service;objectClass:L
  ist<String>="it.cm.liferay.chat.topic.service.MessageService",osgi.se

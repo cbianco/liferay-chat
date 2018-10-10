@@ -39,12 +39,18 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		if (!_userSessionTopicsMap.containsKey(userSession)) {
 
+			_log.debug("Added user to session topic registry: " +
+					   userSession.getUserId());
+
 			_userSessionTopicsMap.put(
 				userSession,
 				new LinkedList<>());
 		}
 
 		try {
+			_log.debug("Try to add user(" + userSession.getUserId() + ")" +
+					   " to topic registry: " + topicId);
+
 			_userSessionTopicsMap.get(userSession)
 				.add(_topicService.getTopic(topicId));
 		}
