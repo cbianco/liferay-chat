@@ -66,5 +66,4 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 		return topicPersistence.update(topic);
 	}
 
-
 }
