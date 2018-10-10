@@ -1,0 +1,5 @@
+Bundle-Name: Registry Api
+Bundle-SymbolicName: registry.api
+Bundle-Version: 1.0.0
+Export-Package: registry.api
+Bundle-Activator: it.cm.liferay.chat.topic.registry.Activator

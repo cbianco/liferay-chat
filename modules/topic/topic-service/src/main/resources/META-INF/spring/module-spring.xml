@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="it.cm.liferay.chat.topic.service.impl.MessageLocalServiceImpl" id="it.cm.liferay.chat.topic.service.MessageLocalService" />
+	<bean class="it.cm.liferay.chat.topic.service.impl.MessageServiceImpl" id="it.cm.liferay.chat.topic.service.MessageService" />
+	<bean class="it.cm.liferay.chat.topic.service.persistence.impl.MessagePersistenceImpl" id="it.cm.liferay.chat.topic.service.persistence.MessagePersistence" parent="basePersistence" />
+	<bean class="it.cm.liferay.chat.topic.service.impl.TopicLocalServiceImpl" id="it.cm.liferay.chat.topic.service.TopicLocalService" />
+	<bean class="it.cm.liferay.chat.topic.service.impl.TopicServiceImpl" id="it.cm.liferay.chat.topic.service.TopicService" />
+	<bean class="it.cm.liferay.chat.topic.service.persistence.impl.TopicPersistenceImpl" id="it.cm.liferay.chat.topic.service.persistence.TopicPersistence" parent="basePersistence" />
+	<bean class="it.cm.liferay.chat.topic.service.impl.TopicUserLocalServiceImpl" id="it.cm.liferay.chat.topic.service.TopicUserLocalService" />
+	<bean class="it.cm.liferay.chat.topic.service.impl.TopicUserServiceImpl" id="it.cm.liferay.chat.topic.service.TopicUserService" />
+	<bean class="it.cm.liferay.chat.topic.service.persistence.impl.TopicUserPersistenceImpl" id="it.cm.liferay.chat.topic.service.persistence.TopicUserPersistence" parent="basePersistence" />
+</beans>
