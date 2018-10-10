@@ -9,4 +9,4 @@ buildService {
 	apiDir = "../topic-api/src/main/java"
 }
 
-group = "topic"
+group = "it.cm.liferay.chat.topic"
