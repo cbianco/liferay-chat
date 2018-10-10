@@ -1,0 +1,9 @@
+Bundle-Name: topic-api
+Bundle-SymbolicName: topic.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	topic.exception,\
+	topic.model,\
+	topic.service,\
+	topic.service.persistence
+-includeresource: META-INF/service.xml=../topic-service/service.xml
