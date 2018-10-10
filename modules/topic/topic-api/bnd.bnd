@@ -1,5 +1,5 @@
-Bundle-Name: topic-api
-Bundle-SymbolicName: topic.api
+Bundle-Name: Topic Api
+Bundle-SymbolicName: it.cm.liferay.chat.topic.api
 Bundle-Version: 1.0.0
 Export-Package:\
 	it.cm.liferay.chat.topic.exception,\
