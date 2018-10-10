@@ -62,10 +62,6 @@
 			<finder-column name="field2" />
 		</finder> -->
 
-		<!-- References -->
-
-		<reference entity="User" package-path="com.liferay.portal.kernel.model" />
-
 	</entity>
 
 	<entity local-service="true" name="Message" remote-service="true" uuid="true">

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="it.cm.liferay.chat.topic.service.model.Message">
+		<field name="uuid" type="String" />
+		<field name="messageId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="topicId" type="long" />
+		<field name="content" type="String" />
+	</model>
+	<model name="it.cm.liferay.chat.topic.service.model.Topic">
+		<field name="uuid" type="String" />
+		<field name="topicId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="it.cm.liferay.chat.topic.service.model.TopicUser">
+		<field name="uuid" type="String" />
+		<field name="topicId" type="long" />
+		<field name="userId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+	</model>
+</model-hints>
