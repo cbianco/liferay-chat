@@ -1,0 +1,17 @@
+buildscript {
+	dependencies {
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins", version: "3.12.109"
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "1.10.7"
+		classpath group: "net.saliman", name: "gradle-properties-plugin", version: "1.4.6"
+	}
+
+	repositories {
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+	}
+}
+
+apply plugin: "net.saliman.properties"
+
+apply plugin: "com.liferay.workspace"
