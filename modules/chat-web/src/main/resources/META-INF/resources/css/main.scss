@@ -1,0 +1,47 @@
+html body {
+	height: auto;
+	padding-bottom: 30px;
+}
+
+div.cm-chat {
+
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+
+	div.cm-chat-bar-container {
+
+		$chat-width: 300px;
+
+        a.cm-chat-bar {
+
+			width: $chat-width;
+			border-bottom: 1px;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+			padding-bottom: 6px;
+
+		}
+
+		div.cm-chat-list-container {
+			ul.cm-chat-list {
+
+				width: $chat-width;
+				float: right;
+				margin-bottom: 0;
+				padding-bottom: 0;
+
+				a.cm-chat-list-contact {
+					width: 100%;
+					text-align: left;
+					border-radius: 0;
+					border-bottom: 1px solid;
+                    border-left: 2px solid;
+                    border-right: 2px solid;
+				}
+			}
+		}
+
+	}
+}
