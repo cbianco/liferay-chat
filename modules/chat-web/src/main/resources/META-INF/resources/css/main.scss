@@ -13,11 +13,12 @@ div.cm-chat {
 	div.cm-chat-bar-container {
 
 		$chat-width: 300px;
+		float: right;
 
         a.cm-chat-bar {
 
 			width: $chat-width;
-			border-bottom: 1px;
+			border-bottom-width: 1px;
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
 			padding-bottom: 6px;
@@ -25,22 +26,38 @@ div.cm-chat {
 		}
 
 		div.cm-chat-list-container {
-			ul.cm-chat-list {
 
-				width: $chat-width;
-				float: right;
-				padding: 0;
-				margin-bottom: 0;
+		    ul.cm-chat-list {
+		        padding: 0;
+		        margin: 0;
 
-				a.cm-chat-list-contact {
-					width: 100%;
-					text-align: left;
-					border-radius: 0;
-					border-bottom: 1px solid;
-                    border-left: 2px solid;
-                    border-right: 2px solid;
-				}
-			}
+                a.cm-chat-list-contact {
+
+                    width: $chat-width;
+                    display: block;
+                    padding: 5px;
+                    color: #869cad;
+                    border: 2px solid #869cad;
+                    border-top-width: 1px;
+                    border-bottom-width: 1px;
+                    background-color: #FFF;
+
+                    &:hover, &:focus {
+                        background-color: #e6e6e6;
+                    }
+
+                    .user-icon {
+                        display: inline-block;
+                    }
+
+                    .user-name {
+                        position: absolute;
+                        margin: 6px;
+                    }
+                }
+
+		    }
+
 		}
 
 	}

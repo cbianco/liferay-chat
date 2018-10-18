@@ -4,7 +4,7 @@
 
 long userId = themeDisplay.getUserId();
 
-Collection<Long> others = UserSessionRegistryUtil.getOnlineUsers(userId);
+Collection<Long> otherIds = UserSessionRegistryUtil.getOnlineUsers(userId);
 
 %>
 
@@ -14,29 +14,29 @@ Collection<Long> others = UserSessionRegistryUtil.getOnlineUsers(userId);
     	<link data-senna-track="temporary" href="<%= PortalUtil.getStaticResourceURL(request, themeDisplay.getCDNHost() + PortalUtil.getPathContext(request) + "/css/main.css") %>" rel="stylesheet" type="text/css" />
     </liferay-util:html-top>
 
-	<div class="cm-chat-bar-container container-fluid-1280 text-right">
+	<div class="cm-chat-bar-container container-fluid-1280">
 
 		<a class="cm-chat-bar btn btn-default btn-sm">
 			<liferay-ui:message key="chat" />
-			<span><liferay-ui:message key="online-users-x" arguments="<%= others.size() %>" translateArguments="<%= false %>" /></span>
+			<span><liferay-ui:message key="online-users-x" arguments="<%= otherIds.size() %>" translateArguments="<%= false %>" /></span>
 		</a>
 
 		<div class="cm-chat-list-container" style="display: none;">
-			<ul class="cm-chat-list">
+            <ul class="cm-chat-list">
 
-				<% for (long other : others) { %>
+                <% for (long otherId : otherIds) {
 
-					<a href="#" class="cm-chat-list-contact btn btn-default">
-						<liferay-ui:user-display
-							userId="<%= other %>"
-						/>
-						<h4 class="list-group-item-heading">Contatto <%= other %></h4>
-						<p class="list-group-item-text">Ultimo messaggio con contatto <%= other %></p>
-					</a>
+                    User userDisplay = UserLocalServiceUtil.fetchUserById(otherId);
+                %>
+                    <a href="#" class="cm-chat-list-contact">
+                        <liferay-ui:user-portrait
+                            user="<%= userDisplay %>"
+                        />
+                        <span class="user-name"><%= userDisplay.getFullName() %></span>
+                    </a>
 
-				<% } %>
-
-			</ul>
+                <% } %>
+            </ul>
 		</div>
 
 	</div>

@@ -7,21 +7,28 @@ div.cm-chat {
   position: fixed;
   bottom: 0;
   right: 0; }
-  div.cm-chat div.cm-chat-bar-container a.cm-chat-bar {
-    width: 300px;
-    border-bottom: 1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    padding-bottom: 6px; }
-  div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list {
-    width: 300px;
-    float: right;
-    padding: 0;
-    margin-bottom: 0; }
-    div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list a.cm-chat-list-contact {
-      width: 100%;
-      text-align: left;
-      border-radius: 0;
-      border-bottom: 1px solid;
-      border-left: 2px solid;
-      border-right: 2px solid; }
+  div.cm-chat div.cm-chat-bar-container {
+    float: right; }
+    div.cm-chat div.cm-chat-bar-container a.cm-chat-bar {
+      width: 300px;
+      border-bottom: 1px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      padding-bottom: 6px; }
+    div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list {
+      padding: 0;
+      margin: 0; }
+      div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list a.cm-chat-list-contact {
+        width: 300px;
+        display: block;
+        padding: 5px;
+        color: #869cad;
+        border: 2px solid #869cad;
+        background-color: #FFF; }
+        div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list a.cm-chat-list-contact:hover, div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list a.cm-chat-list-contact:focus {
+          background-color: #e6e6e6; }
+        div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list a.cm-chat-list-contact .user-icon {
+          display: inline-block; }
+        div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list a.cm-chat-list-contact .user-name {
+          position: absolute;
+          margin: 6px; }
