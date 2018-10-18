@@ -16,8 +16,8 @@ div.cm-chat {
   div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list {
     width: 300px;
     float: right;
-    margin-bottom: 0;
-    padding-bottom: 0; }
+    padding: 0;
+    margin-bottom: 0; }
     div.cm-chat div.cm-chat-bar-container div.cm-chat-list-container ul.cm-chat-list a.cm-chat-list-contact {
       width: 100%;
       text-align: left;
