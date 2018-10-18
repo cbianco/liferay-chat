@@ -9,7 +9,7 @@ import javax.websocket.EndpointConfig;
 /**
  * @author Mauro Celani
  */
-public class MessageEncoder implements Encoder.Text<Message> {
+public class ClientMessageEncoder implements Encoder.Text<Message> {
 
 	@Override
 	public String encode(Message object) throws EncodeException {

@@ -6,12 +6,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.cm.liferay.chat.registry.client.message.ClientMessage;
 import it.cm.liferay.chat.registry.session.UserSession;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
-import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.TopicService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.websocket.Session;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,38 +26,75 @@ import java.util.concurrent.ConcurrentHashMap;
 )
 public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
-	private Map<UserSession, List<Topic>> _userSessionTopicsMap =
+	private Map<Long, UserSession> _userSessionTopicsMap =
 		new ConcurrentHashMap<>();
 
 	@Override
-	public void addUserTopicSession(
-		ClientMessage message, Session session) {
+	public void addUserSession(
+		long userId, boolean online, Session session) {
 
-		UserSession userSession = new UserSession(message.getUserId(), session);
+		// TODO manage online/offline flag
+		// TODO manage multiple same user session (two browser tabs, desktop vs mobile)
 
-		long topicId = message.getTopicId();
+		if (!_userSessionTopicsMap.containsKey(userId)) {
 
-		if (!_userSessionTopicsMap.containsKey(userSession)) {
-
-			_log.debug("Added user to session topic registry: " +
-					   userSession.getUserId());
+			_log.info("Added user to session topic registry: " + userId);
 
 			_userSessionTopicsMap.put(
-				userSession,
-				new LinkedList<>());
+				userId, new UserSession(userId, session));
 		}
+	}
+
+	@Override
+	public void addUserTopic(
+		ClientMessage message) {
+
+		long userId = message.getUserId();
+		long topicId = message.getTopicId();
 
 		try {
-			_log.debug("Try to add user(" + userSession.getUserId() + ")" +
-					   " to topic registry: " + topicId);
+			_log.info("Try to add user(" + userId + ")" +
+					  " to topic registry: " + topicId);
 
-			_userSessionTopicsMap.get(userSession)
-				.add(_topicService.getTopic(topicId));
+			_userSessionTopicsMap.get(userId)
+				.addTopic(_topicService.getTopic(topicId));
 		}
 		catch (PortalException e) {
 			_log.error(e, e);
 		}
 
+	}
+
+	@Override
+	public UserSession clearUserSession(long userId) {
+		return _userSessionTopicsMap.remove(userId);
+	}
+
+	@Override
+	public UserSession getUserSession(
+		long userId) {
+
+		return _userSessionTopicsMap.get(userId);
+	}
+
+	@Override
+	public Collection<Long> getOnlineUsers(
+		long userId) {
+
+		List<Long> userList = new LinkedList<>(_userSessionTopicsMap.keySet());
+
+		userList.remove(userId);
+
+		return userList;
+	}
+
+	@Override
+	public void notifyOthers(long userId) {
+		_userSessionTopicsMap.entrySet()
+			.stream()
+			.filter(t -> t.getKey() != userId)
+			.map(t -> t.getValue().getSession())
+			.forEach(session -> session.getBasicRemote());
 	}
 
 	@Reference

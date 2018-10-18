@@ -6,4 +6,8 @@
 
 <%@ page import="com.liferay.portal.kernel.util.PortalUtil" %>
 
+<%@ page import="it.cm.liferay.chat.registry.session.UserSessionRegistryUtil" %>
+
+<%@ page import="java.util.Collection" %>
+
 <liferay-theme:defineObjects />

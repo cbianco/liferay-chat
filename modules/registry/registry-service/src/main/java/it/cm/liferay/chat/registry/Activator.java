@@ -1,15 +1,19 @@
 package it.cm.liferay.chat.registry;
 
-import it.cm.liferay.chat.registry.decoder.MessageDecoder;
-import it.cm.liferay.chat.registry.encoder.MessageEncoder;
+import it.cm.liferay.chat.registry.decoder.ClientMessageDecoder;
+import it.cm.liferay.chat.registry.decoder.OnlineMessageDecoder;
+import it.cm.liferay.chat.registry.encoder.ClientMessageEncoder;
 import it.cm.liferay.chat.registry.endpoint.ConversationRegistryEndpoint;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import javax.websocket.Decoder;
 import javax.websocket.Endpoint;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * @author Mauro Celani
@@ -22,12 +26,12 @@ public class Activator implements BundleActivator {
 
 		dictionary.put(
 			"org.osgi.http.websocket.endpoint.encoders",
-			Collections.singletonList(MessageEncoder.class)
+			Collections.singletonList(ClientMessageEncoder.class)
 		);
 
 		dictionary.put(
 			"org.osgi.http.websocket.endpoint.decoders",
-			Collections.singletonList(MessageDecoder.class)
+			Collections.emptyList()
 		);
 
 		dictionary.put(

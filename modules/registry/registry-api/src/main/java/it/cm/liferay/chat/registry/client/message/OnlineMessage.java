@@ -9,21 +9,19 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 /**
  * @author Mauro Celani
  */
-public class ClientMessage implements BaseMessage {
+public class OnlineMessage implements BaseMessage {
 
 	private long _userId;
-	private long _topicId;
-	private String _content;
+	private boolean _online;
 
-	public ClientMessage(String json) {
+	public OnlineMessage(String json) {
 
 		try {
 			JSONObject msgJSON =
 				JSONFactoryUtil.createJSONObject(json);
 
 			_userId = msgJSON.getLong("userId");
-			_topicId = msgJSON.getLong("topicId");
-			_content = msgJSON.getString("content");
+			_online = msgJSON.getBoolean("online");
 		}
 		catch (JSONException e) {
 			_log.error(e, e);
@@ -32,23 +30,18 @@ public class ClientMessage implements BaseMessage {
 
 	@Override
 	public String toString() {
-		return "\nFrom: " + _userId +
-			   "\nTo: " + _topicId +
-			   "\nContent: " + _content;
+		return "User: " + _userId +
+			   "(Online: " + _online + ")";
 	}
 
 	public long getUserId() {
 		return _userId;
 	}
 
-	public String getContent() {
-		return _content;
+	public boolean isOnline() {
+		return _online;
 	}
 
-	public long getTopicId() {
-		return _topicId;
-	}
-
-	private static final Log _log = LogFactoryUtil.getLog(ClientMessage.class);
+	private static final Log _log = LogFactoryUtil.getLog(OnlineMessage.class);
 
 }
