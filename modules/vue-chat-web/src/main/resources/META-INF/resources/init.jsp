@@ -7,11 +7,11 @@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
-<%@ page import="it.cm.chat.web.constants.VueChatWebWebKeys" %>
+<%@ page import="it.cm.chat.web.constants.CMVueChatWebWebKeys" %>
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
 <%
-String bootstrapRequire = (String)renderRequest.getAttribute(VueChatWebWebKeys.BOOTSTRAP_REQUIRE);
+String bootstrapRequire = (String)renderRequest.getAttribute(CMVueChatWebWebKeys.BOOTSTRAP_REQUIRE);
 %>

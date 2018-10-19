@@ -1,9 +1,9 @@
 package it.cm.chat.web.constants;
 
 /**
- * @author test
+ * @author Cristian Bianco
  */
-public class VueChatWebWebKeys {
+public class CMVueChatWebWebKeys {
 
 	public static final String BOOTSTRAP_REQUIRE = "BOOTSTRAP_REQUIRE";
 

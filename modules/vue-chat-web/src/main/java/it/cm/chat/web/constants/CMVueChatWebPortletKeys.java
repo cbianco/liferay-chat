@@ -1,9 +1,9 @@
 package it.cm.chat.web.constants;
 
 /**
- * @author test
+ * @author Cristian Bianco
  */
-public class VueChatWebPortletKeys {
+public class CMVueChatWebPortletKeys {
 
 	public static final String VueChatWeb = "vuechatweb";
 
