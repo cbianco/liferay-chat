@@ -29,3 +29,6 @@ hs_err_pid*
 #Gradle
 **/.gradle/
 gradle-local.properties
+
+#Liferay Deploy Bundles
+bundles/
