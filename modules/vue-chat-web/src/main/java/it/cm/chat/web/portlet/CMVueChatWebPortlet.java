@@ -8,8 +8,8 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
-import it.cm.chat.web.constants.VueChatWebPortletKeys;
-import it.cm.chat.web.constants.VueChatWebWebKeys;
+import it.cm.chat.web.constants.CMVueChatWebPortletKeys;
+import it.cm.chat.web.constants.CMVueChatWebWebKeys;
 import org.osgi.service.component.annotations.*;
 
 import javax.portlet.Portlet;
@@ -20,22 +20,22 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * @author test
+ * @author Cristian Bianco
  */
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.display-category=category.chat",
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.name=" + VueChatWebPortletKeys.VueChatWeb,
+		"javax.portlet.name=" + CMVueChatWebPortletKeys.VueChatWeb,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
 	service = Portlet.class
 )
-public class VueChatWebPortlet extends MVCPortlet {
+public class CMVueChatWebPortlet extends MVCPortlet {
 
 	@Activate
 	@Modified
@@ -53,7 +53,7 @@ public class VueChatWebPortlet extends MVCPortlet {
 			PropsValues.LAYOUT_STATIC_PORTLETS_ALL;
 
 		layoutStaticPortletsAll = ArrayUtil.append(
-			layoutStaticPortletsAll, VueChatWebPortletKeys.VueChatWeb);
+			layoutStaticPortletsAll, CMVueChatWebPortletKeys.VueChatWeb);
 
 		PropsUtil.set(
 			PropsKeys.LAYOUT_STATIC_PORTLETS_ALL,
@@ -78,7 +78,7 @@ public class VueChatWebPortlet extends MVCPortlet {
 	protected boolean hasPortletId() {
 		return ArrayUtil.contains(
 			PropsValues.LAYOUT_STATIC_PORTLETS_ALL,
-			VueChatWebPortletKeys.VueChatWeb,
+			CMVueChatWebPortletKeys.VueChatWeb,
 			false);
 	}
 
@@ -90,7 +90,7 @@ public class VueChatWebPortlet extends MVCPortlet {
 			PropsValues.LAYOUT_STATIC_PORTLETS_ALL;
 
 		layoutStaticPortletsAll = ArrayUtil.remove(
-			layoutStaticPortletsAll, VueChatWebPortletKeys.VueChatWeb);
+			layoutStaticPortletsAll, CMVueChatWebPortletKeys.VueChatWeb);
 
 		PropsUtil.set(
 			PropsKeys.LAYOUT_STATIC_PORTLETS_ALL,
@@ -107,7 +107,7 @@ public class VueChatWebPortlet extends MVCPortlet {
 		JSPackage jsPackage = _npmResolver.getJSPackage();
 
 		renderRequest.setAttribute(
-			VueChatWebWebKeys.BOOTSTRAP_REQUIRE,
+			CMVueChatWebWebKeys.BOOTSTRAP_REQUIRE,
 			jsPackage.getResolvedId() + " as bootstrapRequire");
 
 		super.doView(renderRequest, renderResponse);
