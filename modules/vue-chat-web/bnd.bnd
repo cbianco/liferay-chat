@@ -1,0 +1,5 @@
+Bundle-Name: Vue Chat Web
+Bundle-SymbolicName: it.cm.vue.chat.web
+Bundle-Version: 1.0.0
+Export-Package: it.cm.chat.web.constants
+Web-ContextPath: /vue-chat-web
