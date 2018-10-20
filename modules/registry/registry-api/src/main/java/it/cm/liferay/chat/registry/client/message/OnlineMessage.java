@@ -5,11 +5,12 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import it.cm.liferay.chat.registry.common.BaseMessage;
 
 /**
  * @author Mauro Celani
  */
-public class OnlineMessage implements BaseMessage {
+public class OnlineMessage extends BaseMessage {
 
 	private long _userId;
 	private boolean _online;

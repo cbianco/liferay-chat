@@ -1,5 +1,6 @@
 package it.cm.liferay.chat.registry.session;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import it.cm.liferay.chat.registry.client.message.ClientMessage;
 
 import javax.websocket.Session;
@@ -11,6 +12,10 @@ import java.util.Collection;
 public interface UserSessionRegistry {
 
 	public void addUserTopic(ClientMessage message);
+
+	public long openTopic(
+			long currentUserId, long targetUserId, long companyId, long groupId)
+		throws PortalException;
 
 	public void addUserSession(long userId, boolean online, Session session);
 

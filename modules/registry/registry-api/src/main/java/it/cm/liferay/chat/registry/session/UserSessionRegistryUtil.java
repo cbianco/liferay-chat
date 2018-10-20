@@ -1,6 +1,7 @@
 package it.cm.liferay.chat.registry.session;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
+import com.liferay.portal.kernel.exception.PortalException;
 import it.cm.liferay.chat.registry.client.message.ClientMessage;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -34,6 +35,13 @@ public class UserSessionRegistryUtil {
 
 	public static UserSession clearUserSession(long userId) {
 		return getService().clearUserSession(userId);
+	}
+
+	public static long openTopic(
+			long currentUserId, long userTargerId, long companyId, long groupId)
+		throws PortalException {
+		return getService().openTopic(
+			currentUserId, userTargerId, companyId, groupId);
 	}
 
 	public static void notifyOthers(long userId) {

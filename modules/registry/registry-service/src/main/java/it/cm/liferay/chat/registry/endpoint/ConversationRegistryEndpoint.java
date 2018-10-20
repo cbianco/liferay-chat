@@ -6,11 +6,13 @@ import io.vavr.CheckedFunction1;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
-import it.cm.liferay.chat.registry.client.message.BaseMessage;
+import it.cm.liferay.chat.registry.common.BaseMessage;
 import it.cm.liferay.chat.registry.decoder.ClientMessageDecoder;
+import it.cm.liferay.chat.registry.decoder.CreateTopicDecoder;
 import it.cm.liferay.chat.registry.decoder.OnlineMessageDecoder;
 import it.cm.liferay.chat.registry.handler.BaseHandler;
 import it.cm.liferay.chat.registry.handler.ClientMessageHandler;
+import it.cm.liferay.chat.registry.handler.CreateTopicHandler;
 import it.cm.liferay.chat.registry.handler.OnlineMessageHandler;
 
 import javax.websocket.Decoder.Text;
@@ -30,7 +32,7 @@ import java.util.function.Function;
 public class ConversationRegistryEndpoint extends Endpoint {
 
 	private static List<Tuple2<Text<? extends BaseMessage>, BaseHandler>>
-		decoders = new ArrayList<>(2);
+		decoders = new ArrayList<>(3);
 
 	static {
 		decoders.add(Tuple.of(
@@ -38,6 +40,9 @@ public class ConversationRegistryEndpoint extends Endpoint {
 
 		decoders.add(Tuple.of(
 			new OnlineMessageDecoder(), new OnlineMessageHandler()));
+
+		decoders.add(Tuple.of(
+			new CreateTopicDecoder(), new CreateTopicHandler()));
 	}
 
 	@Override

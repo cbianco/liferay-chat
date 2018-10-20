@@ -2,5 +2,11 @@ Bundle-Name: Registry Api
 Bundle-SymbolicName: it.cm.liferay.chat.registry.api
 Bundle-Version: 1.0.0
 Export-Package: \
+	it.cm.liferay.chat.registry.session,\
+	it.cm.liferay.chat.registry.common,\
 	it.cm.liferay.chat.registry.client.message,\
-	it.cm.liferay.chat.registry.session
+	it.cm.liferay.chat.registry.server.message,\
+	io.vavr,\
+	io.vavr.collection,\
+	io.vavr.concurrent,\
+	io.vavr.control

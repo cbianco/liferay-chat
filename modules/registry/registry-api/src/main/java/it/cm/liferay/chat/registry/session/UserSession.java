@@ -3,6 +3,7 @@ package it.cm.liferay.chat.registry.session;
 import it.cm.liferay.chat.topic.model.Topic;
 
 import javax.websocket.Session;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class UserSession {
 
 	private long _userId;
 	private Session _session;
-	private List<Topic> _topics;
+	private List<Topic> _topics = new ArrayList<>();
 
 	public UserSession(long userId, Session session) {
 		_userId = userId;

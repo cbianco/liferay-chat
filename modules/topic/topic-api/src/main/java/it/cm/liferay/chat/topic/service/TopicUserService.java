@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import it.cm.liferay.chat.topic.model.TopicUser;
+
 /**
  * Provides the remote service interface for TopicUser. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -49,6 +51,8 @@ public interface TopicUserService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TopicUserServiceUtil} to access the topic user remote service. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicUserServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public TopicUser addTopicUser(long topicId, long userId)
+		throws PortalException;
 
 	/**
 	* Returns the OSGi service identifier.

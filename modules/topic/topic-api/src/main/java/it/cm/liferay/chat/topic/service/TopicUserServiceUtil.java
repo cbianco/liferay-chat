@@ -42,6 +42,11 @@ public class TopicUserServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicUserServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static it.cm.liferay.chat.topic.model.TopicUser addTopicUser(
+		long topicId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().addTopicUser(topicId, userId);
+	}
 
 	/**
 	* Returns the OSGi service identifier.

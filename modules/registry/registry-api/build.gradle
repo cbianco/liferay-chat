@@ -5,4 +5,6 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.core", version: "6.0.0"
 
 	compileOnly project(":modules:topic:topic-api")
+
+	compileInclude group: "io.vavr", name: "vavr", version: "0.9.2"
 }

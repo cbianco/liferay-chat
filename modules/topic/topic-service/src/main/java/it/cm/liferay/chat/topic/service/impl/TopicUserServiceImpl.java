@@ -14,7 +14,12 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import it.cm.liferay.chat.topic.model.Topic;
+import it.cm.liferay.chat.topic.model.TopicUser;
 import it.cm.liferay.chat.topic.service.base.TopicUserServiceBaseImpl;
+import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
 
 /**
  * The implementation of the topic user remote service.
@@ -36,4 +41,11 @@ public class TopicUserServiceImpl extends TopicUserServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.TopicUserServiceUtil} to access the topic user remote service.
 	 */
+
+	public TopicUser addTopicUser(
+		long topicId, long userId) throws PortalException {
+
+		return topicUserLocalService.addTopicUser(topicId,  userId);
+	}
+
 }

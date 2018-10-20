@@ -1,6 +1,6 @@
 package it.cm.liferay.chat.registry.handler;
 
-import it.cm.liferay.chat.registry.client.message.BaseMessage;
+import it.cm.liferay.chat.registry.common.BaseMessage;
 
 import javax.websocket.Session;
 

@@ -42,6 +42,11 @@ public class TopicUserLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicUserLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static it.cm.liferay.chat.topic.model.TopicUser addTopicUser(
+		long topicId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().addTopicUser(topicId, userId);
+	}
 
 	/**
 	* Adds the topic user to the database. Also notifies the appropriate model listeners.

@@ -14,7 +14,12 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
+import it.cm.liferay.chat.topic.model.Topic;
+import it.cm.liferay.chat.topic.model.TopicUser;
 import it.cm.liferay.chat.topic.service.base.TopicUserLocalServiceBaseImpl;
+import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
 
 /**
  * The implementation of the topic user local service.
@@ -36,4 +41,14 @@ public class TopicUserLocalServiceImpl extends TopicUserLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.TopicUserLocalServiceUtil} to access the topic user local service.
 	 */
+
+	public TopicUser addTopicUser(
+		long topicId, long userId) throws PortalException {
+
+		topicLocalService.getTopic(topicId);
+		userLocalService.getUser(userId);
+
+		return topicUserPersistence.create(new TopicUserPK(topicId, userId));
+	}
+
 }
