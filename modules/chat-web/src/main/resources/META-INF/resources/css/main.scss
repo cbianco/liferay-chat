@@ -33,9 +33,8 @@ div.cm-chat {
 
                 a.cm-chat-list-contact {
 
-                    width: $chat-width;
                     display: block;
-                    padding: 5px;
+                    padding: 5px 5px 1px 6px;
                     color: #869cad;
                     border: 2px solid #869cad;
                     border-top-width: 1px;
@@ -52,7 +51,7 @@ div.cm-chat {
 
                     .user-name {
                         position: absolute;
-                        margin: 6px;
+                        margin: 5px 6px;
                     }
                 }
 

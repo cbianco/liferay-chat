@@ -1,18 +1,22 @@
 <%@ include file="/init.jsp" %>
 
-<%
-
-long userId = themeDisplay.getUserId();
-
-Collection<Long> otherIds = UserSessionRegistryUtil.getOnlineUsers(userId);
-
-%>
-
 <c:if test="<%= themeDisplay.isSignedIn() %>">
+
+    <%
+
+    long userId = themeDisplay.getUserId();
+
+    Collection<Long> otherIds = UserSessionRegistryUtil.getOnlineUsers(userId);
+
+    %>
 
 	<liferay-util:html-top>
     	<link data-senna-track="temporary" href="<%= PortalUtil.getStaticResourceURL(request, themeDisplay.getCDNHost() + PortalUtil.getPathContext(request) + "/css/main.css") %>" rel="stylesheet" type="text/css" />
     </liferay-util:html-top>
+
+    <portlet:renderURL var="openChatURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+		<portlet:param name="mvcRenderCommandName" value="/chat/open" />
+	</portlet:renderURL>
 
 	<div class="cm-chat-bar-container container-fluid-1280">
 
@@ -27,8 +31,10 @@ Collection<Long> otherIds = UserSessionRegistryUtil.getOnlineUsers(userId);
                 <% for (long otherId : otherIds) {
 
                     User userDisplay = UserLocalServiceUtil.fetchUserById(otherId);
+                    String href = "javascript:openChat(" + otherId + ")";
                 %>
-                    <a href="#" class="cm-chat-list-contact">
+
+                    <a href="<%= href %>" class="cm-chat-list-contact">
                         <liferay-ui:user-portrait
                             user="<%= userDisplay %>"
                         />
@@ -46,6 +52,25 @@ Collection<Long> otherIds = UserSessionRegistryUtil.getOnlineUsers(userId);
 		$('.cm-chat-bar').click(function() {
 			$('.cm-chat-list-container').toggle();
 		});
+
+		function openChat(otherId) {
+			var uri = Liferay.Util.addParams(
+				'<portlet:namespace />otherId=' + otherId,
+				'<%= openChatURL %>');
+
+			Liferay.Util.openWindow({
+				dialog: {
+					modal: true,
+					resizable: true,
+					constrain: true,
+					destroyOnHide: true
+				},
+				title: '<liferay-ui:message key="chat" />',
+				uri: uri
+			});
+
+		}
+
 
 		var webSocketUrl = '<%= themeDisplay.getPortalURL().replaceAll("http[s]?", "ws") %>'
 		var ws = new WebSocket(webSocketUrl + '/o/chat');
