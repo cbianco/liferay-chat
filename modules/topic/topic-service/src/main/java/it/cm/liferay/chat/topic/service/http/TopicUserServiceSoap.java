@@ -16,9 +16,16 @@ package it.cm.liferay.chat.topic.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import it.cm.liferay.chat.topic.service.TopicUserServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * {@link it.cm.liferay.chat.topic.service.TopicUserServiceUtil} service utility. The
+ * {@link TopicUserServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -53,9 +60,39 @@ import aQute.bnd.annotation.ProviderType;
  * @author Brian Wing Shun Chan
  * @see TopicUserServiceHttp
  * @see it.cm.liferay.chat.topic.model.TopicUserSoap
- * @see it.cm.liferay.chat.topic.service.TopicUserServiceUtil
+ * @see TopicUserServiceUtil
  * @generated
  */
 @ProviderType
 public class TopicUserServiceSoap {
+	public static java.util.Collection<Long> getTopicIdByUserId(long userId)
+		throws RemoteException {
+		try {
+			java.util.Collection<Long> returnValue = TopicUserServiceUtil.getTopicIdByUserId(userId);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static long getTopicByUserIds(long userId1, long userId2)
+		throws RemoteException {
+		try {
+			long returnValue = TopicUserServiceUtil.getTopicByUserIds(userId1,
+					userId2);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(TopicUserServiceSoap.class);
 }

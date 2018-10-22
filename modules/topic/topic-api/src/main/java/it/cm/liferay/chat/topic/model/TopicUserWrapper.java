@@ -56,7 +56,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("uuid", getUuid());
 		attributes.put("topicId", getTopicId());
 		attributes.put("userId", getUserId());
 		attributes.put("groupId", getGroupId());
@@ -67,12 +66,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		String uuid = (String)attributes.get("uuid");
-
-		if (uuid != null) {
-			setUuid(uuid);
-		}
-
 		Long topicId = (Long)attributes.get("topicId");
 
 		if (topicId != null) {
@@ -176,16 +169,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 	@Override
 	public String getUserUuid() {
 		return _topicUser.getUserUuid();
-	}
-
-	/**
-	* Returns the uuid of this topic user.
-	*
-	* @return the uuid of this topic user
-	*/
-	@Override
-	public String getUuid() {
-		return _topicUser.getUuid();
 	}
 
 	@Override
@@ -303,16 +286,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 	@Override
 	public void setUserUuid(String userUuid) {
 		_topicUser.setUserUuid(userUuid);
-	}
-
-	/**
-	* Sets the uuid of this topic user.
-	*
-	* @param uuid the uuid of this topic user
-	*/
-	@Override
-	public void setUuid(String uuid) {
-		_topicUser.setUuid(uuid);
 	}
 
 	@Override

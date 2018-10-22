@@ -43,9 +43,9 @@ public class TopicLocalServiceUtil {
 	 * Never modify this class directly. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static it.cm.liferay.chat.topic.model.Topic addTopic(
-		long companyId, long groupId, long userId)
+		long companyId, long groupId, long userId, long[] otherIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().addTopic(companyId, groupId, userId);
+		return getService().addTopic(companyId, groupId, userId, otherIds);
 	}
 
 	/**

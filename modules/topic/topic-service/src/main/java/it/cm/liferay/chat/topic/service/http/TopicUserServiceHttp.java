@@ -16,12 +16,21 @@ package it.cm.liferay.chat.topic.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
+
+import it.cm.liferay.chat.topic.service.TopicUserServiceUtil;
+
 /**
  * Provides the HTTP utility for the
- * {@link it.cm.liferay.chat.topic.service.TopicUserServiceUtil} service utility. The
+ * {@link TopicUserServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link com.liferay.portal.kernel.security.auth.HttpPrincipal} parameter.
+ * {@link HttpPrincipal} parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -40,10 +49,80 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Brian Wing Shun Chan
  * @see TopicUserServiceSoap
- * @see com.liferay.portal.kernel.security.auth.HttpPrincipal
- * @see it.cm.liferay.chat.topic.service.TopicUserServiceUtil
+ * @see HttpPrincipal
+ * @see TopicUserServiceUtil
  * @generated
  */
 @ProviderType
 public class TopicUserServiceHttp {
+	public static java.util.Collection<Long> getTopicIdByUserId(
+		HttpPrincipal httpPrincipal, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(TopicUserServiceUtil.class,
+					"getTopicIdByUserId", _getTopicIdByUserIdParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (java.util.Collection<Long>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static long getTopicByUserIds(HttpPrincipal httpPrincipal,
+		long userId1, long userId2)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(TopicUserServiceUtil.class,
+					"getTopicByUserIds", _getTopicByUserIdsParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId1,
+					userId2);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return ((Long)returnObj).longValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(TopicUserServiceHttp.class);
+	private static final Class<?>[] _getTopicIdByUserIdParameterTypes0 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getTopicByUserIdsParameterTypes1 = new Class[] {
+			long.class, long.class
+		};
 }

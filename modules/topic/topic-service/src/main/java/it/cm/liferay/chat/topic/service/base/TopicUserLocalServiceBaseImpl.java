@@ -217,18 +217,6 @@ public abstract class TopicUserLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
-	 * Returns the topic user matching the UUID and group.
-	 *
-	 * @param uuid the topic user's UUID
-	 * @param groupId the primary key of the group
-	 * @return the matching topic user, or <code>null</code> if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser fetchTopicUserByUuidAndGroupId(String uuid, long groupId) {
-		return topicUserPersistence.fetchByUUID_G(uuid, groupId);
-	}
-
-	/**
 	 * Returns the topic user with the primary key.
 	 *
 	 * @param topicUserPK the primary key of the topic user
@@ -290,51 +278,6 @@ public abstract class TopicUserLocalServiceBaseImpl extends BaseLocalServiceImpl
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
 		return topicUserPersistence.findByPrimaryKey(primaryKeyObj);
-	}
-
-	/**
-	 * Returns all the topic users matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the topic users
-	 * @param companyId the primary key of the company
-	 * @return the matching topic users, or an empty list if no matches were found
-	 */
-	@Override
-	public List<TopicUser> getTopicUsersByUuidAndCompanyId(String uuid,
-		long companyId) {
-		return topicUserPersistence.findByUuid_C(uuid, companyId);
-	}
-
-	/**
-	 * Returns a range of topic users matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the topic users
-	 * @param companyId the primary key of the company
-	 * @param start the lower bound of the range of topic users
-	 * @param end the upper bound of the range of topic users (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the range of matching topic users, or an empty list if no matches were found
-	 */
-	@Override
-	public List<TopicUser> getTopicUsersByUuidAndCompanyId(String uuid,
-		long companyId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator) {
-		return topicUserPersistence.findByUuid_C(uuid, companyId, start, end,
-			orderByComparator);
-	}
-
-	/**
-	 * Returns the topic user matching the UUID and group.
-	 *
-	 * @param uuid the topic user's UUID
-	 * @param groupId the primary key of the group
-	 * @return the matching topic user
-	 * @throws PortalException if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser getTopicUserByUuidAndGroupId(String uuid, long groupId)
-		throws PortalException {
-		return topicUserPersistence.findByUUID_G(uuid, groupId);
 	}
 
 	/**

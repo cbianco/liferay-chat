@@ -41,7 +41,7 @@
 	</entity>
 
 
-	<entity local-service="true" name="TopicUser" remote-service="true" uuid="true">
+	<entity local-service="true" name="TopicUser" remote-service="true">
 
 		<!-- PK fields -->
 
@@ -56,11 +56,20 @@
 
 		<column name="companyId" type="long" />
 
-		<!-- Finder methods
+		<!-- Finder methods -->
 
-		<finder name="Field2" return-type="Collection">
-			<finder-column name="field2" />
-		</finder> -->
+		<finder name="UserId" return-type="Collection">
+			<finder-column name="userId" />
+		</finder>
+		<finder name="TopicId" return-type="Collection">
+			<finder-column name="topicId" />
+		</finder>
+		<finder name="UserIds" return-type="Collection">
+			<finder-column arrayable-operator="OR" name="userId" />
+		</finder>
+		<finder name="TopicIds" return-type="Collection">
+			<finder-column arrayable-operator="OR" name="topicId" />
+		</finder>
 
 	</entity>
 
@@ -100,5 +109,9 @@
 		</finder> -->
 
 	</entity>
+
+	<exceptions>
+		<exception>NoSuchTopic</exception>
+	</exceptions>
 
 </service-builder>

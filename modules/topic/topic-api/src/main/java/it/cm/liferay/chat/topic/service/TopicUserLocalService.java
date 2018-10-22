@@ -37,6 +37,7 @@ import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
 
 import java.io.Serializable;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -61,6 +62,8 @@ public interface TopicUserLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TopicUserLocalServiceUtil} to access the topic user local service. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicUserLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public void addTopicUser(long companyId, long groupId, long topicId,
+		long userId) throws PortalException;
 
 	/**
 	* Adds the topic user to the database. Also notifies the appropriate model listeners.
@@ -70,6 +73,8 @@ public interface TopicUserLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public TopicUser addTopicUser(TopicUser topicUser);
+
+	public int countByTopicId(long topicId) throws PortalException;
 
 	/**
 	* Creates a new topic user with the primary key. Does not add the topic user to the database.
@@ -169,16 +174,6 @@ public interface TopicUserLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public TopicUser fetchTopicUser(TopicUserPK topicUserPK);
 
-	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user, or <code>null</code> if a matching topic user could not be found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public TopicUser fetchTopicUserByUuidAndGroupId(String uuid, long groupId);
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -197,6 +192,10 @@ public interface TopicUserLocalService extends BaseLocalService,
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Long> getTopicIdByUserId(long userId)
+		throws PortalException;
+
 	/**
 	* Returns the topic user with the primary key.
 	*
@@ -206,18 +205,6 @@ public interface TopicUserLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public TopicUser getTopicUser(TopicUserPK topicUserPK)
-		throws PortalException;
-
-	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user
-	* @throws PortalException if a matching topic user could not be found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public TopicUser getTopicUserByUuidAndGroupId(String uuid, long groupId)
 		throws PortalException;
 
 	/**
@@ -233,32 +220,6 @@ public interface TopicUserLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<TopicUser> getTopicUsers(int start, int end);
-
-	/**
-	* Returns all the topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @return the matching topic users, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<TopicUser> getTopicUsersByUuidAndCompanyId(String uuid,
-		long companyId);
-
-	/**
-	* Returns a range of topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of topic users
-	* @param end the upper bound of the range of topic users (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching topic users, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<TopicUser> getTopicUsersByUuidAndCompanyId(String uuid,
-		long companyId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator);
 
 	/**
 	* Returns the number of topic users.

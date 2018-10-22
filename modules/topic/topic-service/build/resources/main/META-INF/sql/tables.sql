@@ -23,7 +23,6 @@ create table Conversation_Topic (
 );
 
 create table Conversation_TopicUser (
-	uuid_ VARCHAR(75) null,
 	topicId LONG not null,
 	userId LONG not null,
 	groupId LONG,

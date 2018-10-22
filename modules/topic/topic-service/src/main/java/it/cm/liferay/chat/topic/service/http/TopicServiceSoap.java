@@ -66,10 +66,11 @@ import java.rmi.RemoteException;
 @ProviderType
 public class TopicServiceSoap {
 	public static it.cm.liferay.chat.topic.model.TopicSoap addTopic(
-		long companyId, long groupId, long userId) throws RemoteException {
+		long companyId, long groupId, long userId1, long user2)
+		throws RemoteException {
 		try {
 			it.cm.liferay.chat.topic.model.Topic returnValue = TopicServiceUtil.addTopic(companyId,
-					groupId, userId);
+					groupId, userId1, user2);
 
 			return it.cm.liferay.chat.topic.model.TopicSoap.toSoapModel(returnValue);
 		}
@@ -84,6 +85,21 @@ public class TopicServiceSoap {
 		long topicId) throws RemoteException {
 		try {
 			it.cm.liferay.chat.topic.model.Topic returnValue = TopicServiceUtil.getTopic(topicId);
+
+			return it.cm.liferay.chat.topic.model.TopicSoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static it.cm.liferay.chat.topic.model.TopicSoap getTopicByUserIds(
+		long userId1, long userId2) throws RemoteException {
+		try {
+			it.cm.liferay.chat.topic.model.Topic returnValue = TopicServiceUtil.getTopicByUserIds(userId1,
+					userId2);
 
 			return it.cm.liferay.chat.topic.model.TopicSoap.toSoapModel(returnValue);
 		}

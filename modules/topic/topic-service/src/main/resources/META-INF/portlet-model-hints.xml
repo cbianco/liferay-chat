@@ -24,7 +24,6 @@
 		<field name="modifiedDate" type="Date" />
 	</model>
 	<model name="it.cm.liferay.chat.topic.model.TopicUser">
-		<field name="uuid" type="String" />
 		<field name="topicId" type="long" />
 		<field name="userId" type="long" />
 		<field name="groupId" type="long" />

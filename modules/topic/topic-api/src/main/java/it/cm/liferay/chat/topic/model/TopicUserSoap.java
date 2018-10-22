@@ -35,7 +35,6 @@ public class TopicUserSoap implements Serializable {
 	public static TopicUserSoap toSoapModel(TopicUser model) {
 		TopicUserSoap soapModel = new TopicUserSoap();
 
-		soapModel.setUuid(model.getUuid());
 		soapModel.setTopicId(model.getTopicId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setGroupId(model.getGroupId());
@@ -93,14 +92,6 @@ public class TopicUserSoap implements Serializable {
 		setUserId(pk.userId);
 	}
 
-	public String getUuid() {
-		return _uuid;
-	}
-
-	public void setUuid(String uuid) {
-		_uuid = uuid;
-	}
-
 	public long getTopicId() {
 		return _topicId;
 	}
@@ -133,7 +124,6 @@ public class TopicUserSoap implements Serializable {
 		_companyId = companyId;
 	}
 
-	private String _uuid;
 	private long _topicId;
 	private long _userId;
 	private long _groupId;

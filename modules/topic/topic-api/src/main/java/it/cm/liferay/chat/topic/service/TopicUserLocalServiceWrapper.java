@@ -33,6 +33,12 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 		_topicUserLocalService = topicUserLocalService;
 	}
 
+	@Override
+	public void addTopicUser(long companyId, long groupId, long topicId,
+		long userId) throws com.liferay.portal.kernel.exception.PortalException {
+		_topicUserLocalService.addTopicUser(companyId, groupId, topicId, userId);
+	}
+
 	/**
 	* Adds the topic user to the database. Also notifies the appropriate model listeners.
 	*
@@ -43,6 +49,12 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 	public it.cm.liferay.chat.topic.model.TopicUser addTopicUser(
 		it.cm.liferay.chat.topic.model.TopicUser topicUser) {
 		return _topicUserLocalService.addTopicUser(topicUser);
+	}
+
+	@Override
+	public int countByTopicId(long topicId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _topicUserLocalService.countByTopicId(topicId);
 	}
 
 	/**
@@ -183,20 +195,6 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 		return _topicUserLocalService.fetchTopicUser(topicUserPK);
 	}
 
-	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user, or <code>null</code> if a matching topic user could not be found
-	*/
-	@Override
-	public it.cm.liferay.chat.topic.model.TopicUser fetchTopicUserByUuidAndGroupId(
-		String uuid, long groupId) {
-		return _topicUserLocalService.fetchTopicUserByUuidAndGroupId(uuid,
-			groupId);
-	}
-
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return _topicUserLocalService.getActionableDynamicQuery();
@@ -224,6 +222,12 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 		return _topicUserLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public java.util.Collection<Long> getTopicIdByUserId(long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _topicUserLocalService.getTopicIdByUserId(userId);
+	}
+
 	/**
 	* Returns the topic user with the primary key.
 	*
@@ -236,21 +240,6 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 		it.cm.liferay.chat.topic.service.persistence.TopicUserPK topicUserPK)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _topicUserLocalService.getTopicUser(topicUserPK);
-	}
-
-	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user
-	* @throws PortalException if a matching topic user could not be found
-	*/
-	@Override
-	public it.cm.liferay.chat.topic.model.TopicUser getTopicUserByUuidAndGroupId(
-		String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicUserLocalService.getTopicUserByUuidAndGroupId(uuid, groupId);
 	}
 
 	/**
@@ -268,38 +257,6 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 	public java.util.List<it.cm.liferay.chat.topic.model.TopicUser> getTopicUsers(
 		int start, int end) {
 		return _topicUserLocalService.getTopicUsers(start, end);
-	}
-
-	/**
-	* Returns all the topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @return the matching topic users, or an empty list if no matches were found
-	*/
-	@Override
-	public java.util.List<it.cm.liferay.chat.topic.model.TopicUser> getTopicUsersByUuidAndCompanyId(
-		String uuid, long companyId) {
-		return _topicUserLocalService.getTopicUsersByUuidAndCompanyId(uuid,
-			companyId);
-	}
-
-	/**
-	* Returns a range of topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of topic users
-	* @param end the upper bound of the range of topic users (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching topic users, or an empty list if no matches were found
-	*/
-	@Override
-	public java.util.List<it.cm.liferay.chat.topic.model.TopicUser> getTopicUsersByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<it.cm.liferay.chat.topic.model.TopicUser> orderByComparator) {
-		return _topicUserLocalService.getTopicUsersByUuidAndCompanyId(uuid,
-			companyId, start, end, orderByComparator);
 	}
 
 	/**

@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 
-import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ShardedModel;
@@ -62,21 +61,6 @@ public interface TopicUserModel extends BaseModel<TopicUser>, ShardedModel {
 	 * @param primaryKey the primary key of this topic user
 	 */
 	public void setPrimaryKey(TopicUserPK primaryKey);
-
-	/**
-	 * Returns the uuid of this topic user.
-	 *
-	 * @return the uuid of this topic user
-	 */
-	@AutoEscape
-	public String getUuid();
-
-	/**
-	 * Sets the uuid of this topic user.
-	 *
-	 * @param uuid the uuid of this topic user
-	 */
-	public void setUuid(String uuid);
 
 	/**
 	 * Returns the topic ID of this topic user.

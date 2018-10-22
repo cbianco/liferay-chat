@@ -14,7 +14,13 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import it.cm.liferay.chat.topic.model.TopicUser;
 import it.cm.liferay.chat.topic.service.base.TopicUserLocalServiceBaseImpl;
+import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the topic user local service.
@@ -36,4 +42,35 @@ public class TopicUserLocalServiceImpl extends TopicUserLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.TopicUserLocalServiceUtil} to access the topic user local service.
 	 */
+
+	@Override
+	public void addTopicUser(
+			long companyId, long groupId, long topicId, long userId)
+		throws PortalException {
+
+		TopicUserPK topicUserPK = new TopicUserPK(topicId, userId);
+		TopicUser topicUser = topicUserPersistence.create(topicUserPK);
+		topicUser.setGroupId(groupId);
+		topicUser.setCompanyId(companyId);
+		topicUserPersistence.update(topicUser);
+	}
+
+	@Override
+	public Collection<Long> getTopicIdByUserId(
+			long userId)
+		throws PortalException {
+
+		return topicUserPersistence
+			.findByUserId(userId)
+			.stream()
+			.map(topicUser -> topicUser.getTopicId())
+			.collect(Collectors.toList());
+	}
+
+	@Override
+	public int countByTopicId(long topicId) throws PortalException {
+
+		return topicUserPersistence.countByTopicId(topicId);
+	}
+
 }

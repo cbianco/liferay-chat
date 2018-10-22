@@ -64,11 +64,9 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(9);
 
-		sb.append("{uuid=");
-		sb.append(uuid);
-		sb.append(", topicId=");
+		sb.append("{topicId=");
 		sb.append(topicId);
 		sb.append(", userId=");
 		sb.append(userId);
@@ -85,13 +83,6 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 	public TopicUser toEntityModel() {
 		TopicUserImpl topicUserImpl = new TopicUserImpl();
 
-		if (uuid == null) {
-			topicUserImpl.setUuid("");
-		}
-		else {
-			topicUserImpl.setUuid(uuid);
-		}
-
 		topicUserImpl.setTopicId(topicId);
 		topicUserImpl.setUserId(userId);
 		topicUserImpl.setGroupId(groupId);
@@ -104,8 +95,6 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
-		uuid = objectInput.readUTF();
-
 		topicId = objectInput.readLong();
 
 		userId = objectInput.readLong();
@@ -120,13 +109,6 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
-		if (uuid == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(uuid);
-		}
-
 		objectOutput.writeLong(topicId);
 
 		objectOutput.writeLong(userId);
@@ -136,7 +118,6 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 		objectOutput.writeLong(companyId);
 	}
 
-	public String uuid;
 	public long topicId;
 	public long userId;
 	public long groupId;
