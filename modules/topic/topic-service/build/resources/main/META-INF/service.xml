@@ -61,6 +61,9 @@
 		<finder name="UserId" return-type="Collection">
 			<finder-column name="userId" />
 		</finder>
+		<finder name="TopicId" return-type="Collection">
+			<finder-column name="topicId" />
+		</finder>
 		<finder name="UserIds" return-type="Collection">
 			<finder-column arrayable-operator="OR" name="userId" />
 		</finder>
@@ -106,5 +109,9 @@
 		</finder> -->
 
 	</entity>
+
+	<exceptions>
+		<exception>NoSuchTopic</exception>
+	</exceptions>
 
 </service-builder>

@@ -110,8 +110,4 @@
 
 	</entity>
 
-	<exceptions>
-		<exception>NoSuchTopic</exception>
-	</exceptions>
-
 </service-builder>

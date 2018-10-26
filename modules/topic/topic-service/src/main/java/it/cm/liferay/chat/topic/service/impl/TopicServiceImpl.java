@@ -46,7 +46,8 @@ public class TopicServiceImpl extends TopicServiceBaseImpl {
 	public Topic addTopic(
 			long companyId, long groupId, long userId1, long user2)
 		throws PortalException {
-		
+
+		// TODO Add permission controls
 		return topicLocalService.addTopic(
 			companyId, groupId, userId1, new long[]{ user2 });
 	}
@@ -64,7 +65,8 @@ public class TopicServiceImpl extends TopicServiceBaseImpl {
 
 		// TODO Add permission controls
 
-		topicUserService.getTopicByUserIds(userId1, userId2);
+//		return topicUserService.getTopicByUserIds(userId1, userId2);
+		return null;
 	}
 
 }
