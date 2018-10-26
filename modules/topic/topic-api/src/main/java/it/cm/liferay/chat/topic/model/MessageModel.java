@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -44,8 +43,8 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface MessageModel extends BaseModel<Message>, GroupedModel,
-	ShardedModel, StagedAuditedModel {
+public interface MessageModel extends BaseModel<Message>, ShardedModel,
+	StagedAuditedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -96,22 +95,6 @@ public interface MessageModel extends BaseModel<Message>, GroupedModel,
 	 * @param messageId the message ID of this message
 	 */
 	public void setMessageId(long messageId);
-
-	/**
-	 * Returns the group ID of this message.
-	 *
-	 * @return the group ID of this message
-	 */
-	@Override
-	public long getGroupId();
-
-	/**
-	 * Sets the group ID of this message.
-	 *
-	 * @param groupId the group ID of this message
-	 */
-	@Override
-	public void setGroupId(long groupId);
 
 	/**
 	 * Returns the company ID of this message.

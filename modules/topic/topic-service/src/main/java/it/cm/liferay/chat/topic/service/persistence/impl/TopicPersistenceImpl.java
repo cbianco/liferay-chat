@@ -632,253 +632,6 @@ public class TopicPersistenceImpl extends BasePersistenceImpl<Topic>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "topic.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "topic.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(topic.uuid IS NULL OR topic.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(TopicModelImpl.ENTITY_CACHE_ENABLED,
-			TopicModelImpl.FINDER_CACHE_ENABLED, TopicImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			TopicModelImpl.UUID_COLUMN_BITMASK |
-			TopicModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(TopicModelImpl.ENTITY_CACHE_ENABLED,
-			TopicModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
-
-	/**
-	 * Returns the topic where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchTopicException} if it could not be found.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the matching topic
-	 * @throws NoSuchTopicException if a matching topic could not be found
-	 */
-	@Override
-	public Topic findByUUID_G(String uuid, long groupId)
-		throws NoSuchTopicException {
-		Topic topic = fetchByUUID_G(uuid, groupId);
-
-		if (topic == null) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("uuid=");
-			msg.append(uuid);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
-			}
-
-			throw new NoSuchTopicException(msg.toString());
-		}
-
-		return topic;
-	}
-
-	/**
-	 * Returns the topic where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the matching topic, or <code>null</code> if a matching topic could not be found
-	 */
-	@Override
-	public Topic fetchByUUID_G(String uuid, long groupId) {
-		return fetchByUUID_G(uuid, groupId, true);
-	}
-
-	/**
-	 * Returns the topic where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching topic, or <code>null</code> if a matching topic could not be found
-	 */
-	@Override
-	public Topic fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
-
-		Object result = null;
-
-		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
-		}
-
-		if (result instanceof Topic) {
-			Topic topic = (Topic)result;
-
-			if (!Objects.equals(uuid, topic.getUuid()) ||
-					(groupId != topic.getGroupId())) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler query = new StringBundler(4);
-
-			query.append(_SQL_SELECT_TOPIC_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals("")) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
-			}
-
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindUuid) {
-					qPos.add(uuid);
-				}
-
-				qPos.add(groupId);
-
-				List<Topic> list = q.list();
-
-				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
-				}
-				else {
-					Topic topic = list.get(0);
-
-					result = topic;
-
-					cacheResult(topic);
-				}
-			}
-			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (Topic)result;
-		}
-	}
-
-	/**
-	 * Removes the topic where uuid = &#63; and groupId = &#63; from the database.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the topic that was removed
-	 */
-	@Override
-	public Topic removeByUUID_G(String uuid, long groupId)
-		throws NoSuchTopicException {
-		Topic topic = findByUUID_G(uuid, groupId);
-
-		return remove(topic);
-	}
-
-	/**
-	 * Returns the number of topics where uuid = &#63; and groupId = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the number of matching topics
-	 */
-	@Override
-	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
-
-		Object[] finderArgs = new Object[] { uuid, groupId };
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(3);
-
-			query.append(_SQL_COUNT_TOPIC_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals("")) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
-			}
-
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindUuid) {
-					qPos.add(uuid);
-				}
-
-				qPos.add(groupId);
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "topic.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "topic.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(topic.uuid IS NULL OR topic.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "topic.groupId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(TopicModelImpl.ENTITY_CACHE_ENABLED,
 			TopicModelImpl.FINDER_CACHE_ENABLED, TopicImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
@@ -1493,9 +1246,6 @@ public class TopicPersistenceImpl extends BasePersistenceImpl<Topic>
 		entityCache.putResult(TopicModelImpl.ENTITY_CACHE_ENABLED,
 			TopicImpl.class, topic.getPrimaryKey(), topic);
 
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { topic.getUuid(), topic.getGroupId() }, topic);
-
 		topic.resetOriginalValues();
 	}
 
@@ -1547,8 +1297,6 @@ public class TopicPersistenceImpl extends BasePersistenceImpl<Topic>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((TopicModelImpl)topic, true);
 	}
 
 	@Override
@@ -1559,42 +1307,6 @@ public class TopicPersistenceImpl extends BasePersistenceImpl<Topic>
 		for (Topic topic : topics) {
 			entityCache.removeResult(TopicModelImpl.ENTITY_CACHE_ENABLED,
 				TopicImpl.class, topic.getPrimaryKey());
-
-			clearUniqueFindersCache((TopicModelImpl)topic, true);
-		}
-	}
-
-	protected void cacheUniqueFindersCache(TopicModelImpl topicModelImpl) {
-		Object[] args = new Object[] {
-				topicModelImpl.getUuid(), topicModelImpl.getGroupId()
-			};
-
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			topicModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(TopicModelImpl topicModelImpl,
-		boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					topicModelImpl.getUuid(), topicModelImpl.getGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if ((topicModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					topicModelImpl.getOriginalUuid(),
-					topicModelImpl.getOriginalGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
 	}
 
@@ -1836,9 +1548,6 @@ public class TopicPersistenceImpl extends BasePersistenceImpl<Topic>
 
 		entityCache.putResult(TopicModelImpl.ENTITY_CACHE_ENABLED,
 			TopicImpl.class, topic.getPrimaryKey(), topic, false);
-
-		clearUniqueFindersCache(topicModelImpl, false);
-		cacheUniqueFindersCache(topicModelImpl);
 
 		topic.resetOriginalValues();
 

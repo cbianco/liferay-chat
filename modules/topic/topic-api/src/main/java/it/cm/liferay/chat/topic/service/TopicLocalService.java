@@ -173,14 +173,14 @@ public interface TopicLocalService extends BaseLocalService,
 	public Topic fetchTopic(long topicId);
 
 	/**
-	* Returns the topic matching the UUID and group.
+	* Returns the topic with the matching UUID and company.
 	*
 	* @param uuid the topic's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching topic, or <code>null</code> if a matching topic could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Topic fetchTopicByUuidAndGroupId(String uuid, long groupId);
+	public Topic fetchTopicByUuidAndCompanyId(String uuid, long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -215,15 +215,15 @@ public interface TopicLocalService extends BaseLocalService,
 	public Topic getTopic(long topicId) throws PortalException;
 
 	/**
-	* Returns the topic matching the UUID and group.
+	* Returns the topic with the matching UUID and company.
 	*
 	* @param uuid the topic's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching topic
 	* @throws PortalException if a matching topic could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Topic getTopicByUuidAndGroupId(String uuid, long groupId)
+	public Topic getTopicByUuidAndCompanyId(String uuid, long companyId)
 		throws PortalException;
 
 	/**
@@ -239,30 +239,6 @@ public interface TopicLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Topic> getTopics(int start, int end);
-
-	/**
-	* Returns all the topics matching the UUID and company.
-	*
-	* @param uuid the UUID of the topics
-	* @param companyId the primary key of the company
-	* @return the matching topics, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Topic> getTopicsByUuidAndCompanyId(String uuid, long companyId);
-
-	/**
-	* Returns a range of topics matching the UUID and company.
-	*
-	* @param uuid the UUID of the topics
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of topics
-	* @param end the upper bound of the range of topics (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching topics, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Topic> getTopicsByUuidAndCompanyId(String uuid, long companyId,
-		int start, int end, OrderByComparator<Topic> orderByComparator);
 
 	/**
 	* Returns the number of topics.

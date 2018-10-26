@@ -106,7 +106,8 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
 			new String[] { String.class.getName() },
-			MessageModelImpl.UUID_COLUMN_BITMASK);
+			MessageModelImpl.UUID_COLUMN_BITMASK |
+			MessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
 			MessageModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
@@ -635,253 +636,6 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "message.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "message.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(message.uuid IS NULL OR message.uuid = '')";
-	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
-			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() },
-			MessageModelImpl.UUID_COLUMN_BITMASK |
-			MessageModelImpl.GROUPID_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] { String.class.getName(), Long.class.getName() });
-
-	/**
-	 * Returns the message where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchMessageException} if it could not be found.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the matching message
-	 * @throws NoSuchMessageException if a matching message could not be found
-	 */
-	@Override
-	public Message findByUUID_G(String uuid, long groupId)
-		throws NoSuchMessageException {
-		Message message = fetchByUUID_G(uuid, groupId);
-
-		if (message == null) {
-			StringBundler msg = new StringBundler(6);
-
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			msg.append("uuid=");
-			msg.append(uuid);
-
-			msg.append(", groupId=");
-			msg.append(groupId);
-
-			msg.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
-			}
-
-			throw new NoSuchMessageException(msg.toString());
-		}
-
-		return message;
-	}
-
-	/**
-	 * Returns the message where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the matching message, or <code>null</code> if a matching message could not be found
-	 */
-	@Override
-	public Message fetchByUUID_G(String uuid, long groupId) {
-		return fetchByUUID_G(uuid, groupId, true);
-	}
-
-	/**
-	 * Returns the message where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the matching message, or <code>null</code> if a matching message could not be found
-	 */
-	@Override
-	public Message fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		Object[] finderArgs = new Object[] { uuid, groupId };
-
-		Object result = null;
-
-		if (retrieveFromCache) {
-			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
-					finderArgs, this);
-		}
-
-		if (result instanceof Message) {
-			Message message = (Message)result;
-
-			if (!Objects.equals(uuid, message.getUuid()) ||
-					(groupId != message.getGroupId())) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler query = new StringBundler(4);
-
-			query.append(_SQL_SELECT_MESSAGE_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals("")) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
-			}
-
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindUuid) {
-					qPos.add(uuid);
-				}
-
-				qPos.add(groupId);
-
-				List<Message> list = q.list();
-
-				if (list.isEmpty()) {
-					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-						finderArgs, list);
-				}
-				else {
-					Message message = list.get(0);
-
-					result = message;
-
-					cacheResult(message);
-				}
-			}
-			catch (Exception e) {
-				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (Message)result;
-		}
-	}
-
-	/**
-	 * Removes the message where uuid = &#63; and groupId = &#63; from the database.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the message that was removed
-	 */
-	@Override
-	public Message removeByUUID_G(String uuid, long groupId)
-		throws NoSuchMessageException {
-		Message message = findByUUID_G(uuid, groupId);
-
-		return remove(message);
-	}
-
-	/**
-	 * Returns the number of messages where uuid = &#63; and groupId = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param groupId the group ID
-	 * @return the number of matching messages
-	 */
-	@Override
-	public int countByUUID_G(String uuid, long groupId) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
-
-		Object[] finderArgs = new Object[] { uuid, groupId };
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(3);
-
-			query.append(_SQL_COUNT_MESSAGE_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid == null) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
-			}
-			else if (uuid.equals("")) {
-				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
-			}
-
-			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindUuid) {
-					qPos.add(uuid);
-				}
-
-				qPos.add(groupId);
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "message.uuid IS NULL AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "message.uuid = ? AND ";
-	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(message.uuid IS NULL OR message.uuid = '') AND ";
-	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "message.groupId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
 			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
@@ -897,7 +651,8 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] { String.class.getName(), Long.class.getName() },
 			MessageModelImpl.UUID_COLUMN_BITMASK |
-			MessageModelImpl.COMPANYID_COLUMN_BITMASK);
+			MessageModelImpl.COMPANYID_COLUMN_BITMASK |
+			MessageModelImpl.CREATEDATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
 			MessageModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
@@ -1465,6 +1220,506 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "message.uuid = ? AND ";
 	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(message.uuid IS NULL OR message.uuid = '') AND ";
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "message.companyId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TOPICID = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
+			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTopicId",
+			new String[] {
+				Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID =
+		new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
+			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTopicId",
+			new String[] { Long.class.getName() },
+			MessageModelImpl.TOPICID_COLUMN_BITMASK |
+			MessageModelImpl.CREATEDATE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_TOPICID = new FinderPath(MessageModelImpl.ENTITY_CACHE_ENABLED,
+			MessageModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTopicId",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns all the messages where topicId = &#63;.
+	 *
+	 * @param topicId the topic ID
+	 * @return the matching messages
+	 */
+	@Override
+	public List<Message> findByTopicId(long topicId) {
+		return findByTopicId(topicId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the messages where topicId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param topicId the topic ID
+	 * @param start the lower bound of the range of messages
+	 * @param end the upper bound of the range of messages (not inclusive)
+	 * @return the range of matching messages
+	 */
+	@Override
+	public List<Message> findByTopicId(long topicId, int start, int end) {
+		return findByTopicId(topicId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the messages where topicId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param topicId the topic ID
+	 * @param start the lower bound of the range of messages
+	 * @param end the upper bound of the range of messages (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching messages
+	 */
+	@Override
+	public List<Message> findByTopicId(long topicId, int start, int end,
+		OrderByComparator<Message> orderByComparator) {
+		return findByTopicId(topicId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the messages where topicId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param topicId the topic ID
+	 * @param start the lower bound of the range of messages
+	 * @param end the upper bound of the range of messages (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching messages
+	 */
+	@Override
+	public List<Message> findByTopicId(long topicId, int start, int end,
+		OrderByComparator<Message> orderByComparator, boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID;
+			finderArgs = new Object[] { topicId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TOPICID;
+			finderArgs = new Object[] { topicId, start, end, orderByComparator };
+		}
+
+		List<Message> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<Message>)finderCache.getResult(finderPath, finderArgs,
+					this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Message message : list) {
+					if ((topicId != message.getTopicId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_MESSAGE_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICID_TOPICID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(MessageModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(topicId);
+
+				if (!pagination) {
+					list = (List<Message>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<Message>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first message in the ordered set where topicId = &#63;.
+	 *
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching message
+	 * @throws NoSuchMessageException if a matching message could not be found
+	 */
+	@Override
+	public Message findByTopicId_First(long topicId,
+		OrderByComparator<Message> orderByComparator)
+		throws NoSuchMessageException {
+		Message message = fetchByTopicId_First(topicId, orderByComparator);
+
+		if (message != null) {
+			return message;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("topicId=");
+		msg.append(topicId);
+
+		msg.append("}");
+
+		throw new NoSuchMessageException(msg.toString());
+	}
+
+	/**
+	 * Returns the first message in the ordered set where topicId = &#63;.
+	 *
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching message, or <code>null</code> if a matching message could not be found
+	 */
+	@Override
+	public Message fetchByTopicId_First(long topicId,
+		OrderByComparator<Message> orderByComparator) {
+		List<Message> list = findByTopicId(topicId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last message in the ordered set where topicId = &#63;.
+	 *
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching message
+	 * @throws NoSuchMessageException if a matching message could not be found
+	 */
+	@Override
+	public Message findByTopicId_Last(long topicId,
+		OrderByComparator<Message> orderByComparator)
+		throws NoSuchMessageException {
+		Message message = fetchByTopicId_Last(topicId, orderByComparator);
+
+		if (message != null) {
+			return message;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("topicId=");
+		msg.append(topicId);
+
+		msg.append("}");
+
+		throw new NoSuchMessageException(msg.toString());
+	}
+
+	/**
+	 * Returns the last message in the ordered set where topicId = &#63;.
+	 *
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching message, or <code>null</code> if a matching message could not be found
+	 */
+	@Override
+	public Message fetchByTopicId_Last(long topicId,
+		OrderByComparator<Message> orderByComparator) {
+		int count = countByTopicId(topicId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Message> list = findByTopicId(topicId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the messages before and after the current message in the ordered set where topicId = &#63;.
+	 *
+	 * @param messageId the primary key of the current message
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next message
+	 * @throws NoSuchMessageException if a message with the primary key could not be found
+	 */
+	@Override
+	public Message[] findByTopicId_PrevAndNext(long messageId, long topicId,
+		OrderByComparator<Message> orderByComparator)
+		throws NoSuchMessageException {
+		Message message = findByPrimaryKey(messageId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Message[] array = new MessageImpl[3];
+
+			array[0] = getByTopicId_PrevAndNext(session, message, topicId,
+					orderByComparator, true);
+
+			array[1] = message;
+
+			array[2] = getByTopicId_PrevAndNext(session, message, topicId,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Message getByTopicId_PrevAndNext(Session session,
+		Message message, long topicId,
+		OrderByComparator<Message> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_MESSAGE_WHERE);
+
+		query.append(_FINDER_COLUMN_TOPICID_TOPICID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(MessageModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(topicId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(message);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Message> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the messages where topicId = &#63; from the database.
+	 *
+	 * @param topicId the topic ID
+	 */
+	@Override
+	public void removeByTopicId(long topicId) {
+		for (Message message : findByTopicId(topicId, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(message);
+		}
+	}
+
+	/**
+	 * Returns the number of messages where topicId = &#63;.
+	 *
+	 * @param topicId the topic ID
+	 * @return the number of matching messages
+	 */
+	@Override
+	public int countByTopicId(long topicId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_TOPICID;
+
+		Object[] finderArgs = new Object[] { topicId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_MESSAGE_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICID_TOPICID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(topicId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_TOPICID_TOPICID_2 = "message.topicId = ?";
 
 	public MessagePersistenceImpl() {
 		setModelClass(Message.class);
@@ -1497,9 +1752,6 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 	public void cacheResult(Message message) {
 		entityCache.putResult(MessageModelImpl.ENTITY_CACHE_ENABLED,
 			MessageImpl.class, message.getPrimaryKey(), message);
-
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
-			new Object[] { message.getUuid(), message.getGroupId() }, message);
 
 		message.resetOriginalValues();
 	}
@@ -1552,8 +1804,6 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((MessageModelImpl)message, true);
 	}
 
 	@Override
@@ -1564,42 +1814,6 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 		for (Message message : messages) {
 			entityCache.removeResult(MessageModelImpl.ENTITY_CACHE_ENABLED,
 				MessageImpl.class, message.getPrimaryKey());
-
-			clearUniqueFindersCache((MessageModelImpl)message, true);
-		}
-	}
-
-	protected void cacheUniqueFindersCache(MessageModelImpl messageModelImpl) {
-		Object[] args = new Object[] {
-				messageModelImpl.getUuid(), messageModelImpl.getGroupId()
-			};
-
-		finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
-			Long.valueOf(1), false);
-		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
-			messageModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(MessageModelImpl messageModelImpl,
-		boolean clearCurrent) {
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-					messageModelImpl.getUuid(), messageModelImpl.getGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
-		}
-
-		if ((messageModelImpl.getColumnBitmask() &
-				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
-			Object[] args = new Object[] {
-					messageModelImpl.getOriginalUuid(),
-					messageModelImpl.getOriginalGroupId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
-			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
 		}
 	}
 
@@ -1798,6 +2012,12 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 				args);
 
+			args = new Object[] { messageModelImpl.getTopicId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_TOPICID, args);
+			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID,
+				args);
+
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -1839,13 +2059,27 @@ public class MessagePersistenceImpl extends BasePersistenceImpl<Message>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
 					args);
 			}
+
+			if ((messageModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						messageModelImpl.getOriginalTopicId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_TOPICID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID,
+					args);
+
+				args = new Object[] { messageModelImpl.getTopicId() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_TOPICID, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID,
+					args);
+			}
 		}
 
 		entityCache.putResult(MessageModelImpl.ENTITY_CACHE_ENABLED,
 			MessageImpl.class, message.getPrimaryKey(), message, false);
-
-		clearUniqueFindersCache(messageModelImpl, false);
-		cacheUniqueFindersCache(messageModelImpl);
 
 		message.resetOriginalValues();
 

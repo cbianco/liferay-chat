@@ -262,66 +262,6 @@ public class TopicUtil {
 	}
 
 	/**
-	* Returns the topic where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchTopicException} if it could not be found.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the matching topic
-	* @throws NoSuchTopicException if a matching topic could not be found
-	*/
-	public static Topic findByUUID_G(String uuid, long groupId)
-		throws it.cm.liferay.chat.topic.exception.NoSuchTopicException {
-		return getPersistence().findByUUID_G(uuid, groupId);
-	}
-
-	/**
-	* Returns the topic where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the matching topic, or <code>null</code> if a matching topic could not be found
-	*/
-	public static Topic fetchByUUID_G(String uuid, long groupId) {
-		return getPersistence().fetchByUUID_G(uuid, groupId);
-	}
-
-	/**
-	* Returns the topic where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching topic, or <code>null</code> if a matching topic could not be found
-	*/
-	public static Topic fetchByUUID_G(String uuid, long groupId,
-		boolean retrieveFromCache) {
-		return getPersistence().fetchByUUID_G(uuid, groupId, retrieveFromCache);
-	}
-
-	/**
-	* Removes the topic where uuid = &#63; and groupId = &#63; from the database.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the topic that was removed
-	*/
-	public static Topic removeByUUID_G(String uuid, long groupId)
-		throws it.cm.liferay.chat.topic.exception.NoSuchTopicException {
-		return getPersistence().removeByUUID_G(uuid, groupId);
-	}
-
-	/**
-	* Returns the number of topics where uuid = &#63; and groupId = &#63;.
-	*
-	* @param uuid the uuid
-	* @param groupId the group ID
-	* @return the number of matching topics
-	*/
-	public static int countByUUID_G(String uuid, long groupId) {
-		return getPersistence().countByUUID_G(uuid, groupId);
-	}
-
-	/**
 	* Returns all the topics where uuid = &#63; and companyId = &#63;.
 	*
 	* @param uuid the uuid

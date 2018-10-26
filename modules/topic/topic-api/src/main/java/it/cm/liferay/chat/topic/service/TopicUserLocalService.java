@@ -169,16 +169,6 @@ public interface TopicUserLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public TopicUser fetchTopicUser(TopicUserPK topicUserPK);
 
-	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user, or <code>null</code> if a matching topic user could not be found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public TopicUser fetchTopicUserByUuidAndGroupId(String uuid, long groupId);
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
@@ -209,18 +199,6 @@ public interface TopicUserLocalService extends BaseLocalService,
 		throws PortalException;
 
 	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user
-	* @throws PortalException if a matching topic user could not be found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public TopicUser getTopicUserByUuidAndGroupId(String uuid, long groupId)
-		throws PortalException;
-
-	/**
 	* Returns a range of all the topic users.
 	*
 	* <p>
@@ -233,32 +211,6 @@ public interface TopicUserLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<TopicUser> getTopicUsers(int start, int end);
-
-	/**
-	* Returns all the topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @return the matching topic users, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<TopicUser> getTopicUsersByUuidAndCompanyId(String uuid,
-		long companyId);
-
-	/**
-	* Returns a range of topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of topic users
-	* @param end the upper bound of the range of topic users (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching topic users, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<TopicUser> getTopicUsersByUuidAndCompanyId(String uuid,
-		long companyId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator);
 
 	/**
 	* Returns the number of topic users.

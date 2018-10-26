@@ -59,8 +59,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 		attributes.put("uuid", getUuid());
 		attributes.put("topicId", getTopicId());
 		attributes.put("userId", getUserId());
-		attributes.put("groupId", getGroupId());
-		attributes.put("companyId", getCompanyId());
 
 		return attributes;
 	}
@@ -84,18 +82,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 		if (userId != null) {
 			setUserId(userId);
 		}
-
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
-		}
-
-		Long companyId = (Long)attributes.get("companyId");
-
-		if (companyId != null) {
-			setCompanyId(companyId);
-		}
 	}
 
 	@Override
@@ -108,29 +94,9 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 		return _topicUser.compareTo(topicUser);
 	}
 
-	/**
-	* Returns the company ID of this topic user.
-	*
-	* @return the company ID of this topic user
-	*/
-	@Override
-	public long getCompanyId() {
-		return _topicUser.getCompanyId();
-	}
-
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _topicUser.getExpandoBridge();
-	}
-
-	/**
-	* Returns the group ID of this topic user.
-	*
-	* @return the group ID of this topic user
-	*/
-	@Override
-	public long getGroupId() {
-		return _topicUser.getGroupId();
 	}
 
 	/**
@@ -218,16 +184,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 		_topicUser.setCachedModel(cachedModel);
 	}
 
-	/**
-	* Sets the company ID of this topic user.
-	*
-	* @param companyId the company ID of this topic user
-	*/
-	@Override
-	public void setCompanyId(long companyId) {
-		_topicUser.setCompanyId(companyId);
-	}
-
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
@@ -242,16 +198,6 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_topicUser.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	/**
-	* Sets the group ID of this topic user.
-	*
-	* @param groupId the group ID of this topic user
-	*/
-	@Override
-	public void setGroupId(long groupId) {
-		_topicUser.setGroupId(groupId);
 	}
 
 	@Override

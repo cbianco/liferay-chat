@@ -68,9 +68,7 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "topicId", Types.BIGINT },
-			{ "userId", Types.BIGINT },
-			{ "groupId", Types.BIGINT },
-			{ "companyId", Types.BIGINT }
+			{ "userId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -78,11 +76,9 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("topicId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Conversation_TopicUser (uuid_ VARCHAR(75) null,topicId LONG not null,userId LONG not null,groupId LONG,companyId LONG,primary key (topicId, userId))";
+	public static final String TABLE_SQL_CREATE = "create table Conversation_TopicUser (uuid_ VARCHAR(75) null,topicId LONG not null,userId LONG not null,primary key (topicId, userId))";
 	public static final String TABLE_SQL_DROP = "drop table Conversation_TopicUser";
 	public static final String ORDER_BY_JPQL = " ORDER BY topicUser.id.topicId ASC, topicUser.id.userId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Conversation_TopicUser.topicId ASC, Conversation_TopicUser.userId ASC";
@@ -98,11 +94,9 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(it.cm.liferay.chat.topic.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.it.cm.liferay.chat.topic.model.TopicUser"),
 			true);
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long TOPICID_COLUMN_BITMASK = 1L;
+	public static final long USERID_COLUMN_BITMASK = 2L;
 	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long TOPICID_COLUMN_BITMASK = 8L;
-	public static final long USERID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -120,8 +114,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 		model.setUuid(soapModel.getUuid());
 		model.setTopicId(soapModel.getTopicId());
 		model.setUserId(soapModel.getUserId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
 
 		return model;
 	}
@@ -190,8 +182,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 		attributes.put("uuid", getUuid());
 		attributes.put("topicId", getTopicId());
 		attributes.put("userId", getUserId());
-		attributes.put("groupId", getGroupId());
-		attributes.put("companyId", getCompanyId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -217,18 +207,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 		if (userId != null) {
 			setUserId(userId);
-		}
-
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
-		}
-
-		Long companyId = (Long)attributes.get("companyId");
-
-		if (companyId != null) {
-			setCompanyId(companyId);
 		}
 	}
 
@@ -264,7 +242,19 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 	@Override
 	public void setTopicId(long topicId) {
+		_columnBitmask |= TOPICID_COLUMN_BITMASK;
+
+		if (!_setOriginalTopicId) {
+			_setOriginalTopicId = true;
+
+			_originalTopicId = _topicId;
+		}
+
 		_topicId = topicId;
+	}
+
+	public long getOriginalTopicId() {
+		return _originalTopicId;
 	}
 
 	@JSON
@@ -275,6 +265,14 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!_setOriginalUserId) {
+			_setOriginalUserId = true;
+
+			_originalUserId = _userId;
+		}
+
 		_userId = userId;
 	}
 
@@ -294,50 +292,8 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 	public void setUserUuid(String userUuid) {
 	}
 
-	@JSON
-	@Override
-	public long getGroupId() {
-		return _groupId;
-	}
-
-	@Override
-	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
-
-		_groupId = groupId;
-	}
-
-	public long getOriginalGroupId() {
-		return _originalGroupId;
-	}
-
-	@JSON
-	@Override
-	public long getCompanyId() {
-		return _companyId;
-	}
-
-	@Override
-	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
-
-		_companyId = companyId;
-	}
-
-	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+	public long getOriginalUserId() {
+		return _originalUserId;
 	}
 
 	public long getColumnBitmask() {
@@ -361,8 +317,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 		topicUserImpl.setUuid(getUuid());
 		topicUserImpl.setTopicId(getTopicId());
 		topicUserImpl.setUserId(getUserId());
-		topicUserImpl.setGroupId(getGroupId());
-		topicUserImpl.setCompanyId(getCompanyId());
 
 		topicUserImpl.resetOriginalValues();
 
@@ -419,13 +373,13 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 		topicUserModelImpl._originalUuid = topicUserModelImpl._uuid;
 
-		topicUserModelImpl._originalGroupId = topicUserModelImpl._groupId;
+		topicUserModelImpl._originalTopicId = topicUserModelImpl._topicId;
 
-		topicUserModelImpl._setOriginalGroupId = false;
+		topicUserModelImpl._setOriginalTopicId = false;
 
-		topicUserModelImpl._originalCompanyId = topicUserModelImpl._companyId;
+		topicUserModelImpl._originalUserId = topicUserModelImpl._userId;
 
-		topicUserModelImpl._setOriginalCompanyId = false;
+		topicUserModelImpl._setOriginalUserId = false;
 
 		topicUserModelImpl._columnBitmask = 0;
 	}
@@ -448,16 +402,12 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 		topicUserCacheModel.userId = getUserId();
 
-		topicUserCacheModel.groupId = getGroupId();
-
-		topicUserCacheModel.companyId = getCompanyId();
-
 		return topicUserCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(7);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -465,10 +415,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 		sb.append(getTopicId());
 		sb.append(", userId=");
 		sb.append(getUserId());
-		sb.append(", groupId=");
-		sb.append(getGroupId());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
 		sb.append("}");
 
 		return sb.toString();
@@ -476,7 +422,7 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("<model><model-name>");
 		sb.append("it.cm.liferay.chat.topic.model.TopicUser");
@@ -494,14 +440,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 			"<column><column-name>userId</column-name><column-value><![CDATA[");
 		sb.append(getUserId());
 		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>groupId</column-name><column-value><![CDATA[");
-		sb.append(getGroupId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
-		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -515,13 +453,11 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 	private String _uuid;
 	private String _originalUuid;
 	private long _topicId;
+	private long _originalTopicId;
+	private boolean _setOriginalTopicId;
 	private long _userId;
-	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
-	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
+	private long _originalUserId;
+	private boolean _setOriginalUserId;
 	private long _columnBitmask;
 	private TopicUser _escapedModel;
 }

@@ -181,18 +181,6 @@ public class TopicUserLocalServiceUtil {
 		return getService().fetchTopicUser(topicUserPK);
 	}
 
-	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user, or <code>null</code> if a matching topic user could not be found
-	*/
-	public static it.cm.liferay.chat.topic.model.TopicUser fetchTopicUserByUuidAndGroupId(
-		String uuid, long groupId) {
-		return getService().fetchTopicUserByUuidAndGroupId(uuid, groupId);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
 		return getService().getActionableDynamicQuery();
 	}
@@ -230,20 +218,6 @@ public class TopicUserLocalServiceUtil {
 	}
 
 	/**
-	* Returns the topic user matching the UUID and group.
-	*
-	* @param uuid the topic user's UUID
-	* @param groupId the primary key of the group
-	* @return the matching topic user
-	* @throws PortalException if a matching topic user could not be found
-	*/
-	public static it.cm.liferay.chat.topic.model.TopicUser getTopicUserByUuidAndGroupId(
-		String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTopicUserByUuidAndGroupId(uuid, groupId);
-	}
-
-	/**
 	* Returns a range of all the topic users.
 	*
 	* <p>
@@ -257,36 +231,6 @@ public class TopicUserLocalServiceUtil {
 	public static java.util.List<it.cm.liferay.chat.topic.model.TopicUser> getTopicUsers(
 		int start, int end) {
 		return getService().getTopicUsers(start, end);
-	}
-
-	/**
-	* Returns all the topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @return the matching topic users, or an empty list if no matches were found
-	*/
-	public static java.util.List<it.cm.liferay.chat.topic.model.TopicUser> getTopicUsersByUuidAndCompanyId(
-		String uuid, long companyId) {
-		return getService().getTopicUsersByUuidAndCompanyId(uuid, companyId);
-	}
-
-	/**
-	* Returns a range of topic users matching the UUID and company.
-	*
-	* @param uuid the UUID of the topic users
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of topic users
-	* @param end the upper bound of the range of topic users (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching topic users, or an empty list if no matches were found
-	*/
-	public static java.util.List<it.cm.liferay.chat.topic.model.TopicUser> getTopicUsersByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<it.cm.liferay.chat.topic.model.TopicUser> orderByComparator) {
-		return getService()
-				   .getTopicUsersByUuidAndCompanyId(uuid, companyId, start,
-			end, orderByComparator);
 	}
 
 	/**
