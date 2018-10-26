@@ -4,7 +4,6 @@
 	<model name="it.cm.liferay.chat.topic.model.Message">
 		<field name="uuid" type="String" />
 		<field name="messageId" type="long" />
-		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />
 		<field name="userName" type="String" />
@@ -16,7 +15,6 @@
 	<model name="it.cm.liferay.chat.topic.model.Topic">
 		<field name="uuid" type="String" />
 		<field name="topicId" type="long" />
-		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />
 		<field name="userName" type="String" />
@@ -26,7 +24,5 @@
 	<model name="it.cm.liferay.chat.topic.model.TopicUser">
 		<field name="topicId" type="long" />
 		<field name="userId" type="long" />
-		<field name="groupId" type="long" />
-		<field name="companyId" type="long" />
 	</model>
 </model-hints>

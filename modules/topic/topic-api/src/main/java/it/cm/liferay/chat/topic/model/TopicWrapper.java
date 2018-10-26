@@ -61,7 +61,6 @@ public class TopicWrapper implements Topic, ModelWrapper<Topic> {
 
 		attributes.put("uuid", getUuid());
 		attributes.put("topicId", getTopicId());
-		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -83,12 +82,6 @@ public class TopicWrapper implements Topic, ModelWrapper<Topic> {
 
 		if (topicId != null) {
 			setTopicId(topicId);
-		}
-
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -155,16 +148,6 @@ public class TopicWrapper implements Topic, ModelWrapper<Topic> {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _topic.getExpandoBridge();
-	}
-
-	/**
-	* Returns the group ID of this topic.
-	*
-	* @return the group ID of this topic
-	*/
-	@Override
-	public long getGroupId() {
-		return _topic.getGroupId();
 	}
 
 	/**
@@ -312,16 +295,6 @@ public class TopicWrapper implements Topic, ModelWrapper<Topic> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_topic.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	/**
-	* Sets the group ID of this topic.
-	*
-	* @param groupId the group ID of this topic
-	*/
-	@Override
-	public void setGroupId(long groupId) {
-		_topic.setGroupId(groupId);
 	}
 
 	/**

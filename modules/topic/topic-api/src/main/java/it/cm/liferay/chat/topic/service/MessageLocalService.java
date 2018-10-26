@@ -171,14 +171,14 @@ public interface MessageLocalService extends BaseLocalService,
 	public Message fetchMessage(long messageId);
 
 	/**
-	* Returns the message matching the UUID and group.
+	* Returns the message with the matching UUID and company.
 	*
 	* @param uuid the message's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching message, or <code>null</code> if a matching message could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Message fetchMessageByUuidAndGroupId(String uuid, long groupId);
+	public Message fetchMessageByUuidAndCompanyId(String uuid, long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -201,15 +201,15 @@ public interface MessageLocalService extends BaseLocalService,
 	public Message getMessage(long messageId) throws PortalException;
 
 	/**
-	* Returns the message matching the UUID and group.
+	* Returns the message with the matching UUID and company.
 	*
 	* @param uuid the message's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching message
 	* @throws PortalException if a matching message could not be found
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Message getMessageByUuidAndGroupId(String uuid, long groupId)
+	public Message getMessageByUuidAndCompanyId(String uuid, long companyId)
 		throws PortalException;
 
 	/**
@@ -225,32 +225,6 @@ public interface MessageLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Message> getMessages(int start, int end);
-
-	/**
-	* Returns all the messages matching the UUID and company.
-	*
-	* @param uuid the UUID of the messages
-	* @param companyId the primary key of the company
-	* @return the matching messages, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Message> getMessagesByUuidAndCompanyId(String uuid,
-		long companyId);
-
-	/**
-	* Returns a range of messages matching the UUID and company.
-	*
-	* @param uuid the UUID of the messages
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of messages
-	* @param end the upper bound of the range of messages (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching messages, or an empty list if no matches were found
-	*/
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Message> getMessagesByUuidAndCompanyId(String uuid,
-		long companyId, int start, int end,
-		OrderByComparator<Message> orderByComparator);
 
 	/**
 	* Returns the number of messages.

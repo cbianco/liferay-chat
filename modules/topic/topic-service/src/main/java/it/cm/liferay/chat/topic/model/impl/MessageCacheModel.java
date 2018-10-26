@@ -64,14 +64,12 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", messageId=");
 		sb.append(messageId);
-		sb.append(", groupId=");
-		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
 		sb.append(", userId=");
@@ -103,7 +101,6 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		}
 
 		messageImpl.setMessageId(messageId);
-		messageImpl.setGroupId(groupId);
 		messageImpl.setCompanyId(companyId);
 		messageImpl.setUserId(userId);
 
@@ -148,8 +145,6 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 
 		messageId = objectInput.readLong();
 
-		groupId = objectInput.readLong();
-
 		companyId = objectInput.readLong();
 
 		userId = objectInput.readLong();
@@ -172,8 +167,6 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		}
 
 		objectOutput.writeLong(messageId);
-
-		objectOutput.writeLong(groupId);
 
 		objectOutput.writeLong(companyId);
 
@@ -201,7 +194,6 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 
 	public String uuid;
 	public long messageId;
-	public long groupId;
 	public long companyId;
 	public long userId;
 	public String userName;

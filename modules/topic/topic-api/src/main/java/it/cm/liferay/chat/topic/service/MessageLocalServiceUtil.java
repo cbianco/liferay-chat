@@ -182,15 +182,15 @@ public class MessageLocalServiceUtil {
 	}
 
 	/**
-	* Returns the message matching the UUID and group.
+	* Returns the message with the matching UUID and company.
 	*
 	* @param uuid the message's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching message, or <code>null</code> if a matching message could not be found
 	*/
-	public static it.cm.liferay.chat.topic.model.Message fetchMessageByUuidAndGroupId(
-		String uuid, long groupId) {
-		return getService().fetchMessageByUuidAndGroupId(uuid, groupId);
+	public static it.cm.liferay.chat.topic.model.Message fetchMessageByUuidAndCompanyId(
+		String uuid, long companyId) {
+		return getService().fetchMessageByUuidAndCompanyId(uuid, companyId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
@@ -220,17 +220,17 @@ public class MessageLocalServiceUtil {
 	}
 
 	/**
-	* Returns the message matching the UUID and group.
+	* Returns the message with the matching UUID and company.
 	*
 	* @param uuid the message's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching message
 	* @throws PortalException if a matching message could not be found
 	*/
-	public static it.cm.liferay.chat.topic.model.Message getMessageByUuidAndGroupId(
-		String uuid, long groupId)
+	public static it.cm.liferay.chat.topic.model.Message getMessageByUuidAndCompanyId(
+		String uuid, long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getMessageByUuidAndGroupId(uuid, groupId);
+		return getService().getMessageByUuidAndCompanyId(uuid, companyId);
 	}
 
 	/**
@@ -247,36 +247,6 @@ public class MessageLocalServiceUtil {
 	public static java.util.List<it.cm.liferay.chat.topic.model.Message> getMessages(
 		int start, int end) {
 		return getService().getMessages(start, end);
-	}
-
-	/**
-	* Returns all the messages matching the UUID and company.
-	*
-	* @param uuid the UUID of the messages
-	* @param companyId the primary key of the company
-	* @return the matching messages, or an empty list if no matches were found
-	*/
-	public static java.util.List<it.cm.liferay.chat.topic.model.Message> getMessagesByUuidAndCompanyId(
-		String uuid, long companyId) {
-		return getService().getMessagesByUuidAndCompanyId(uuid, companyId);
-	}
-
-	/**
-	* Returns a range of messages matching the UUID and company.
-	*
-	* @param uuid the UUID of the messages
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of messages
-	* @param end the upper bound of the range of messages (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching messages, or an empty list if no matches were found
-	*/
-	public static java.util.List<it.cm.liferay.chat.topic.model.Message> getMessagesByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<it.cm.liferay.chat.topic.model.Message> orderByComparator) {
-		return getService()
-				   .getMessagesByUuidAndCompanyId(uuid, companyId, start, end,
-			orderByComparator);
 	}
 
 	/**

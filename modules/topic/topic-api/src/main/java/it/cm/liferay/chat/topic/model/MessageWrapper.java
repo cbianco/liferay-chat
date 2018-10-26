@@ -61,7 +61,6 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 		attributes.put("uuid", getUuid());
 		attributes.put("messageId", getMessageId());
-		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -85,12 +84,6 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 		if (messageId != null) {
 			setMessageId(messageId);
-		}
-
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -179,16 +172,6 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _message.getExpandoBridge();
-	}
-
-	/**
-	* Returns the group ID of this message.
-	*
-	* @return the group ID of this message
-	*/
-	@Override
-	public long getGroupId() {
-		return _message.getGroupId();
 	}
 
 	/**
@@ -356,16 +339,6 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_message.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	/**
-	* Sets the group ID of this message.
-	*
-	* @param groupId the group ID of this message
-	*/
-	@Override
-	public void setGroupId(long groupId) {
-		_message.setGroupId(groupId);
 	}
 
 	/**

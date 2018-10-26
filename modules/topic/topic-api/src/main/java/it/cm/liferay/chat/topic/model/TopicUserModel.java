@@ -20,7 +20,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
@@ -41,7 +40,7 @@ import java.io.Serializable;
  * @generated
  */
 @ProviderType
-public interface TopicUserModel extends BaseModel<TopicUser>, ShardedModel {
+public interface TopicUserModel extends BaseModel<TopicUser> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -103,36 +102,6 @@ public interface TopicUserModel extends BaseModel<TopicUser>, ShardedModel {
 	 * @param userUuid the user uuid of this topic user
 	 */
 	public void setUserUuid(String userUuid);
-
-	/**
-	 * Returns the group ID of this topic user.
-	 *
-	 * @return the group ID of this topic user
-	 */
-	public long getGroupId();
-
-	/**
-	 * Sets the group ID of this topic user.
-	 *
-	 * @param groupId the group ID of this topic user
-	 */
-	public void setGroupId(long groupId);
-
-	/**
-	 * Returns the company ID of this topic user.
-	 *
-	 * @return the company ID of this topic user
-	 */
-	@Override
-	public long getCompanyId();
-
-	/**
-	 * Sets the company ID of this topic user.
-	 *
-	 * @param companyId the company ID of this topic user
-	 */
-	@Override
-	public void setCompanyId(long companyId);
 
 	@Override
 	public boolean isNew();

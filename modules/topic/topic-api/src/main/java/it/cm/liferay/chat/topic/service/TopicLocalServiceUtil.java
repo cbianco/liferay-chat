@@ -184,15 +184,15 @@ public class TopicLocalServiceUtil {
 	}
 
 	/**
-	* Returns the topic matching the UUID and group.
+	* Returns the topic with the matching UUID and company.
 	*
 	* @param uuid the topic's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching topic, or <code>null</code> if a matching topic could not be found
 	*/
-	public static it.cm.liferay.chat.topic.model.Topic fetchTopicByUuidAndGroupId(
-		String uuid, long groupId) {
-		return getService().fetchTopicByUuidAndGroupId(uuid, groupId);
+	public static it.cm.liferay.chat.topic.model.Topic fetchTopicByUuidAndCompanyId(
+		String uuid, long companyId) {
+		return getService().fetchTopicByUuidAndCompanyId(uuid, companyId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {
@@ -236,17 +236,17 @@ public class TopicLocalServiceUtil {
 	}
 
 	/**
-	* Returns the topic matching the UUID and group.
+	* Returns the topic with the matching UUID and company.
 	*
 	* @param uuid the topic's UUID
-	* @param groupId the primary key of the group
+	* @param companyId the primary key of the company
 	* @return the matching topic
 	* @throws PortalException if a matching topic could not be found
 	*/
-	public static it.cm.liferay.chat.topic.model.Topic getTopicByUuidAndGroupId(
-		String uuid, long groupId)
+	public static it.cm.liferay.chat.topic.model.Topic getTopicByUuidAndCompanyId(
+		String uuid, long companyId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTopicByUuidAndGroupId(uuid, groupId);
+		return getService().getTopicByUuidAndCompanyId(uuid, companyId);
 	}
 
 	/**
@@ -263,36 +263,6 @@ public class TopicLocalServiceUtil {
 	public static java.util.List<it.cm.liferay.chat.topic.model.Topic> getTopics(
 		int start, int end) {
 		return getService().getTopics(start, end);
-	}
-
-	/**
-	* Returns all the topics matching the UUID and company.
-	*
-	* @param uuid the UUID of the topics
-	* @param companyId the primary key of the company
-	* @return the matching topics, or an empty list if no matches were found
-	*/
-	public static java.util.List<it.cm.liferay.chat.topic.model.Topic> getTopicsByUuidAndCompanyId(
-		String uuid, long companyId) {
-		return getService().getTopicsByUuidAndCompanyId(uuid, companyId);
-	}
-
-	/**
-	* Returns a range of topics matching the UUID and company.
-	*
-	* @param uuid the UUID of the topics
-	* @param companyId the primary key of the company
-	* @param start the lower bound of the range of topics
-	* @param end the upper bound of the range of topics (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the range of matching topics, or an empty list if no matches were found
-	*/
-	public static java.util.List<it.cm.liferay.chat.topic.model.Topic> getTopicsByUuidAndCompanyId(
-		String uuid, long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<it.cm.liferay.chat.topic.model.Topic> orderByComparator) {
-		return getService()
-				   .getTopicsByUuidAndCompanyId(uuid, companyId, start, end,
-			orderByComparator);
 	}
 
 	/**

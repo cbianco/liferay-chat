@@ -64,14 +64,12 @@ public class TopicCacheModel implements CacheModel<Topic>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", topicId=");
 		sb.append(topicId);
-		sb.append(", groupId=");
-		sb.append(groupId);
 		sb.append(", companyId=");
 		sb.append(companyId);
 		sb.append(", userId=");
@@ -99,7 +97,6 @@ public class TopicCacheModel implements CacheModel<Topic>, Externalizable {
 		}
 
 		topicImpl.setTopicId(topicId);
-		topicImpl.setGroupId(groupId);
 		topicImpl.setCompanyId(companyId);
 		topicImpl.setUserId(userId);
 
@@ -135,8 +132,6 @@ public class TopicCacheModel implements CacheModel<Topic>, Externalizable {
 
 		topicId = objectInput.readLong();
 
-		groupId = objectInput.readLong();
-
 		companyId = objectInput.readLong();
 
 		userId = objectInput.readLong();
@@ -157,8 +152,6 @@ public class TopicCacheModel implements CacheModel<Topic>, Externalizable {
 
 		objectOutput.writeLong(topicId);
 
-		objectOutput.writeLong(groupId);
-
 		objectOutput.writeLong(companyId);
 
 		objectOutput.writeLong(userId);
@@ -176,7 +169,6 @@ public class TopicCacheModel implements CacheModel<Topic>, Externalizable {
 
 	public String uuid;
 	public long topicId;
-	public long groupId;
 	public long companyId;
 	public long userId;
 	public String userName;
