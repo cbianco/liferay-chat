@@ -75,7 +75,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "topicId", Types.BIGINT },
-			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
 			{ "userName", Types.VARCHAR },
@@ -87,7 +86,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("topicId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
@@ -95,7 +93,7 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Conversation_Topic (uuid_ VARCHAR(75) null,topicId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table Conversation_Topic (uuid_ VARCHAR(75) null,topicId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table Conversation_Topic";
 	public static final String ORDER_BY_JPQL = " ORDER BY topic.createDate ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Conversation_Topic.createDate ASC";
@@ -112,9 +110,8 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 				"value.object.column.bitmask.enabled.it.cm.liferay.chat.topic.model.Topic"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -131,7 +128,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 
 		model.setUuid(soapModel.getUuid());
 		model.setTopicId(soapModel.getTopicId());
-		model.setGroupId(soapModel.getGroupId());
 		model.setCompanyId(soapModel.getCompanyId());
 		model.setUserId(soapModel.getUserId());
 		model.setUserName(soapModel.getUserName());
@@ -203,7 +199,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 
 		attributes.put("uuid", getUuid());
 		attributes.put("topicId", getTopicId());
-		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -228,12 +223,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 
 		if (topicId != null) {
 			setTopicId(topicId);
-		}
-
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -300,29 +289,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 	@Override
 	public void setTopicId(long topicId) {
 		_topicId = topicId;
-	}
-
-	@JSON
-	@Override
-	public long getGroupId() {
-		return _groupId;
-	}
-
-	@Override
-	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
-
-		_groupId = groupId;
-	}
-
-	public long getOriginalGroupId() {
-		return _originalGroupId;
 	}
 
 	@JSON
@@ -460,7 +426,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 
 		topicImpl.setUuid(getUuid());
 		topicImpl.setTopicId(getTopicId());
-		topicImpl.setGroupId(getGroupId());
 		topicImpl.setCompanyId(getCompanyId());
 		topicImpl.setUserId(getUserId());
 		topicImpl.setUserName(getUserName());
@@ -528,10 +493,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 
 		topicModelImpl._originalUuid = topicModelImpl._uuid;
 
-		topicModelImpl._originalGroupId = topicModelImpl._groupId;
-
-		topicModelImpl._setOriginalGroupId = false;
-
 		topicModelImpl._originalCompanyId = topicModelImpl._companyId;
 
 		topicModelImpl._setOriginalCompanyId = false;
@@ -554,8 +515,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 		}
 
 		topicCacheModel.topicId = getTopicId();
-
-		topicCacheModel.groupId = getGroupId();
 
 		topicCacheModel.companyId = getCompanyId();
 
@@ -592,14 +551,12 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", topicId=");
 		sb.append(getTopicId());
-		sb.append(", groupId=");
-		sb.append(getGroupId());
 		sb.append(", companyId=");
 		sb.append(getCompanyId());
 		sb.append(", userId=");
@@ -617,7 +574,7 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("it.cm.liferay.chat.topic.model.Topic");
@@ -630,10 +587,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 		sb.append(
 			"<column><column-name>topicId</column-name><column-value><![CDATA[");
 		sb.append(getTopicId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>groupId</column-name><column-value><![CDATA[");
-		sb.append(getGroupId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>companyId</column-name><column-value><![CDATA[");
@@ -668,9 +621,6 @@ public class TopicModelImpl extends BaseModelImpl<Topic> implements TopicModel {
 	private String _uuid;
 	private String _originalUuid;
 	private long _topicId;
-	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;

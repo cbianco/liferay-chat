@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
@@ -75,7 +76,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "messageId", Types.BIGINT },
-			{ "groupId", Types.BIGINT },
 			{ "companyId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
 			{ "userName", Types.VARCHAR },
@@ -89,7 +89,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("messageId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
@@ -99,10 +98,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Conversation_Message (uuid_ VARCHAR(75) null,messageId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,topicId LONG,content VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table Conversation_Message (uuid_ VARCHAR(75) null,messageId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,topicId LONG,content VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table Conversation_Message";
-	public static final String ORDER_BY_JPQL = " ORDER BY message.messageId ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY Conversation_Message.messageId ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY message.createDate DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY Conversation_Message.createDate DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -116,9 +115,9 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 				"value.object.column.bitmask.enabled.it.cm.liferay.chat.topic.model.Message"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long TOPICID_COLUMN_BITMASK = 2L;
 	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long MESSAGEID_COLUMN_BITMASK = 8L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -135,7 +134,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		model.setUuid(soapModel.getUuid());
 		model.setMessageId(soapModel.getMessageId());
-		model.setGroupId(soapModel.getGroupId());
 		model.setCompanyId(soapModel.getCompanyId());
 		model.setUserId(soapModel.getUserId());
 		model.setUserName(soapModel.getUserName());
@@ -209,7 +207,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		attributes.put("uuid", getUuid());
 		attributes.put("messageId", getMessageId());
-		attributes.put("groupId", getGroupId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -236,12 +233,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		if (messageId != null) {
 			setMessageId(messageId);
-		}
-
-		Long groupId = (Long)attributes.get("groupId");
-
-		if (groupId != null) {
-			setGroupId(groupId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -324,29 +315,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@JSON
 	@Override
-	public long getGroupId() {
-		return _groupId;
-	}
-
-	@Override
-	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
-		}
-
-		_groupId = groupId;
-	}
-
-	public long getOriginalGroupId() {
-		return _originalGroupId;
-	}
-
-	@JSON
-	@Override
 	public long getCompanyId() {
 		return _companyId;
 	}
@@ -419,6 +387,8 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		_columnBitmask = -1L;
+
 		_createDate = createDate;
 	}
 
@@ -447,7 +417,19 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public void setTopicId(long topicId) {
+		_columnBitmask |= TOPICID_COLUMN_BITMASK;
+
+		if (!_setOriginalTopicId) {
+			_setOriginalTopicId = true;
+
+			_originalTopicId = _topicId;
+		}
+
 		_topicId = topicId;
+	}
+
+	public long getOriginalTopicId() {
+		return _originalTopicId;
 	}
 
 	@JSON
@@ -505,7 +487,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		messageImpl.setUuid(getUuid());
 		messageImpl.setMessageId(getMessageId());
-		messageImpl.setGroupId(getGroupId());
 		messageImpl.setCompanyId(getCompanyId());
 		messageImpl.setUserId(getUserId());
 		messageImpl.setUserName(getUserName());
@@ -521,17 +502,17 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public int compareTo(Message message) {
-		long primaryKey = message.getPrimaryKey();
+		int value = 0;
 
-		if (getPrimaryKey() < primaryKey) {
-			return -1;
+		value = DateUtil.compareTo(getCreateDate(), message.getCreateDate());
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
 		}
-		else if (getPrimaryKey() > primaryKey) {
-			return 1;
-		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	@Override
@@ -577,15 +558,15 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		messageModelImpl._originalUuid = messageModelImpl._uuid;
 
-		messageModelImpl._originalGroupId = messageModelImpl._groupId;
-
-		messageModelImpl._setOriginalGroupId = false;
-
 		messageModelImpl._originalCompanyId = messageModelImpl._companyId;
 
 		messageModelImpl._setOriginalCompanyId = false;
 
 		messageModelImpl._setModifiedDate = false;
+
+		messageModelImpl._originalTopicId = messageModelImpl._topicId;
+
+		messageModelImpl._setOriginalTopicId = false;
 
 		messageModelImpl._columnBitmask = 0;
 	}
@@ -603,8 +584,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		}
 
 		messageCacheModel.messageId = getMessageId();
-
-		messageCacheModel.groupId = getGroupId();
 
 		messageCacheModel.companyId = getCompanyId();
 
@@ -651,14 +630,12 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
 		sb.append(", messageId=");
 		sb.append(getMessageId());
-		sb.append(", groupId=");
-		sb.append(getGroupId());
 		sb.append(", companyId=");
 		sb.append(getCompanyId());
 		sb.append(", userId=");
@@ -680,7 +657,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("<model><model-name>");
 		sb.append("it.cm.liferay.chat.topic.model.Message");
@@ -693,10 +670,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		sb.append(
 			"<column><column-name>messageId</column-name><column-value><![CDATA[");
 		sb.append(getMessageId());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>groupId</column-name><column-value><![CDATA[");
-		sb.append(getGroupId());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>companyId</column-name><column-value><![CDATA[");
@@ -739,9 +712,6 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	private String _uuid;
 	private String _originalUuid;
 	private long _messageId;
-	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
@@ -751,6 +721,8 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _topicId;
+	private long _originalTopicId;
+	private boolean _setOriginalTopicId;
 	private String _content;
 	private long _columnBitmask;
 	private Message _escapedModel;

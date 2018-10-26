@@ -64,7 +64,7 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(7);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -72,10 +72,6 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 		sb.append(topicId);
 		sb.append(", userId=");
 		sb.append(userId);
-		sb.append(", groupId=");
-		sb.append(groupId);
-		sb.append(", companyId=");
-		sb.append(companyId);
 		sb.append("}");
 
 		return sb.toString();
@@ -94,8 +90,6 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 
 		topicUserImpl.setTopicId(topicId);
 		topicUserImpl.setUserId(userId);
-		topicUserImpl.setGroupId(groupId);
-		topicUserImpl.setCompanyId(companyId);
 
 		topicUserImpl.resetOriginalValues();
 
@@ -109,10 +103,6 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 		topicId = objectInput.readLong();
 
 		userId = objectInput.readLong();
-
-		groupId = objectInput.readLong();
-
-		companyId = objectInput.readLong();
 
 		topicUserPK = new TopicUserPK(topicId, userId);
 	}
@@ -130,16 +120,10 @@ public class TopicUserCacheModel implements CacheModel<TopicUser>,
 		objectOutput.writeLong(topicId);
 
 		objectOutput.writeLong(userId);
-
-		objectOutput.writeLong(groupId);
-
-		objectOutput.writeLong(companyId);
 	}
 
 	public String uuid;
 	public long topicId;
 	public long userId;
-	public long groupId;
-	public long companyId;
 	public transient TopicUserPK topicUserPK;
 }

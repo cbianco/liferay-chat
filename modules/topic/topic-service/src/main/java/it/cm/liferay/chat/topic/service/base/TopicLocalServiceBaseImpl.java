@@ -220,15 +220,15 @@ public abstract class TopicLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
-	 * Returns the topic matching the UUID and group.
+	 * Returns the topic with the matching UUID and company.
 	 *
 	 * @param uuid the topic's UUID
-	 * @param groupId the primary key of the group
+	 * @param companyId the primary key of the company
 	 * @return the matching topic, or <code>null</code> if a matching topic could not be found
 	 */
 	@Override
-	public Topic fetchTopicByUuidAndGroupId(String uuid, long groupId) {
-		return topicPersistence.fetchByUUID_G(uuid, groupId);
+	public Topic fetchTopicByUuidAndCompanyId(String uuid, long companyId) {
+		return topicPersistence.fetchByUuid_C_First(uuid, companyId, null);
 	}
 
 	/**
@@ -345,46 +345,17 @@ public abstract class TopicLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
-	 * Returns all the topics matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the topics
-	 * @param companyId the primary key of the company
-	 * @return the matching topics, or an empty list if no matches were found
-	 */
-	@Override
-	public List<Topic> getTopicsByUuidAndCompanyId(String uuid, long companyId) {
-		return topicPersistence.findByUuid_C(uuid, companyId);
-	}
-
-	/**
-	 * Returns a range of topics matching the UUID and company.
-	 *
-	 * @param uuid the UUID of the topics
-	 * @param companyId the primary key of the company
-	 * @param start the lower bound of the range of topics
-	 * @param end the upper bound of the range of topics (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the range of matching topics, or an empty list if no matches were found
-	 */
-	@Override
-	public List<Topic> getTopicsByUuidAndCompanyId(String uuid, long companyId,
-		int start, int end, OrderByComparator<Topic> orderByComparator) {
-		return topicPersistence.findByUuid_C(uuid, companyId, start, end,
-			orderByComparator);
-	}
-
-	/**
-	 * Returns the topic matching the UUID and group.
+	 * Returns the topic with the matching UUID and company.
 	 *
 	 * @param uuid the topic's UUID
-	 * @param groupId the primary key of the group
+	 * @param companyId the primary key of the company
 	 * @return the matching topic
 	 * @throws PortalException if a matching topic could not be found
 	 */
 	@Override
-	public Topic getTopicByUuidAndGroupId(String uuid, long groupId)
+	public Topic getTopicByUuidAndCompanyId(String uuid, long companyId)
 		throws PortalException {
-		return topicPersistence.findByUUID_G(uuid, groupId);
+		return topicPersistence.findByUuid_C_First(uuid, companyId, null);
 	}
 
 	/**
