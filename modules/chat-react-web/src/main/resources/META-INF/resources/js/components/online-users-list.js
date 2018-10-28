@@ -6,11 +6,11 @@ export default class OnlineUsersList extends React.Component {
 		super(props);
 
 		this.state = {
-			users = []
+			users: []
 		}
 	}
 
-	getUsers() {
+	/*getUsers() {
 		var users = [];
 		for (let user of this.state.users) {
 			// note: we add a key prop here to allow react to uniquely identify each
@@ -18,12 +18,12 @@ export default class OnlineUsersList extends React.Component {
 			users.push(<User userId={user.userId} />);
 		}
 		return users;
-	}
+	}*/
 
 	render() {
 		return(
-			<div class="cm-chat-list-container" style="display: none;">
-				<ul class="cm-chat-list">
+			<div className="cmd-chat-list-container" style="display: none;">
+				<ul className="cmd-chat-list">
 					this.state.users
 				</ul>
 			</div>

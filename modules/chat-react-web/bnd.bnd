@@ -1,5 +1,5 @@
 Bundle-Name: chat-react-web
 Bundle-SymbolicName: chat.react.web
 Bundle-Version: 1.0.0
-Export-Package: chat.react.web.constants
+Export-Package: it.cmd.liferay.chat.react.web.constants
 Web-ContextPath: /chat-react-web

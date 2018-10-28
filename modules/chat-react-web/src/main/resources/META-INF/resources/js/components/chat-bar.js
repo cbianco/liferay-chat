@@ -4,9 +4,9 @@ export default class ChatBar extends React.Component {
 
 	render() {
 		return(
-			<a class="cm-chat-bar btn btn-default btn-sm">
-				<liferay-ui:message key="chat" />
-				<span><liferay-ui:message key="online-users-x" arguments="<%= otherIds.size() %>" translateArguments="<%= false %>" /></span>
+			<a className="cmd-chat-bar btn btn-default btn-sm">
+				Liferay.Language.get('chat')
+				<span>Lang.sub(Liferay.Language.get('online-users-x'), ['otherIds.size()'])</span>
 			</a>
 		);
 	}

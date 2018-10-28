@@ -21,13 +21,22 @@ import java.util.Map;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=category.sample",
-		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.add-default-resource=true",
+		"com.liferay.portlet.css-class-wrapper=cmd-chat",
+		"com.liferay.portlet.layout-cacheable=true",
+		"com.liferay.portlet.system=true",
+		"com.liferay.portlet.use-default-template=false",
+		"javax.portlet.display-name=CMDChatWeb",
+		"javax.portlet.expiration-cache=0",
 		"javax.portlet.init-param.template-path=/",
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + ChatReactPortletKeys.CHAT_REACT_PORTLET,
+		"javax.portlet.portlet-info.keywords=CMDChatWeb",
+		"javax.portlet.portlet-info.short-title=CMDChatWeb",
+		"javax.portlet.portlet-info.title=CMDChatWeb",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
+		"javax.portlet.security-role-ref=power-user,user",
+		"javax.portlet.supports.mime-type=text/html"
 	},
 	service = Portlet.class
 )
