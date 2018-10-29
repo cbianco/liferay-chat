@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './app';
+import ChatBarContainer from './components/chat-bar-container';
 
-export default function(namespace) {
+export default function(AUI, namespace) {
 	ReactDOM.render(
-		/*<App namespace="{namespace}" />,*/
-		<div class="pippo"></div>,
+		<ChatBarContainer AUI={AUI} />,
 		document.getElementById(namespace));
 }

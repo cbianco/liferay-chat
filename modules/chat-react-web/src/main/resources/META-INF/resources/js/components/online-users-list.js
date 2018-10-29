@@ -22,7 +22,7 @@ export default class OnlineUsersList extends React.Component {
 
 	render() {
 		return(
-			<div className="cmd-chat-list-container" style="display: none;">
+			<div className="cmd-chat-list-container">
 				<ul className="cmd-chat-list">
 					this.state.users
 				</ul>
