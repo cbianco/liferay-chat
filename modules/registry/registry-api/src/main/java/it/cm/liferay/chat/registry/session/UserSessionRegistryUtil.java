@@ -15,9 +15,9 @@ public class UserSessionRegistryUtil {
 	private UserSessionRegistry _userSessionRegistry;
 
 	public static void addUserSession(
-		long userId, boolean online, Session session) {
+		long userId, Session socketSession) {
 
-		getService().addUserSession(userId, online, session);
+		getService().addUserSession(userId, socketSession);
 	}
 
 	public static void addUserTopicSession(
@@ -36,8 +36,8 @@ public class UserSessionRegistryUtil {
 		return getService().clearUserSession(userId);
 	}
 
-	public static void notifyOthers(long userId) {
-		getService().notifyOthers(userId);
+	public static void updateLastActivityTime(long userId) {
+		getService().updateLastActivityTime(userId);
 	}
 
 	protected static UserSessionRegistry getService() {

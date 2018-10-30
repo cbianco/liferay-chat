@@ -68,6 +68,18 @@ public class TopicUserLocalServiceImpl extends TopicUserLocalServiceBaseImpl {
 	}
 
 	@Override
+	public Collection<Long> getUserIdsByTopicId(
+			long topicId)
+		throws PortalException {
+
+		return topicUserPersistence
+			.findByTopicId(topicId)
+			.stream()
+			.map(topicUser -> topicUser.getUserId())
+			.collect(Collectors.toSet());
+	}
+
+	@Override
 	public int countByTopicId(long topicId) throws PortalException {
 
 		return topicUserPersistence.countByTopicId(topicId);

@@ -8,4 +8,6 @@ dependencies {
 
 	compileOnly project(":modules:registry:registry-api")
 	compileOnly project(":modules:topic:topic-api")
+
+	testIntegrationCompile group: "org.eclipse.jetty.websocket", name: "javax-websocket-client-impl", version: "9.3.10.v20160621"
 }

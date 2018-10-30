@@ -212,6 +212,12 @@ public class TopicWrapper implements Topic, ModelWrapper<Topic> {
 		return _topic.getUserId();
 	}
 
+	@Override
+	public java.util.Collection<Long> getUserIds()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _topic.getUserIds();
+	}
+
 	/**
 	* Returns the user name of this topic.
 	*

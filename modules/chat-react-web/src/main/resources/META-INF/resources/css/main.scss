@@ -34,7 +34,7 @@ div.cmd-chat {
                 a.cmd-chat-list-contact {
 
                     display: block;
-                    padding: 5px 5px 1px 6px;
+                    padding: 5px 5px 4px 7px;
                     color: #869cad;
                     border: 2px solid #869cad;
                     border-top-width: 1px;
@@ -45,13 +45,15 @@ div.cmd-chat {
                         background-color: #e6e6e6;
                     }
 
-                    .user-icon {
-                        display: inline-block;
+                    .user-icon img {
+                        width: 35px;
+						border-radius: 5px;
+						box-shadow: 1px 1px 1px;
                     }
 
                     .user-name {
                         position: absolute;
-                        margin: 5px 6px;
+                        margin: 6px 8px;
                     }
                 }
 

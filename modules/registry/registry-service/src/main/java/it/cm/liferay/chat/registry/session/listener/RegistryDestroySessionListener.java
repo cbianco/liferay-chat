@@ -5,43 +5,42 @@ import com.liferay.portal.kernel.events.SessionAction;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.WebKeys;
 import it.cm.liferay.chat.registry.session.UserSession;
-import it.cm.liferay.chat.registry.session.UserSessionRegistryUtil;
+import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Mauro Celani
  */
 @Component(
 	property = {
-		"key=servlet.session.destroy.events"
+		"key=" + PropsKeys.SERVLET_SESSION_DESTROY_EVENTS
 	},
 	service = LifecycleAction.class
 )
-public class RegistrySessionListener extends SessionAction {
+public class RegistryDestroySessionListener extends SessionAction {
 
 	@Override
-	public void run(javax.servlet.http.HttpSession session) {
+	public void run(HttpSession session) {
 
 		long userId = GetterUtil.getLong(session.getAttribute(WebKeys.USER_ID));
 
-		_log.info("User (" + userId + ") made logout and his session" +
+		_log.info("User (" + userId + ") made logout and his sessions" +
 				  " will be destroyed");
 
-		UserSession userSession =
-			UserSessionRegistryUtil.clearUserSession(userId);
+		UserSession userSession = _userSessionRegistry.clearUserSession(userId);
 
-		try {
-			userSession.getSession().close();
-		}
-		catch (IOException e) {
-			_log.error(e, e);
-		}
+		userSession.closeSessions();
 	}
 
+	@Reference
+	private UserSessionRegistry _userSessionRegistry;
+
 	private static final Log _log = LogFactoryUtil.getLog(
-		RegistrySessionListener.class);
+		RegistryDestroySessionListener.class);
 }

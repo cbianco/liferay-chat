@@ -229,6 +229,10 @@ public interface TopicUserLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getTopicUsersCount();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Long> getUserIdsByTopicId(long topicId)
+		throws PortalException;
+
 	/**
 	* Updates the topic user in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

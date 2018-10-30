@@ -15,6 +15,10 @@
 package it.cm.liferay.chat.topic.model.impl;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.bean.BeanReference;
+import com.liferay.portal.kernel.exception.PortalException;
+import it.cm.liferay.chat.topic.model.Topic;
+import it.cm.liferay.chat.topic.service.TopicService;
 
 /**
  * The extended model implementation for the Message service. Represents a row in the &quot;Conversation_Message&quot; database table, with each column mapped to a property of this class.
@@ -34,4 +38,12 @@ public class MessageImpl extends MessageBaseImpl {
 	 */
 	public MessageImpl() {
 	}
+
+	public Topic getTopic() throws PortalException {
+		return topicService.getTopic(getTopicId());
+	}
+
+	@BeanReference(type = TopicService.class)
+	protected TopicService topicService;
+
 }

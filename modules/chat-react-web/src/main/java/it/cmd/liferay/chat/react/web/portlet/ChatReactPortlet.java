@@ -26,6 +26,7 @@ import java.util.Map;
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.system=true",
 		"com.liferay.portlet.use-default-template=false",
+		"com.liferay.portlet.header-portlet-css=/css/main.css",
 		"javax.portlet.display-name=CMDChatWeb",
 		"javax.portlet.expiration-cache=0",
 		"javax.portlet.init-param.template-path=/",

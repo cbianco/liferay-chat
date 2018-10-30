@@ -53,4 +53,7 @@ public interface Message extends MessageModel, PersistedModel {
 				return Message.class;
 			}
 		};
+
+	public it.cm.liferay.chat.topic.model.Topic getTopic()
+		throws com.liferay.portal.kernel.exception.PortalException;
 }

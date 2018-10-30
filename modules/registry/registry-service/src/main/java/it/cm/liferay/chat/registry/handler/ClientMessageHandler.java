@@ -28,7 +28,11 @@ public class ClientMessageHandler implements BaseHandler<ClientMessage> {
 			remoteEndpoint.sendObject(message);
 		}
 		catch (IOException | EncodeException e) {
+			_log.error(e, e);
 			throw new RuntimeException(e);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
 		}
 	}
 

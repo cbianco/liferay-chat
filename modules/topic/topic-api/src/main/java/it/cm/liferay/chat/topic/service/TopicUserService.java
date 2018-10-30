@@ -67,4 +67,8 @@ public interface TopicUserService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Collection<Long> getTopicIdByUserId(long userId)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Long> getUserIdsByTopicId(long topicId)
+		throws PortalException;
 }

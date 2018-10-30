@@ -226,6 +226,12 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 		return _message.getPrimaryKeyObj();
 	}
 
+	@Override
+	public it.cm.liferay.chat.topic.model.Topic getTopic()
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _message.getTopic();
+	}
+
 	/**
 	* Returns the topic ID of this message.
 	*

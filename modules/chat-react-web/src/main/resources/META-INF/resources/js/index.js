@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 
 import ChatBarContainer from './components/chat-bar-container';
 
-export default function(AUI, namespace) {
+export default function(namespace, ctxt) {
+
 	ReactDOM.render(
-		<ChatBarContainer AUI={AUI} />,
+		<ChatBarContainer ctxt={ctxt} />,
 		document.getElementById(namespace));
 }

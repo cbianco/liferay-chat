@@ -62,6 +62,11 @@ public class TopicUserServiceUtil {
 		return getService().getTopicIdByUserId(userId);
 	}
 
+	public static java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getUserIdsByTopicId(topicId);
+	}
+
 	public static TopicUserService getService() {
 		return _serviceTracker.getService();
 	}

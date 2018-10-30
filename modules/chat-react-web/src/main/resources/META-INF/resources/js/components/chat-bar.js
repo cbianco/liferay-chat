@@ -3,14 +3,11 @@ import React from 'react';
 export default class ChatBar extends React.Component {
 
 	render() {
-		let A = this.props.AUI;
+		let A = this.props.ctxt.AUI;
 		return(
-			<button
-				onClick={this.props.handleClick}
-				className="cmd-chat-bar btn btn-default btn-sm">
-				{Liferay.Language.get('chat')}
-				<span>{A.Lang.sub(Liferay.Language.get('online-users-x'), ['otherIds.size()'])}</span>
-			</button>
+			<a onClick={this.props.handleClick} className="cmd-chat-bar btn btn-default btn-sm">
+				<span>{A.Lang.sub(Liferay.Language.get('online-users-x'), [this.props.usersCount])}</span>
+			</a>
 		);
 	}
 

@@ -256,6 +256,11 @@ public class TopicUserLocalServiceUtil {
 		return getService().getTopicUsersCount();
 	}
 
+	public static java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getUserIdsByTopicId(topicId);
+	}
+
 	/**
 	* Updates the topic user in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

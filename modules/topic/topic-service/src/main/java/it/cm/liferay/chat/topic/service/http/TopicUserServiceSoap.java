@@ -94,5 +94,19 @@ public class TopicUserServiceSoap {
 		}
 	}
 
+	public static java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+		throws RemoteException {
+		try {
+			java.util.Collection<Long> returnValue = TopicUserServiceUtil.getUserIdsByTopicId(topicId);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(TopicUserServiceSoap.class);
 }

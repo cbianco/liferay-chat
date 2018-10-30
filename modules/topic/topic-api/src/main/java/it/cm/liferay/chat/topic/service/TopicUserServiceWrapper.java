@@ -55,6 +55,12 @@ public class TopicUserServiceWrapper implements TopicUserService,
 	}
 
 	@Override
+	public java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _topicUserService.getUserIdsByTopicId(topicId);
+	}
+
+	@Override
 	public TopicUserService getWrappedService() {
 		return _topicUserService;
 	}

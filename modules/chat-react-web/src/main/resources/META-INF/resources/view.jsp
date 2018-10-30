@@ -1,12 +1,28 @@
 <%@ include file="/init.jsp" %>
 
-<div id="<portlet:namespace />-root"></div>
+<c:if test="<%= themeDisplay.isSignedIn() %>">
 
-<aui:script require="chat-react-web@1.0.0">
-	AUI().use(
-		'aui-base',
-		function(A) {
-			chatReactWeb100.default(A, '<portlet:namespace />-root');
-		}
-	);
-</aui:script>
+	<%
+	long userId = themeDisplay.getUserId();
+	%>
+
+	<div id="<portlet:namespace />-root"></div>
+
+	<aui:script require="chat-react-web@1.0.0">
+		AUI().use(
+			'aui-base',
+			function(A) {
+				var webSocketUrl = '<%= themeDisplay.getPortalURL().replaceAll("http[s]?", "ws") %>'
+				chatReactWeb100.default(
+					'<portlet:namespace />-root',
+					{
+						AUI: A,
+						userId: <%= userId %>,
+						wsUrl: webSocketUrl
+					}
+				);
+			}
+		);
+	</aui:script>
+
+</c:if>

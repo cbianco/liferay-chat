@@ -73,4 +73,13 @@ public class TopicUserServiceImpl extends TopicUserServiceBaseImpl {
 		throw new NoSuchTopicException();
 	}
 
+	@Override
+	public Collection<Long> getUserIdsByTopicId(
+			long topicId)
+		throws PortalException {
+
+		// TODO Add permission controls
+		return topicUserLocalService.getUserIdsByTopicId(topicId);
+	}
+
 }
