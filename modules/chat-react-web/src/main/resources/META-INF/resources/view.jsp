@@ -15,7 +15,7 @@
 				var webSocketUrl = '<%= themeDisplay.getPortalURL().replaceAll("http[s]?", "ws") %>'
 				chatReactWeb100.default(
 					'view',
-					'<portlet:namespace />-bar',
+					'<portlet:namespace />',
 					{
 						AUI: A,
 						userId: <%= userId %>,

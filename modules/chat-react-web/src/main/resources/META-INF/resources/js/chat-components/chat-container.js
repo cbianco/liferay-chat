@@ -8,7 +8,7 @@ export default class ChatContainer extends React.Component {
 	render() {
 		return(
 			<div className="cmd-chat-container container-fluid-1280">
-
+				{this.props.ctxt.otherId}
 			</div>
 		);
 	}

@@ -23,7 +23,7 @@ export default class ChatBarContainer extends React.Component {
         let setState = this.setState;
         this.state.ws.onmessage = function (event) {
             let message = JSON.parse(event.data);
-            console.log(message);
+            //console.log(message);
             switch(message.msgType) {
 
                 case "NEW_USER":

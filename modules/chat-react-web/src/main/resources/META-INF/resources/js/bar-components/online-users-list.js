@@ -13,13 +13,17 @@ export default class OnlineUsersList extends React.Component {
     openChatPopup(event) {
     	event.preventDefault();
 
-		var otherId = event.target.attributes["value"];
+		var otherId = event._dispatchInstances._currentElement.props.value;
 		var uri = this.props.ctxt.openChatURL;
 
+		console.log(otherId);
+
 		if (otherId) {
-			Liferay.Util.addParams(
-				'<portlet:namespace />otherId=' + otherId, uri);
+			uri = Liferay.Util.addParams(
+				this.props.ctxt.namespace + 'otherId=' + otherId, uri);
 		}
+
+		console.log(uri);
 
 		Liferay.Util.openWindow({
 			dialog: {
