@@ -23,6 +23,7 @@ import java.util.Map;
 	property = {
 		"com.liferay.portlet.add-default-resource=true",
 		"com.liferay.portlet.css-class-wrapper=cmd-chat",
+		"com.liferay.portlet.single-page-application=false",
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.system=true",
 		"com.liferay.portlet.use-default-template=false",

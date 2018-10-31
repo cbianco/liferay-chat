@@ -12,7 +12,9 @@ import it.cm.liferay.chat.registry.decoder.OnlineMessageDecoder;
 import it.cm.liferay.chat.registry.handler.BaseHandler;
 import it.cm.liferay.chat.registry.handler.ClientMessageHandler;
 import it.cm.liferay.chat.registry.handler.OnlineMessageHandler;
+import it.cm.liferay.chat.registry.session.UserSessionRegistryUtil;
 
+import javax.websocket.CloseReason;
 import javax.websocket.Decoder.Text;
 import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
@@ -65,6 +67,13 @@ public class ConversationRegistryEndpoint extends Endpoint {
 			}
 		);
 
+	}
+
+	@Override
+	public void onClose(
+		final Session session, CloseReason closeReason) {
+
+		UserSessionRegistryUtil.clearSession(session);
 	}
 
 	private <A, T> Function<A, Optional<T>> _lift(

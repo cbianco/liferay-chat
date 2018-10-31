@@ -2,11 +2,11 @@
 
 <c:if test="<%= themeDisplay.isSignedIn() %>">
 
-	<portlet:renderURL var="openChatURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
-		<portlet:param name="mvcRenderCommandName" value="/chat/open" />
-	</portlet:renderURL>
+	<%
+	long otherId = ParamUtil.getLong(request, "otherId");
+	%>
 
-	<div id="<portlet:namespace />-bar"></div>
+	<div id="<portlet:namespace />-chat"></div>
 
 	<aui:script require="chat-react-web@1.0.0">
 		AUI().use(
@@ -14,13 +14,13 @@
 			function(A) {
 				var webSocketUrl = '<%= themeDisplay.getPortalURL().replaceAll("http[s]?", "ws") %>'
 				chatReactWeb100.default(
-					'view',
+					'chat',
 					'<portlet:namespace />',
 					{
 						AUI: A,
 						userId: <%= userId %>,
-						wsUrl: webSocketUrl,
-						openChatURL: '<%= openChatURL %>'
+						otherId: <%= otherId %>,
+						wsUrl: webSocketUrl
 					}
 				);
 			}

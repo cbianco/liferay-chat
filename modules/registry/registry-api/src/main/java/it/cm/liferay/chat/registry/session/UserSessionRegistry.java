@@ -17,6 +17,8 @@ public interface UserSessionRegistry {
 
 	public UserSession clearUserSession(long userId);
 
+	public void clearSession(Session session);
+
 	public Collection<Long> getOnlineUsers(long userId);
 
 	public UserSession getUserSession(long userId);

@@ -12,7 +12,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 public class OnlineMessage implements BaseMessage {
 
 	private long _userId;
-	private boolean _online;
 
 	public OnlineMessage(String json) {
 
@@ -21,7 +20,6 @@ public class OnlineMessage implements BaseMessage {
 				JSONFactoryUtil.createJSONObject(json);
 
 			_userId = msgJSON.getLong("userId");
-			_online = msgJSON.getBoolean("online");
 		}
 		catch (JSONException e) {
 			_log.error(e, e);
@@ -30,16 +28,11 @@ public class OnlineMessage implements BaseMessage {
 
 	@Override
 	public String toString() {
-		return "User: " + _userId +
-			   "(Online: " + _online + ")";
+		return "User: " + _userId;
 	}
 
 	public long getUserId() {
 		return _userId;
-	}
-
-	public boolean isOnline() {
-		return _online;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(OnlineMessage.class);

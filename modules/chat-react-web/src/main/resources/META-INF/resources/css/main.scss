@@ -31,7 +31,7 @@ div.cmd-chat {
 		        padding: 0;
 		        margin: 0;
 
-                a.cmd-chat-list-contact {
+				.cmd-chat-list-item {
 
                     display: block;
                     padding: 5px 5px 4px 7px;
@@ -41,7 +41,12 @@ div.cmd-chat {
                     border-bottom-width: 1px;
                     background-color: #FFF;
 
-                    &:hover, &:focus {
+                	&.cmd-chat-view-all {
+						height: 36px;
+						padding: 0 2px;
+					}
+
+				    &:hover, &:focus {
                         background-color: #e6e6e6;
                     }
 

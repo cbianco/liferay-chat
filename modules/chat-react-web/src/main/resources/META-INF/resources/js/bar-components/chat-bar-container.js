@@ -14,7 +14,7 @@ export default class ChatBarContainer extends React.Component {
         };
 
         this.state.ws.onopen = function() {
-			this.send('{userId: "' + props.ctxt.userId + '", online: true}');
+            this.send('{userId: "' + props.ctxt.userId + '"}');
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -23,13 +23,21 @@ export default class ChatBarContainer extends React.Component {
         let setState = this.setState;
         this.state.ws.onmessage = function (event) {
             let message = JSON.parse(event.data);
-            console.log(message);
+            //console.log(message);
             switch(message.msgType) {
 
                 case "NEW_USER":
-                    setState({
-                        users: this.state.users.push(message.newUser)
-                    });
+                    setState(prevState => ({
+                        users: prevState.users.concat([message.newUser])
+                    }));
+                    break;
+                    
+                case "REMOVE_USER":
+                    setState(prevState => ({
+                        users: prevState.users.filter(user =>
+                            user.userId !== message.removeUser.userId
+                        )
+                    }));
                     break;
                     
                 case "OTHERS":
