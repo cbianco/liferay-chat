@@ -40,10 +40,6 @@ public class OnlineMessageDecoder implements Decoder.Text<OnlineMessage> {
 				return false;
 			}
 
-			if (!msg.has("online")) {
-				return false;
-			}
-
 			return true;
 		}
 		catch (JSONException e) {

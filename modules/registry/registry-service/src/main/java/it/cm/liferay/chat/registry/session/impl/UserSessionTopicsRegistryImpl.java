@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -102,7 +103,38 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 	@Override
 	public UserSession clearUserSession(long userId) {
+		_notifyRemovedUserOthers(userId);
 		return _userSessionTopicsMap.remove(userId);
+	}
+
+	@Override
+	public void clearSession(Session session) {
+
+		for (long userId : _userSessionTopicsMap.keySet()) {
+
+			UserSession userSession = _userSessionTopicsMap.get(userId);
+
+			if (userSession.getSessions().contains(session)) {
+
+				try {
+					session.close();
+
+					// CHECK IF IT IS THE LAST ONE
+					if (userSession.getSessions().size() == 1) {
+						clearUserSession(userId);
+					}
+					else {
+						userSession.getSessions().remove(session);
+					}
+				}
+				catch (IOException e) {
+					_log.error(e, e);
+				}
+
+				break;
+			}
+		}
+
 	}
 
 	@Override
@@ -163,7 +195,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 			jsonArray.put(other.toJSON());
 		}
 
-		othersJSON.put("others", jsonArray);
+		othersJSON.put(MessageType.OTHERS.getJsonField(), jsonArray);
 
 		try {
 			session.getBasicRemote().sendText(
@@ -175,16 +207,27 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	}
 
 	private void _notifyNewUserOthers(long userId) {
+		_notifyUserOthers(MessageType.NEW_USER, userId);
+
+	}
+
+	private void _notifyRemovedUserOthers(long userId) {
+		_notifyUserOthers(MessageType.REMOVE_USER, userId);
+	}
+
+	private void _notifyUserOthers(MessageType messageType, long userId) {
 
 		JSONObject newUserJSON = JSONFactoryUtil.createJSONObject();
-		newUserJSON.put(MessageType.MSG_TYPE, MessageType.NEW_USER.name());
-		newUserJSON.put("newUser", _userSessionTopicsMap.get(userId).toJSON());
+		newUserJSON.put(MessageType.MSG_TYPE, messageType.name());
+		newUserJSON.put(
+			messageType.getJsonField(),
+			_userSessionTopicsMap.get(userId).toJSON());
 
 		_userSessionTopicsMap.entrySet()
 			.stream()
 			.filter(t -> t.getKey() != userId)
-			.map(t -> t.getValue().getSessions())
-			.forEach(sessions -> sessions.forEach(session -> {
+			.flatMap(t -> t.getValue().getSessions().stream())
+			.forEach(session -> {
 				try {
 					session.getBasicRemote().sendText(
 						newUserJSON.toJSONString()
@@ -193,7 +236,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 				catch (IOException e) {
 					_log.error(e, e);
 				}
-			}));
+			});
 	}
 
 	public void updateLastActivityTime(long userId) {
