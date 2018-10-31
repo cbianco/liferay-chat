@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -202,13 +201,13 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 				othersJSON.toJSONString());
 		}
 		catch (IOException e) {
+			// TODO clearSession??
 			_log.error(e, e);
 		}
 	}
 
 	private void _notifyNewUserOthers(long userId) {
 		_notifyUserOthers(MessageType.NEW_USER, userId);
-
 	}
 
 	private void _notifyRemovedUserOthers(long userId) {
@@ -234,6 +233,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 					);
 				}
 				catch (IOException e) {
+					// TODO clearSession??
 					_log.error(e, e);
 				}
 			});
