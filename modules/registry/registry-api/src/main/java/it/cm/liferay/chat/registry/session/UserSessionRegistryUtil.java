@@ -26,14 +26,15 @@ public class UserSessionRegistryUtil {
 		getService().addUserTopic(message);
 	}
 
-
-	public static Collection<Long> getOnlineUsers(long userId) {
-
-		return getService().getOnlineUsers(userId);
-	}
-
 	public static UserSession clearUserSession(long userId) {
 		return getService().clearUserSession(userId);
+	}
+	public static void clearSession(Session session) {
+		getService().clearSession(session);
+	}
+
+	public static Collection<Long> getOnlineUsers(long userId) {
+		return getService().getOnlineUsers(userId);
 	}
 
 	public static void updateLastActivityTime(long userId) {
