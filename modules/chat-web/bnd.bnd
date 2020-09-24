@@ -1,4 +1,0 @@
-Bundle-Name: Chat Web
-Bundle-SymbolicName: it.cmd.liferay.chat.web
-Bundle-Version: 1.0.0
-Export-Package: it.cmd.liferay.chat.web.constants
