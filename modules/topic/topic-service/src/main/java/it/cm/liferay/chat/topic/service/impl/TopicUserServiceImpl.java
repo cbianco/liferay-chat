@@ -16,6 +16,7 @@ package it.cm.liferay.chat.topic.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import it.cm.liferay.chat.topic.exception.NoSuchTopicException;
+import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.base.TopicUserServiceBaseImpl;
 
 import java.util.Collection;
@@ -42,44 +43,44 @@ public class TopicUserServiceImpl extends TopicUserServiceBaseImpl {
 	 */
 
 	@Override
-	public Collection<Long> getTopicIdByUserId(
-			long userId)
+	public Collection<Long> getTopicIdsByUserId(
+			long companyId, long userId)
 		throws PortalException {
 
 		// TODO Add permission controls
-		return topicUserLocalService.getTopicIdByUserId(userId);
+
+		return topicUserLocalService.getTopicIdsByUserId(companyId, userId);
 	}
 
 	@Override
-	public long getTopicByUserIds(
-			long userId1, long userId2)
+	public Topic getTopicByUserIds(
+			long companyId, long userId1, long userId2)
 		throws PortalException {
 
 		// TODO Add permission controls
 
-		Collection<Long> user1TopicIds =
-			topicUserLocalService.getTopicIdByUserId(userId1);
+		Collection<Topic> user1Topics =
+			topicUserLocalService.getTopicsByUserId(companyId, userId1);
 
-		Collection<Long> user2TopicIds =
-			topicUserLocalService.getTopicIdByUserId(userId2);
+		Collection<Topic> user2Topics =
+			topicUserLocalService.getTopicsByUserId(companyId, userId2);
 
-		user1TopicIds.retainAll(user2TopicIds);
-
-		for (Long topicId : user1TopicIds) {
-			if (topicUserLocalService.countByTopicId(topicId) == 2) {
-				return topicId;
-			}
-		}
-		throw new NoSuchTopicException();
+		return user1Topics
+				.stream()
+				.filter(user2Topics::contains)
+				.filter(t -> t.fetchUserIds().size() == 2)
+				.findAny()
+				.orElseThrow(NoSuchTopicException::new);
 	}
 
 	@Override
 	public Collection<Long> getUserIdsByTopicId(
-			long topicId)
+			long companyId, long topicId)
 		throws PortalException {
 
 		// TODO Add permission controls
-		return topicUserLocalService.getUserIdsByTopicId(topicId);
+
+		return topicUserLocalService.getUserIdsByTopicId(companyId, topicId);
 	}
 
 }

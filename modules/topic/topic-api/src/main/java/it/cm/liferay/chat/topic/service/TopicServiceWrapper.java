@@ -34,9 +34,9 @@ public class TopicServiceWrapper implements TopicService,
 
 	@Override
 	public it.cm.liferay.chat.topic.model.Topic addTopic(long companyId,
-		long groupId, long userId1, long user2)
+		long userId1, long user2)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicService.addTopic(companyId, groupId, userId1, user2);
+		return _topicService.addTopic(companyId, userId1, user2);
 	}
 
 	/**
@@ -57,9 +57,9 @@ public class TopicServiceWrapper implements TopicService,
 
 	@Override
 	public it.cm.liferay.chat.topic.model.Topic getTopicByUserIds(
-		long userId1, long userId2)
+		long companyId, long userId1, long userId2)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicService.getTopicByUserIds(userId1, userId2);
+		return _topicService.getTopicByUserIds(companyId, userId1, userId2);
 	}
 
 	@Override

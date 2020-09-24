@@ -43,6 +43,18 @@ public class MessageServiceWrapper implements MessageService,
 	}
 
 	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId) {
+		return _messageService.getTopicMessages(topicId);
+	}
+
+	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId, int start, int end) {
+		return _messageService.getTopicMessages(topicId, start, end);
+	}
+
+	@Override
 	public MessageService getWrappedService() {
 		return _messageService;
 	}

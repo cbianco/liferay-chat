@@ -23,5 +23,6 @@ create table Conversation_Topic (
 create table Conversation_TopicUser (
 	topicId LONG not null,
 	userId LONG not null,
+	companyId LONG,
 	primary key (topicId, userId)
 );

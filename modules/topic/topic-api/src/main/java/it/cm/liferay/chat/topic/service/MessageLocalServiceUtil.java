@@ -273,6 +273,16 @@ public class MessageLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId) {
+		return getService().getTopicMessages(topicId);
+	}
+
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId, int start, int end) {
+		return getService().getTopicMessages(topicId, start, end);
+	}
+
 	/**
 	* Updates the message in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

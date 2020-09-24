@@ -24,5 +24,6 @@
 	<model name="it.cm.liferay.chat.topic.model.TopicUser">
 		<field name="topicId" type="long" />
 		<field name="userId" type="long" />
+		<field name="companyId" type="long" />
 	</model>
 </model-hints>

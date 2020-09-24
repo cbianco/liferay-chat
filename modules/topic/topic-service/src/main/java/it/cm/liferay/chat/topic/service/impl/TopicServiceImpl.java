@@ -15,11 +15,9 @@
 package it.cm.liferay.chat.topic.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import it.cm.liferay.chat.topic.exception.NoSuchTopicException;
 import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.base.TopicServiceBaseImpl;
-
-import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * The implementation of the topic remote service.
@@ -44,29 +42,37 @@ public class TopicServiceImpl extends TopicServiceBaseImpl {
 
 	@Override
 	public Topic addTopic(
-			long companyId, long groupId, long userId1, long user2)
+			long companyId, long userId1, long user2)
 		throws PortalException {
 
 		// TODO Add permission controls
+
 		return topicLocalService.addTopic(
-			companyId, groupId, userId1, new long[]{ user2 });
+			companyId, userId1, new long[]{ user2 });
 	}
 
 	@Override
 	public Topic getTopic(long topicId) throws PortalException {
+
 		// TODO Add permission controls
+
 		return topicLocalService.getTopic(topicId);
 	}
 
 	@Override
 	public Topic getTopicByUserIds(
-			long userId1, long userId2)
+			long companyId, long userId1, long userId2)
 		throws PortalException {
 
 		// TODO Add permission controls
 
-//		return topicUserService.getTopicByUserIds(userId1, userId2);
-		return null;
+		try {
+			return topicUserService.getTopicByUserIds(
+				companyId, userId1, userId2);
+		}
+		catch (NoSuchTopicException e) {
+			return addTopic(companyId, userId1, userId2);
+		}
 	}
 
 }

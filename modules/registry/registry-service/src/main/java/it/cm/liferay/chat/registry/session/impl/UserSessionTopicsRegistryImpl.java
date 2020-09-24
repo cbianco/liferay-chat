@@ -16,7 +16,9 @@ import it.cm.liferay.chat.registry.session.UserSession;
 import it.cm.liferay.chat.registry.session.UserSession.UserStatus;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import it.cm.liferay.chat.topic.service.TopicService;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.websocket.Session;
@@ -38,14 +40,24 @@ import java.util.stream.Collectors;
 )
 public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
-	private Map<Long, UserSession> _userSessionTopicsMap =
-		new ConcurrentHashMap<>();
+	@Activate
+	protected void activate(Map<String, Object> properties) {
 
-	/**
-	 * Manage multiple same user session (two browser tabs, desktop vs mobile)
-	 * @param userId
-	 * @param socketSession
-	 */
+		_userSessionTopicsMap = new ConcurrentHashMap<>();
+	}
+
+	@Deactivate
+	protected void deactivate(Map<String, Object> properties) {
+
+		_userSessionTopicsMap.clear();
+		_userSessionTopicsMap = null;
+	}
+
+		/**
+		 * Manage multiple same user session (two browser tabs, desktop vs mobile)
+		 * @param userId
+		 * @param socketSession
+		 */
 	@Override
 	public void addUserSession(
 		long userId, Session socketSession) {
@@ -102,7 +114,9 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 	@Override
 	public UserSession clearUserSession(long userId) {
+
 		_notifyRemovedUserOthers(userId);
+
 		return _userSessionTopicsMap.remove(userId);
 	}
 
@@ -220,7 +234,8 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		newUserJSON.put(MessageType.MSG_TYPE, messageType.name());
 		newUserJSON.put(
 			messageType.getJsonField(),
-			_userSessionTopicsMap.get(userId).toJSON());
+			_userSessionTopicsMap.get(userId)
+				.toJSON());
 
 		_userSessionTopicsMap.entrySet()
 			.stream()
@@ -251,6 +266,8 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 	@Reference
 	private UserLocalService _userLocalService;
+
+	private Map<Long, UserSession> _userSessionTopicsMap;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UserSessionTopicsRegistryImpl.class);

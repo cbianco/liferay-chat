@@ -14,7 +14,10 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.service.base.MessageLocalServiceBaseImpl;
+
+import java.util.Collection;
 
 /**
  * The implementation of the message local service.
@@ -36,4 +39,18 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.MessageLocalServiceUtil} to access the message local service.
 	 */
+
+	@Override
+	public Collection<Message> getTopicMessages(long topicId) {
+
+		return messagePersistence.findByTopicId(topicId);
+	}
+
+	@Override
+	public Collection<Message> getTopicMessages(
+		long topicId, int start, int end) {
+
+		return messagePersistence.findByTopicId(topicId, start, end);
+	}
+
 }

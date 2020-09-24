@@ -52,19 +52,22 @@ public class TopicUserServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static long getTopicByUserIds(long userId1, long userId2)
+	public static it.cm.liferay.chat.topic.model.Topic getTopicByUserIds(
+		long companyId, long userId1, long userId2)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTopicByUserIds(userId1, userId2);
+		return getService().getTopicByUserIds(companyId, userId1, userId2);
 	}
 
-	public static java.util.Collection<Long> getTopicIdByUserId(long userId)
+	public static java.util.Collection<Long> getTopicIdsByUserId(
+		long companyId, long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTopicIdByUserId(userId);
+		return getService().getTopicIdsByUserId(companyId, userId);
 	}
 
-	public static java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+	public static java.util.Collection<Long> getUserIdsByTopicId(
+		long companyId, long topicId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getUserIdsByTopicId(topicId);
+		return getService().getUserIdsByTopicId(companyId, topicId);
 	}
 
 	public static TopicUserService getService() {

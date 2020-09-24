@@ -125,6 +125,11 @@ public class TopicWrapper implements Topic, ModelWrapper<Topic> {
 		return _topic.compareTo(topic);
 	}
 
+	@Override
+	public java.util.Collection<Long> fetchUserIds() {
+		return _topic.fetchUserIds();
+	}
+
 	/**
 	* Returns the company ID of this topic.
 	*

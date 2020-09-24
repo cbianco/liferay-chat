@@ -42,9 +42,9 @@ public class TopicUserLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicUserLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static void addTopicUser(long companyId, long groupId, long topicId,
-		long userId) throws com.liferay.portal.kernel.exception.PortalException {
-		getService().addTopicUser(companyId, groupId, topicId, userId);
+	public static void addTopicUser(long companyId, long topicId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().addTopicUser(companyId, topicId, userId);
 	}
 
 	/**
@@ -58,9 +58,9 @@ public class TopicUserLocalServiceUtil {
 		return getService().addTopicUser(topicUser);
 	}
 
-	public static int countByTopicId(long topicId)
+	public static int countByTopicId(long companyId, long topicId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().countByTopicId(topicId);
+		return getService().countByTopicId(companyId, topicId);
 	}
 
 	/**
@@ -213,9 +213,16 @@ public class TopicUserLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
-	public static java.util.Collection<Long> getTopicIdByUserId(long userId)
+	public static java.util.Collection<Long> getTopicIdsByUserId(
+		long companyId, long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTopicIdByUserId(userId);
+		return getService().getTopicIdsByUserId(companyId, userId);
+	}
+
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(
+		long companyId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getTopicsByUserId(companyId, userId);
 	}
 
 	/**
@@ -256,9 +263,10 @@ public class TopicUserLocalServiceUtil {
 		return getService().getTopicUsersCount();
 	}
 
-	public static java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+	public static java.util.Collection<Long> getUserIdsByTopicId(
+		long companyId, long topicId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getUserIdsByTopicId(topicId);
+		return getService().getUserIdsByTopicId(companyId, topicId);
 	}
 
 	/**

@@ -17,6 +17,7 @@
 					'<portlet:namespace />-root',
 					{
 						AUI: A,
+						Liferay: Liferay,
 						userId: <%= userId %>,
 						wsUrl: webSocketUrl
 					}

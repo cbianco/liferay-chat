@@ -11,10 +11,6 @@
 
 		<column name="topicId" primary="true" type="long" />
 
-		<!-- Group instance -->
-
-		<column name="groupId" type="long" />
-
 		<!-- Audit fields -->
 
 		<column name="companyId" type="long" />
@@ -32,14 +28,7 @@
 			<order-column name="createDate" />
 		</order>
 
-		<!-- Finder methods
-
-		<finder name="Field2" return-type="Collection">
-			<finder-column name="field2" />
-		</finder> -->
-
 	</entity>
-
 
 	<entity local-service="true" name="TopicUser" remote-service="true">
 
@@ -48,10 +37,6 @@
 		<column name="topicId" primary="true" type="long" />
 		<column name="userId" primary="true" type="long" />
 
-		<!-- Group instance -->
-
-		<column name="groupId" type="long" />
-
 		<!-- Audit fields -->
 
 		<column name="companyId" type="long" />
@@ -59,15 +44,19 @@
 		<!-- Finder methods -->
 
 		<finder name="UserId" return-type="Collection">
+			<finder-column name="companyId" />
 			<finder-column name="userId" />
 		</finder>
 		<finder name="TopicId" return-type="Collection">
+			<finder-column name="companyId" />
 			<finder-column name="topicId" />
 		</finder>
 		<finder name="UserIds" return-type="Collection">
+			<finder-column name="companyId" />
 			<finder-column arrayable-operator="OR" name="userId" />
 		</finder>
 		<finder name="TopicIds" return-type="Collection">
+			<finder-column name="companyId" />
 			<finder-column arrayable-operator="OR" name="topicId" />
 		</finder>
 
@@ -78,10 +67,6 @@
 		<!-- PK fields -->
 
 		<column name="messageId" primary="true" type="long" />
-
-		<!-- Group instance -->
-
-		<column name="groupId" type="long" />
 
 		<!-- Audit fields -->
 
@@ -96,17 +81,17 @@
 		<column name="topicId" type="long" />
 		<column name="content" type="String" />
 
-		<!-- Order
+		<!-- Order -->
 
-		<order by="asc">
-			<order-column name="field1" />
-		</order> -->
+		<order by="desc">
+			<order-column name="createDate" />
+		</order>
 
-		<!-- Finder methods
+		<!-- Finder methods -->
 
-		<finder name="Field2" return-type="Collection">
-			<finder-column name="field2" />
-		</finder> -->
+		<finder name="TopicId" return-type="Collection">
+			<finder-column name="topicId" />
+		</finder>
 
 	</entity>
 

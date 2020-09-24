@@ -14,14 +14,12 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
-import com.liferay.counter.kernel.model.Counter;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.base.TopicLocalServiceBaseImpl;
 
 import java.util.Date;
-import java.util.stream.LongStream;
 
 /**
  * The implementation of the topic local service.
@@ -46,7 +44,7 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 
 	@Override
 	public Topic addTopic(
-			long companyId, long groupId, long userId, long otherIds[])
+			long companyId, long userId, long otherIds[])
 		throws PortalException {
 
 		long topicId = counterLocalService.increment();
@@ -57,7 +55,6 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 
 		topic.setCompanyId(companyId);
 		topic.setCreateDate(createDate);
-		topic.setGroupId(groupId);
 		topic.setUserId(userId);
 		topic.setUserName(user.getFullName());
 		topic.setModifiedDate(createDate);
@@ -65,12 +62,10 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 		// TODO validate
 
 		// TopicUser
-		topicUserLocalService.addTopicUser(
-			companyId, groupId, topicId, userId);
+		topicUserLocalService.addTopicUser(companyId, topicId, userId);
 
 		for (long otherId : otherIds) {
-			topicUserLocalService.addTopicUser(
-				companyId, groupId, topicId, otherId);
+			topicUserLocalService.addTopicUser(companyId, topicId, otherId);
 		}
 
 		return topicPersistence.update(topic);

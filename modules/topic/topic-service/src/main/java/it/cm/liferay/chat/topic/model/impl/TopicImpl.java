@@ -17,9 +17,13 @@ package it.cm.liferay.chat.topic.model.impl;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.cm.liferay.chat.topic.service.TopicUserService;
+import it.cm.liferay.chat.topic.service.TopicUserServiceUtil;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * The extended model implementation for the Topic service. Represents a row in the &quot;Conversation_Topic&quot; database table, with each column mapped to a property of this class.
@@ -40,11 +44,25 @@ public class TopicImpl extends TopicBaseImpl {
 	public TopicImpl() {
 	}
 
+	@Override
 	public Collection<Long> getUserIds() throws PortalException {
-		return topicUserService.getUserIdsByTopicId(getTopicId());
+
+		return TopicUserServiceUtil.getUserIdsByTopicId(
+			getCompanyId(), getTopicId());
 	}
 
-	@BeanReference(type = TopicUserService.class)
-	protected TopicUserService topicUserService;
+	@Override
+	public Collection<Long> fetchUserIds() {
+
+		try {
+			return getUserIds();
+		}
+		catch (PortalException e) {
+			_log.error(e, e);
+		}
+		return Collections.emptyList();
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(TopicImpl.class);
 
 }

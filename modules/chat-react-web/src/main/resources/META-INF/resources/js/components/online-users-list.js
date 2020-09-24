@@ -9,7 +9,7 @@ export default class OnlineUsersList extends React.Component {
 			<div className="cmd-chat-list-container">
 				<ul className="cmd-chat-list">
 					{this.props.users.map(user =>
-						<OnlineUser key={user.userId} user={user} />
+						<OnlineUser key={user.userId} user={user} openTopic={this.props.openTopic} />
 					)}
 				</ul>
 			</div>

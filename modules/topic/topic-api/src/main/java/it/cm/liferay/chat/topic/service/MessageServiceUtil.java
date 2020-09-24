@@ -52,6 +52,16 @@ public class MessageServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId) {
+		return getService().getTopicMessages(topicId);
+	}
+
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId, int start, int end) {
+		return getService().getTopicMessages(topicId, start, end);
+	}
+
 	public static MessageService getService() {
 		return _serviceTracker.getService();
 	}

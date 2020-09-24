@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.model.TopicUser;
 import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
 
@@ -62,8 +63,8 @@ public interface TopicUserLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link TopicUserLocalServiceUtil} to access the topic user local service. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicUserLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public void addTopicUser(long companyId, long groupId, long topicId,
-		long userId) throws PortalException;
+	public void addTopicUser(long companyId, long topicId, long userId)
+		throws PortalException;
 
 	/**
 	* Adds the topic user to the database. Also notifies the appropriate model listeners.
@@ -74,7 +75,8 @@ public interface TopicUserLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public TopicUser addTopicUser(TopicUser topicUser);
 
-	public int countByTopicId(long topicId) throws PortalException;
+	public int countByTopicId(long companyId, long topicId)
+		throws PortalException;
 
 	/**
 	* Creates a new topic user with the primary key. Does not add the topic user to the database.
@@ -193,7 +195,11 @@ public interface TopicUserLocalService extends BaseLocalService,
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Collection<Long> getTopicIdByUserId(long userId)
+	public Collection<Long> getTopicIdsByUserId(long companyId, long userId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Topic> getTopicsByUserId(long companyId, long userId)
 		throws PortalException;
 
 	/**
@@ -230,7 +236,7 @@ public interface TopicUserLocalService extends BaseLocalService,
 	public int getTopicUsersCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Collection<Long> getUserIdsByTopicId(long topicId)
+	public Collection<Long> getUserIdsByTopicId(long companyId, long topicId)
 		throws PortalException;
 
 	/**

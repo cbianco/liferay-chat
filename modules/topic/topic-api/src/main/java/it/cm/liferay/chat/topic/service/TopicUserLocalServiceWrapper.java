@@ -34,9 +34,9 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 	}
 
 	@Override
-	public void addTopicUser(long companyId, long groupId, long topicId,
-		long userId) throws com.liferay.portal.kernel.exception.PortalException {
-		_topicUserLocalService.addTopicUser(companyId, groupId, topicId, userId);
+	public void addTopicUser(long companyId, long topicId, long userId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_topicUserLocalService.addTopicUser(companyId, topicId, userId);
 	}
 
 	/**
@@ -52,9 +52,9 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 	}
 
 	@Override
-	public int countByTopicId(long topicId)
+	public int countByTopicId(long companyId, long topicId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicUserLocalService.countByTopicId(topicId);
+		return _topicUserLocalService.countByTopicId(companyId, topicId);
 	}
 
 	/**
@@ -223,9 +223,16 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 	}
 
 	@Override
-	public java.util.Collection<Long> getTopicIdByUserId(long userId)
+	public java.util.Collection<Long> getTopicIdsByUserId(long companyId,
+		long userId) throws com.liferay.portal.kernel.exception.PortalException {
+		return _topicUserLocalService.getTopicIdsByUserId(companyId, userId);
+	}
+
+	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(
+		long companyId, long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicUserLocalService.getTopicIdByUserId(userId);
+		return _topicUserLocalService.getTopicsByUserId(companyId, userId);
 	}
 
 	/**
@@ -270,9 +277,10 @@ public class TopicUserLocalServiceWrapper implements TopicUserLocalService,
 	}
 
 	@Override
-	public java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+	public java.util.Collection<Long> getUserIdsByTopicId(long companyId,
+		long topicId)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicUserLocalService.getUserIdsByTopicId(topicId);
+		return _topicUserLocalService.getUserIdsByTopicId(companyId, topicId);
 	}
 
 	/**

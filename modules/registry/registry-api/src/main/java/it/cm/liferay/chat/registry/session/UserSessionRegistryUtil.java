@@ -12,8 +12,6 @@ import java.util.Collection;
  */
 public class UserSessionRegistryUtil {
 
-	private UserSessionRegistry _userSessionRegistry;
-
 	public static void addUserSession(
 		long userId, Session socketSession) {
 

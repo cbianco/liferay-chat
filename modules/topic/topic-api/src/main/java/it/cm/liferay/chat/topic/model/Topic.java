@@ -56,4 +56,6 @@ public interface Topic extends TopicModel, PersistedModel {
 
 	public java.util.Collection<Long> getUserIds()
 		throws com.liferay.portal.kernel.exception.PortalException;
+
+	public java.util.Collection<Long> fetchUserIds();
 }

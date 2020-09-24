@@ -39,6 +39,7 @@ import it.cm.liferay.chat.topic.model.Message;
 
 import java.io.Serializable;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -245,6 +246,12 @@ public interface MessageLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Message> getTopicMessages(long topicId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Message> getTopicMessages(long topicId, int start, int end);
 
 	/**
 	* Updates the message in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

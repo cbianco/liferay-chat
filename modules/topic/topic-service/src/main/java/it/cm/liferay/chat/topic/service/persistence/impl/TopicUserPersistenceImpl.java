@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -90,7 +92,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserId",
 			new String[] {
-				Long.class.getName(),
+				Long.class.getName(), Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -99,48 +101,54 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserId",
-			new String[] { Long.class.getName() },
+			new String[] { Long.class.getName(), Long.class.getName() },
+			TopicUserModelImpl.COMPANYID_COLUMN_BITMASK |
 			TopicUserModelImpl.USERID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_USERID = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
-			new String[] { Long.class.getName() });
+			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the topic users where userId = &#63;.
+	 * Returns all the topic users where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @return the matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserId(long userId) {
-		return findByUserId(userId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<TopicUser> findByUserId(long companyId, long userId) {
+		return findByUserId(companyId, userId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the topic users where userId = &#63;.
+	 * Returns a range of all the topic users where companyId = &#63; and userId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
 	 * @return the range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserId(long userId, int start, int end) {
-		return findByUserId(userId, start, end, null);
+	public List<TopicUser> findByUserId(long companyId, long userId, int start,
+		int end) {
+		return findByUserId(companyId, userId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where userId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -148,18 +156,20 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserId(long userId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator) {
-		return findByUserId(userId, start, end, orderByComparator, true);
+	public List<TopicUser> findByUserId(long companyId, long userId, int start,
+		int end, OrderByComparator<TopicUser> orderByComparator) {
+		return findByUserId(companyId, userId, start, end, orderByComparator,
+			true);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where userId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -168,8 +178,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserId(long userId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator,
+	public List<TopicUser> findByUserId(long companyId, long userId, int start,
+		int end, OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -179,11 +189,15 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				(orderByComparator == null)) {
 			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID;
-			finderArgs = new Object[] { userId };
+			finderArgs = new Object[] { companyId, userId };
 		}
 		else {
 			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_USERID;
-			finderArgs = new Object[] { userId, start, end, orderByComparator };
+			finderArgs = new Object[] {
+					companyId, userId,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<TopicUser> list = null;
@@ -194,7 +208,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TopicUser topicUser : list) {
-					if ((userId != topicUser.getUserId())) {
+					if ((companyId != topicUser.getCompanyId()) ||
+							(userId != topicUser.getUserId())) {
 						list = null;
 
 						break;
@@ -207,14 +222,16 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_USERID_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_USERID_USERID_2);
 
@@ -237,6 +254,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(userId);
 
@@ -271,28 +290,33 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where userId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user
 	 * @throws NoSuchTopicUserException if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser findByUserId_First(long userId,
+	public TopicUser findByUserId_First(long companyId, long userId,
 		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByUserId_First(userId, orderByComparator);
+		TopicUser topicUser = fetchByUserId_First(companyId, userId,
+				orderByComparator);
 
 		if (topicUser != null) {
 			return topicUser;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("userId=");
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", userId=");
 		msg.append(userId);
 
 		msg.append("}");
@@ -301,71 +325,17 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where userId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser fetchByUserId_First(long userId,
+	public TopicUser fetchByUserId_First(long companyId, long userId,
 		OrderByComparator<TopicUser> orderByComparator) {
-		List<TopicUser> list = findByUserId(userId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where userId = &#63;.
-	 *
-	 * @param userId the user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user
-	 * @throws NoSuchTopicUserException if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser findByUserId_Last(long userId,
-		OrderByComparator<TopicUser> orderByComparator)
-		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByUserId_Last(userId, orderByComparator);
-
-		if (topicUser != null) {
-			return topicUser;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("userId=");
-		msg.append(userId);
-
-		msg.append("}");
-
-		throw new NoSuchTopicUserException(msg.toString());
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where userId = &#63;.
-	 *
-	 * @param userId the user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser fetchByUserId_Last(long userId,
-		OrderByComparator<TopicUser> orderByComparator) {
-		int count = countByUserId(userId);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<TopicUser> list = findByUserId(userId, count - 1, count,
+		List<TopicUser> list = findByUserId(companyId, userId, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -376,9 +346,72 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the topic users before and after the current topic user in the ordered set where userId = &#63;.
+	 * Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user
+	 * @throws NoSuchTopicUserException if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser findByUserId_Last(long companyId, long userId,
+		OrderByComparator<TopicUser> orderByComparator)
+		throws NoSuchTopicUserException {
+		TopicUser topicUser = fetchByUserId_Last(companyId, userId,
+				orderByComparator);
+
+		if (topicUser != null) {
+			return topicUser;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", userId=");
+		msg.append(userId);
+
+		msg.append("}");
+
+		throw new NoSuchTopicUserException(msg.toString());
+	}
+
+	/**
+	 * Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser fetchByUserId_Last(long companyId, long userId,
+		OrderByComparator<TopicUser> orderByComparator) {
+		int count = countByUserId(companyId, userId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<TopicUser> list = findByUserId(companyId, userId, count - 1,
+				count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and userId = &#63;.
 	 *
 	 * @param topicUserPK the primary key of the current topic user
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next topic user
@@ -386,7 +419,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 */
 	@Override
 	public TopicUser[] findByUserId_PrevAndNext(TopicUserPK topicUserPK,
-		long userId, OrderByComparator<TopicUser> orderByComparator)
+		long companyId, long userId,
+		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
 		TopicUser topicUser = findByPrimaryKey(topicUserPK);
 
@@ -397,13 +431,13 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			TopicUser[] array = new TopicUserImpl[3];
 
-			array[0] = getByUserId_PrevAndNext(session, topicUser, userId,
-					orderByComparator, true);
+			array[0] = getByUserId_PrevAndNext(session, topicUser, companyId,
+					userId, orderByComparator, true);
 
 			array[1] = topicUser;
 
-			array[2] = getByUserId_PrevAndNext(session, topicUser, userId,
-					orderByComparator, false);
+			array[2] = getByUserId_PrevAndNext(session, topicUser, companyId,
+					userId, orderByComparator, false);
 
 			return array;
 		}
@@ -416,20 +450,22 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	protected TopicUser getByUserId_PrevAndNext(Session session,
-		TopicUser topicUser, long userId,
+		TopicUser topicUser, long companyId, long userId,
 		OrderByComparator<TopicUser> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
+			query = new StringBundler(5 +
 					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+		query.append(_FINDER_COLUMN_USERID_COMPANYID_2);
 
 		query.append(_FINDER_COLUMN_USERID_USERID_2);
 
@@ -501,6 +537,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
+		qPos.add(companyId);
+
 		qPos.add(userId);
 
 		if (orderByComparator != null) {
@@ -522,36 +560,40 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Removes all the topic users where userId = &#63; from the database.
+	 * Removes all the topic users where companyId = &#63; and userId = &#63; from the database.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 */
 	@Override
-	public void removeByUserId(long userId) {
-		for (TopicUser topicUser : findByUserId(userId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+	public void removeByUserId(long companyId, long userId) {
+		for (TopicUser topicUser : findByUserId(companyId, userId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(topicUser);
 		}
 	}
 
 	/**
-	 * Returns the number of topic users where userId = &#63;.
+	 * Returns the number of topic users where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @return the number of matching topic users
 	 */
 	@Override
-	public int countByUserId(long userId) {
+	public int countByUserId(long companyId, long userId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_USERID;
 
-		Object[] finderArgs = new Object[] { userId };
+		Object[] finderArgs = new Object[] { companyId, userId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_USERID_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_USERID_USERID_2);
 
@@ -565,6 +607,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(userId);
 
@@ -585,12 +629,13 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_USERID_COMPANYID_2 = "topicUser.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_USERID_USERID_2 = "topicUser.id.userId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TOPICID = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTopicId",
 			new String[] {
-				Long.class.getName(),
+				Long.class.getName(), Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -599,48 +644,54 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTopicId",
-			new String[] { Long.class.getName() },
+			new String[] { Long.class.getName(), Long.class.getName() },
+			TopicUserModelImpl.COMPANYID_COLUMN_BITMASK |
 			TopicUserModelImpl.TOPICID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_TOPICID = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTopicId",
-			new String[] { Long.class.getName() });
+			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the topic users where topicId = &#63;.
+	 * Returns all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @return the matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicId(long topicId) {
-		return findByTopicId(topicId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<TopicUser> findByTopicId(long companyId, long topicId) {
+		return findByTopicId(companyId, topicId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the topic users where topicId = &#63;.
+	 * Returns a range of all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
 	 * @return the range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicId(long topicId, int start, int end) {
-		return findByTopicId(topicId, start, end, null);
+	public List<TopicUser> findByTopicId(long companyId, long topicId,
+		int start, int end) {
+		return findByTopicId(companyId, topicId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where topicId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -648,18 +699,20 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicId(long topicId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator) {
-		return findByTopicId(topicId, start, end, orderByComparator, true);
+	public List<TopicUser> findByTopicId(long companyId, long topicId,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator) {
+		return findByTopicId(companyId, topicId, start, end, orderByComparator,
+			true);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where topicId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -668,8 +721,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicId(long topicId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator,
+	public List<TopicUser> findByTopicId(long companyId, long topicId,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -679,11 +732,15 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				(orderByComparator == null)) {
 			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID;
-			finderArgs = new Object[] { topicId };
+			finderArgs = new Object[] { companyId, topicId };
 		}
 		else {
 			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TOPICID;
-			finderArgs = new Object[] { topicId, start, end, orderByComparator };
+			finderArgs = new Object[] {
+					companyId, topicId,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<TopicUser> list = null;
@@ -694,7 +751,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TopicUser topicUser : list) {
-					if ((topicId != topicUser.getTopicId())) {
+					if ((companyId != topicUser.getCompanyId()) ||
+							(topicId != topicUser.getTopicId())) {
 						list = null;
 
 						break;
@@ -707,14 +765,16 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICID_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_TOPICID_TOPICID_2);
 
@@ -737,6 +797,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(topicId);
 
@@ -771,28 +833,33 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where topicId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user
 	 * @throws NoSuchTopicUserException if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser findByTopicId_First(long topicId,
+	public TopicUser findByTopicId_First(long companyId, long topicId,
 		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByTopicId_First(topicId, orderByComparator);
+		TopicUser topicUser = fetchByTopicId_First(companyId, topicId,
+				orderByComparator);
 
 		if (topicUser != null) {
 			return topicUser;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("topicId=");
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", topicId=");
 		msg.append(topicId);
 
 		msg.append("}");
@@ -801,71 +868,17 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where topicId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser fetchByTopicId_First(long topicId,
+	public TopicUser fetchByTopicId_First(long companyId, long topicId,
 		OrderByComparator<TopicUser> orderByComparator) {
-		List<TopicUser> list = findByTopicId(topicId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where topicId = &#63;.
-	 *
-	 * @param topicId the topic ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user
-	 * @throws NoSuchTopicUserException if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser findByTopicId_Last(long topicId,
-		OrderByComparator<TopicUser> orderByComparator)
-		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByTopicId_Last(topicId, orderByComparator);
-
-		if (topicUser != null) {
-			return topicUser;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("topicId=");
-		msg.append(topicId);
-
-		msg.append("}");
-
-		throw new NoSuchTopicUserException(msg.toString());
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where topicId = &#63;.
-	 *
-	 * @param topicId the topic ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser fetchByTopicId_Last(long topicId,
-		OrderByComparator<TopicUser> orderByComparator) {
-		int count = countByTopicId(topicId);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<TopicUser> list = findByTopicId(topicId, count - 1, count,
+		List<TopicUser> list = findByTopicId(companyId, topicId, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -876,9 +889,72 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the topic users before and after the current topic user in the ordered set where topicId = &#63;.
+	 * Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user
+	 * @throws NoSuchTopicUserException if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser findByTopicId_Last(long companyId, long topicId,
+		OrderByComparator<TopicUser> orderByComparator)
+		throws NoSuchTopicUserException {
+		TopicUser topicUser = fetchByTopicId_Last(companyId, topicId,
+				orderByComparator);
+
+		if (topicUser != null) {
+			return topicUser;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", topicId=");
+		msg.append(topicId);
+
+		msg.append("}");
+
+		throw new NoSuchTopicUserException(msg.toString());
+	}
+
+	/**
+	 * Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser fetchByTopicId_Last(long companyId, long topicId,
+		OrderByComparator<TopicUser> orderByComparator) {
+		int count = countByTopicId(companyId, topicId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<TopicUser> list = findByTopicId(companyId, topicId, count - 1,
+				count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and topicId = &#63;.
 	 *
 	 * @param topicUserPK the primary key of the current topic user
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next topic user
@@ -886,7 +962,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 */
 	@Override
 	public TopicUser[] findByTopicId_PrevAndNext(TopicUserPK topicUserPK,
-		long topicId, OrderByComparator<TopicUser> orderByComparator)
+		long companyId, long topicId,
+		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
 		TopicUser topicUser = findByPrimaryKey(topicUserPK);
 
@@ -897,13 +974,13 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			TopicUser[] array = new TopicUserImpl[3];
 
-			array[0] = getByTopicId_PrevAndNext(session, topicUser, topicId,
-					orderByComparator, true);
+			array[0] = getByTopicId_PrevAndNext(session, topicUser, companyId,
+					topicId, orderByComparator, true);
 
 			array[1] = topicUser;
 
-			array[2] = getByTopicId_PrevAndNext(session, topicUser, topicId,
-					orderByComparator, false);
+			array[2] = getByTopicId_PrevAndNext(session, topicUser, companyId,
+					topicId, orderByComparator, false);
 
 			return array;
 		}
@@ -916,20 +993,22 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	protected TopicUser getByTopicId_PrevAndNext(Session session,
-		TopicUser topicUser, long topicId,
+		TopicUser topicUser, long companyId, long topicId,
 		OrderByComparator<TopicUser> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
+			query = new StringBundler(5 +
 					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+		query.append(_FINDER_COLUMN_TOPICID_COMPANYID_2);
 
 		query.append(_FINDER_COLUMN_TOPICID_TOPICID_2);
 
@@ -1001,6 +1080,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
+		qPos.add(companyId);
+
 		qPos.add(topicId);
 
 		if (orderByComparator != null) {
@@ -1022,36 +1103,40 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Removes all the topic users where topicId = &#63; from the database.
+	 * Removes all the topic users where companyId = &#63; and topicId = &#63; from the database.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 */
 	@Override
-	public void removeByTopicId(long topicId) {
-		for (TopicUser topicUser : findByTopicId(topicId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+	public void removeByTopicId(long companyId, long topicId) {
+		for (TopicUser topicUser : findByTopicId(companyId, topicId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(topicUser);
 		}
 	}
 
 	/**
-	 * Returns the number of topic users where topicId = &#63;.
+	 * Returns the number of topic users where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @return the number of matching topic users
 	 */
 	@Override
-	public int countByTopicId(long topicId) {
+	public int countByTopicId(long companyId, long topicId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_TOPICID;
 
-		Object[] finderArgs = new Object[] { topicId };
+		Object[] finderArgs = new Object[] { companyId, topicId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICID_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_TOPICID_TOPICID_2);
 
@@ -1065,6 +1150,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(topicId);
 
@@ -1085,12 +1172,13 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_TOPICID_COMPANYID_2 = "topicUser.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_TOPICID_TOPICID_2 = "topicUser.id.topicId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDS = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUserIds",
 			new String[] {
-				Long.class.getName(),
+				Long.class.getName(), Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -1099,52 +1187,58 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUserIds",
-			new String[] { Long.class.getName() },
+			new String[] { Long.class.getName(), Long.class.getName() },
+			TopicUserModelImpl.COMPANYID_COLUMN_BITMASK |
 			TopicUserModelImpl.USERID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_USERIDS = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserIds",
-			new String[] { Long.class.getName() });
+			new String[] { Long.class.getName(), Long.class.getName() });
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_USERIDS = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByUserIds",
-			new String[] { Long.class.getName() });
+			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the topic users where userId = &#63;.
+	 * Returns all the topic users where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @return the matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long userId) {
-		return findByUserIds(userId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<TopicUser> findByUserIds(long companyId, long userId) {
+		return findByUserIds(companyId, userId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the topic users where userId = &#63;.
+	 * Returns a range of all the topic users where companyId = &#63; and userId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
 	 * @return the range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long userId, int start, int end) {
-		return findByUserIds(userId, start, end, null);
+	public List<TopicUser> findByUserIds(long companyId, long userId,
+		int start, int end) {
+		return findByUserIds(companyId, userId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where userId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -1152,18 +1246,20 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long userId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator) {
-		return findByUserIds(userId, start, end, orderByComparator, true);
+	public List<TopicUser> findByUserIds(long companyId, long userId,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator) {
+		return findByUserIds(companyId, userId, start, end, orderByComparator,
+			true);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where userId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -1172,8 +1268,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long userId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator,
+	public List<TopicUser> findByUserIds(long companyId, long userId,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -1183,11 +1279,15 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				(orderByComparator == null)) {
 			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDS;
-			finderArgs = new Object[] { userId };
+			finderArgs = new Object[] { companyId, userId };
 		}
 		else {
 			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_USERIDS;
-			finderArgs = new Object[] { userId, start, end, orderByComparator };
+			finderArgs = new Object[] {
+					companyId, userId,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<TopicUser> list = null;
@@ -1198,7 +1298,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TopicUser topicUser : list) {
-					if ((userId != topicUser.getUserId())) {
+					if ((companyId != topicUser.getCompanyId()) ||
+							(userId != topicUser.getUserId())) {
 						list = null;
 
 						break;
@@ -1211,14 +1312,16 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_USERIDS_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_USERIDS_USERID_2);
 
@@ -1241,6 +1344,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(userId);
 
@@ -1275,28 +1380,33 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where userId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user
 	 * @throws NoSuchTopicUserException if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser findByUserIds_First(long userId,
+	public TopicUser findByUserIds_First(long companyId, long userId,
 		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByUserIds_First(userId, orderByComparator);
+		TopicUser topicUser = fetchByUserIds_First(companyId, userId,
+				orderByComparator);
 
 		if (topicUser != null) {
 			return topicUser;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("userId=");
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", userId=");
 		msg.append(userId);
 
 		msg.append("}");
@@ -1305,71 +1415,17 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where userId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser fetchByUserIds_First(long userId,
+	public TopicUser fetchByUserIds_First(long companyId, long userId,
 		OrderByComparator<TopicUser> orderByComparator) {
-		List<TopicUser> list = findByUserIds(userId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where userId = &#63;.
-	 *
-	 * @param userId the user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user
-	 * @throws NoSuchTopicUserException if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser findByUserIds_Last(long userId,
-		OrderByComparator<TopicUser> orderByComparator)
-		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByUserIds_Last(userId, orderByComparator);
-
-		if (topicUser != null) {
-			return topicUser;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("userId=");
-		msg.append(userId);
-
-		msg.append("}");
-
-		throw new NoSuchTopicUserException(msg.toString());
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where userId = &#63;.
-	 *
-	 * @param userId the user ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser fetchByUserIds_Last(long userId,
-		OrderByComparator<TopicUser> orderByComparator) {
-		int count = countByUserIds(userId);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<TopicUser> list = findByUserIds(userId, count - 1, count,
+		List<TopicUser> list = findByUserIds(companyId, userId, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1380,9 +1436,72 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the topic users before and after the current topic user in the ordered set where userId = &#63;.
+	 * Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user
+	 * @throws NoSuchTopicUserException if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser findByUserIds_Last(long companyId, long userId,
+		OrderByComparator<TopicUser> orderByComparator)
+		throws NoSuchTopicUserException {
+		TopicUser topicUser = fetchByUserIds_Last(companyId, userId,
+				orderByComparator);
+
+		if (topicUser != null) {
+			return topicUser;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", userId=");
+		msg.append(userId);
+
+		msg.append("}");
+
+		throw new NoSuchTopicUserException(msg.toString());
+	}
+
+	/**
+	 * Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param userId the user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser fetchByUserIds_Last(long companyId, long userId,
+		OrderByComparator<TopicUser> orderByComparator) {
+		int count = countByUserIds(companyId, userId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<TopicUser> list = findByUserIds(companyId, userId, count - 1,
+				count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and userId = &#63;.
 	 *
 	 * @param topicUserPK the primary key of the current topic user
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next topic user
@@ -1390,7 +1509,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 */
 	@Override
 	public TopicUser[] findByUserIds_PrevAndNext(TopicUserPK topicUserPK,
-		long userId, OrderByComparator<TopicUser> orderByComparator)
+		long companyId, long userId,
+		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
 		TopicUser topicUser = findByPrimaryKey(topicUserPK);
 
@@ -1401,13 +1521,13 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			TopicUser[] array = new TopicUserImpl[3];
 
-			array[0] = getByUserIds_PrevAndNext(session, topicUser, userId,
-					orderByComparator, true);
+			array[0] = getByUserIds_PrevAndNext(session, topicUser, companyId,
+					userId, orderByComparator, true);
 
 			array[1] = topicUser;
 
-			array[2] = getByUserIds_PrevAndNext(session, topicUser, userId,
-					orderByComparator, false);
+			array[2] = getByUserIds_PrevAndNext(session, topicUser, companyId,
+					userId, orderByComparator, false);
 
 			return array;
 		}
@@ -1420,20 +1540,22 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	protected TopicUser getByUserIds_PrevAndNext(Session session,
-		TopicUser topicUser, long userId,
+		TopicUser topicUser, long companyId, long userId,
 		OrderByComparator<TopicUser> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
+			query = new StringBundler(5 +
 					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+		query.append(_FINDER_COLUMN_USERIDS_COMPANYID_2);
 
 		query.append(_FINDER_COLUMN_USERIDS_USERID_2);
 
@@ -1505,6 +1627,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
+		qPos.add(companyId);
+
 		qPos.add(userId);
 
 		if (orderByComparator != null) {
@@ -1526,44 +1650,49 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns all the topic users where userId = any &#63;.
+	 * Returns all the topic users where companyId = &#63; and userId = any &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userIds the user IDs
 	 * @return the matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long[] userIds) {
-		return findByUserIds(userIds, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<TopicUser> findByUserIds(long companyId, long[] userIds) {
+		return findByUserIds(companyId, userIds, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the topic users where userId = any &#63;.
+	 * Returns a range of all the topic users where companyId = &#63; and userId = any &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userIds the user IDs
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
 	 * @return the range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long[] userIds, int start, int end) {
-		return findByUserIds(userIds, start, end, null);
+	public List<TopicUser> findByUserIds(long companyId, long[] userIds,
+		int start, int end) {
+		return findByUserIds(companyId, userIds, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where userId = any &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and userId = any &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userIds the user IDs
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -1571,18 +1700,20 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long[] userIds, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator) {
-		return findByUserIds(userIds, start, end, orderByComparator, true);
+	public List<TopicUser> findByUserIds(long companyId, long[] userIds,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator) {
+		return findByUserIds(companyId, userIds, start, end, orderByComparator,
+			true);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where userId = &#63;, optionally using the finder cache.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;, optionally using the finder cache.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -1591,8 +1722,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByUserIds(long[] userIds, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator,
+	public List<TopicUser> findByUserIds(long companyId, long[] userIds,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache) {
 		if (userIds == null) {
 			userIds = new long[0];
@@ -1604,7 +1735,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		}
 
 		if (userIds.length == 1) {
-			return findByUserIds(userIds[0], start, end, orderByComparator);
+			return findByUserIds(companyId, userIds[0], start, end,
+				orderByComparator);
 		}
 
 		boolean pagination = true;
@@ -1613,11 +1745,11 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderArgs = new Object[] { StringUtil.merge(userIds) };
+			finderArgs = new Object[] { companyId, StringUtil.merge(userIds) };
 		}
 		else {
 			finderArgs = new Object[] {
-					StringUtil.merge(userIds),
+					companyId, StringUtil.merge(userIds),
 					
 					start, end, orderByComparator
 				};
@@ -1631,7 +1763,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TopicUser topicUser : list) {
-					if (!ArrayUtil.contains(userIds, topicUser.getUserId())) {
+					if ((companyId != topicUser.getCompanyId()) ||
+							!ArrayUtil.contains(userIds, topicUser.getUserId())) {
 						list = null;
 
 						break;
@@ -1644,6 +1777,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = new StringBundler();
 
 			query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_USERIDS_COMPANYID_2);
 
 			if (userIds.length > 0) {
 				query.append("(");
@@ -1677,6 +1812,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				session = openSession();
 
 				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				if (!pagination) {
 					list = (List<TopicUser>)QueryUtil.list(q, getDialect(),
@@ -1711,36 +1850,40 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Removes all the topic users where userId = &#63; from the database.
+	 * Removes all the topic users where companyId = &#63; and userId = &#63; from the database.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 */
 	@Override
-	public void removeByUserIds(long userId) {
-		for (TopicUser topicUser : findByUserIds(userId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+	public void removeByUserIds(long companyId, long userId) {
+		for (TopicUser topicUser : findByUserIds(companyId, userId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(topicUser);
 		}
 	}
 
 	/**
-	 * Returns the number of topic users where userId = &#63;.
+	 * Returns the number of topic users where companyId = &#63; and userId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userId the user ID
 	 * @return the number of matching topic users
 	 */
 	@Override
-	public int countByUserIds(long userId) {
+	public int countByUserIds(long companyId, long userId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_USERIDS;
 
-		Object[] finderArgs = new Object[] { userId };
+		Object[] finderArgs = new Object[] { companyId, userId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_USERIDS_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_USERIDS_USERID_2);
 
@@ -1754,6 +1897,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(userId);
 
@@ -1775,13 +1920,14 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the number of topic users where userId = any &#63;.
+	 * Returns the number of topic users where companyId = &#63; and userId = any &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param userIds the user IDs
 	 * @return the number of matching topic users
 	 */
 	@Override
-	public int countByUserIds(long[] userIds) {
+	public int countByUserIds(long companyId, long[] userIds) {
 		if (userIds == null) {
 			userIds = new long[0];
 		}
@@ -1791,7 +1937,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			Arrays.sort(userIds);
 		}
 
-		Object[] finderArgs = new Object[] { StringUtil.merge(userIds) };
+		Object[] finderArgs = new Object[] { companyId, StringUtil.merge(userIds) };
 
 		Long count = (Long)finderCache.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_USERIDS,
 				finderArgs, this);
@@ -1800,6 +1946,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = new StringBundler();
 
 			query.append(_SQL_COUNT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_USERIDS_COMPANYID_2);
 
 			if (userIds.length > 0) {
 				query.append("(");
@@ -1825,6 +1973,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 				Query q = session.createQuery(sql);
 
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
 				count = (Long)q.uniqueResult();
 
 				finderCache.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_USERIDS,
@@ -1844,13 +1996,14 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_USERIDS_COMPANYID_2 = "topicUser.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_USERIDS_USERID_2 = "topicUser.id.userId = ?";
 	private static final String _FINDER_COLUMN_USERIDS_USERID_7 = "topicUser.id.userId IN (";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_TOPICIDS = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTopicIds",
 			new String[] {
-				Long.class.getName(),
+				Long.class.getName(), Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -1859,54 +2012,59 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, TopicUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTopicIds",
-			new String[] { Long.class.getName() },
+			new String[] { Long.class.getName(), Long.class.getName() },
+			TopicUserModelImpl.COMPANYID_COLUMN_BITMASK |
 			TopicUserModelImpl.TOPICID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_TOPICIDS = new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTopicIds",
-			new String[] { Long.class.getName() });
+			new String[] { Long.class.getName(), Long.class.getName() });
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_TOPICIDS =
 		new FinderPath(TopicUserModelImpl.ENTITY_CACHE_ENABLED,
 			TopicUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByTopicIds",
-			new String[] { Long.class.getName() });
+			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the topic users where topicId = &#63;.
+	 * Returns all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @return the matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long topicId) {
-		return findByTopicIds(topicId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+	public List<TopicUser> findByTopicIds(long companyId, long topicId) {
+		return findByTopicIds(companyId, topicId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the topic users where topicId = &#63;.
+	 * Returns a range of all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
 	 * @return the range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long topicId, int start, int end) {
-		return findByTopicIds(topicId, start, end, null);
+	public List<TopicUser> findByTopicIds(long companyId, long topicId,
+		int start, int end) {
+		return findByTopicIds(companyId, topicId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where topicId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -1914,18 +2072,20 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long topicId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator) {
-		return findByTopicIds(topicId, start, end, orderByComparator, true);
+	public List<TopicUser> findByTopicIds(long companyId, long topicId,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator) {
+		return findByTopicIds(companyId, topicId, start, end,
+			orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where topicId = &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -1934,8 +2094,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long topicId, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator,
+	public List<TopicUser> findByTopicIds(long companyId, long topicId,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -1945,11 +2105,15 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				(orderByComparator == null)) {
 			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICIDS;
-			finderArgs = new Object[] { topicId };
+			finderArgs = new Object[] { companyId, topicId };
 		}
 		else {
 			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_TOPICIDS;
-			finderArgs = new Object[] { topicId, start, end, orderByComparator };
+			finderArgs = new Object[] {
+					companyId, topicId,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<TopicUser> list = null;
@@ -1960,7 +2124,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TopicUser topicUser : list) {
-					if ((topicId != topicUser.getTopicId())) {
+					if ((companyId != topicUser.getCompanyId()) ||
+							(topicId != topicUser.getTopicId())) {
 						list = null;
 
 						break;
@@ -1973,14 +2138,16 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICIDS_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_TOPICIDS_TOPICID_2);
 
@@ -2003,6 +2170,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(topicId);
 
@@ -2037,28 +2206,33 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where topicId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user
 	 * @throws NoSuchTopicUserException if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser findByTopicIds_First(long topicId,
+	public TopicUser findByTopicIds_First(long companyId, long topicId,
 		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByTopicIds_First(topicId, orderByComparator);
+		TopicUser topicUser = fetchByTopicIds_First(companyId, topicId,
+				orderByComparator);
 
 		if (topicUser != null) {
 			return topicUser;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("topicId=");
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", topicId=");
 		msg.append(topicId);
 
 		msg.append("}");
@@ -2067,71 +2241,17 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the first topic user in the ordered set where topicId = &#63;.
+	 * Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	 */
 	@Override
-	public TopicUser fetchByTopicIds_First(long topicId,
+	public TopicUser fetchByTopicIds_First(long companyId, long topicId,
 		OrderByComparator<TopicUser> orderByComparator) {
-		List<TopicUser> list = findByTopicIds(topicId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where topicId = &#63;.
-	 *
-	 * @param topicId the topic ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user
-	 * @throws NoSuchTopicUserException if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser findByTopicIds_Last(long topicId,
-		OrderByComparator<TopicUser> orderByComparator)
-		throws NoSuchTopicUserException {
-		TopicUser topicUser = fetchByTopicIds_Last(topicId, orderByComparator);
-
-		if (topicUser != null) {
-			return topicUser;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("topicId=");
-		msg.append(topicId);
-
-		msg.append("}");
-
-		throw new NoSuchTopicUserException(msg.toString());
-	}
-
-	/**
-	 * Returns the last topic user in the ordered set where topicId = &#63;.
-	 *
-	 * @param topicId the topic ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
-	 */
-	@Override
-	public TopicUser fetchByTopicIds_Last(long topicId,
-		OrderByComparator<TopicUser> orderByComparator) {
-		int count = countByTopicIds(topicId);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<TopicUser> list = findByTopicIds(topicId, count - 1, count,
+		List<TopicUser> list = findByTopicIds(companyId, topicId, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2142,9 +2262,72 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the topic users before and after the current topic user in the ordered set where topicId = &#63;.
+	 * Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user
+	 * @throws NoSuchTopicUserException if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser findByTopicIds_Last(long companyId, long topicId,
+		OrderByComparator<TopicUser> orderByComparator)
+		throws NoSuchTopicUserException {
+		TopicUser topicUser = fetchByTopicIds_Last(companyId, topicId,
+				orderByComparator);
+
+		if (topicUser != null) {
+			return topicUser;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("companyId=");
+		msg.append(companyId);
+
+		msg.append(", topicId=");
+		msg.append(topicId);
+
+		msg.append("}");
+
+		throw new NoSuchTopicUserException(msg.toString());
+	}
+
+	/**
+	 * Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	 *
+	 * @param companyId the company ID
+	 * @param topicId the topic ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
+	 */
+	@Override
+	public TopicUser fetchByTopicIds_Last(long companyId, long topicId,
+		OrderByComparator<TopicUser> orderByComparator) {
+		int count = countByTopicIds(companyId, topicId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<TopicUser> list = findByTopicIds(companyId, topicId, count - 1,
+				count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and topicId = &#63;.
 	 *
 	 * @param topicUserPK the primary key of the current topic user
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next topic user
@@ -2152,7 +2335,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 */
 	@Override
 	public TopicUser[] findByTopicIds_PrevAndNext(TopicUserPK topicUserPK,
-		long topicId, OrderByComparator<TopicUser> orderByComparator)
+		long companyId, long topicId,
+		OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException {
 		TopicUser topicUser = findByPrimaryKey(topicUserPK);
 
@@ -2163,13 +2347,13 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			TopicUser[] array = new TopicUserImpl[3];
 
-			array[0] = getByTopicIds_PrevAndNext(session, topicUser, topicId,
-					orderByComparator, true);
+			array[0] = getByTopicIds_PrevAndNext(session, topicUser, companyId,
+					topicId, orderByComparator, true);
 
 			array[1] = topicUser;
 
-			array[2] = getByTopicIds_PrevAndNext(session, topicUser, topicId,
-					orderByComparator, false);
+			array[2] = getByTopicIds_PrevAndNext(session, topicUser, companyId,
+					topicId, orderByComparator, false);
 
 			return array;
 		}
@@ -2182,20 +2366,22 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	protected TopicUser getByTopicIds_PrevAndNext(Session session,
-		TopicUser topicUser, long topicId,
+		TopicUser topicUser, long companyId, long topicId,
 		OrderByComparator<TopicUser> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(4 +
+			query = new StringBundler(5 +
 					(orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			query = new StringBundler(4);
 		}
 
 		query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+		query.append(_FINDER_COLUMN_TOPICIDS_COMPANYID_2);
 
 		query.append(_FINDER_COLUMN_TOPICIDS_TOPICID_2);
 
@@ -2267,6 +2453,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
+		qPos.add(companyId);
+
 		qPos.add(topicId);
 
 		if (orderByComparator != null) {
@@ -2288,45 +2476,49 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns all the topic users where topicId = any &#63;.
+	 * Returns all the topic users where companyId = &#63; and topicId = any &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicIds the topic IDs
 	 * @return the matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long[] topicIds) {
-		return findByTopicIds(topicIds, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+	public List<TopicUser> findByTopicIds(long companyId, long[] topicIds) {
+		return findByTopicIds(companyId, topicIds, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the topic users where topicId = any &#63;.
+	 * Returns a range of all the topic users where companyId = &#63; and topicId = any &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicIds the topic IDs
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
 	 * @return the range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long[] topicIds, int start, int end) {
-		return findByTopicIds(topicIds, start, end, null);
+	public List<TopicUser> findByTopicIds(long companyId, long[] topicIds,
+		int start, int end) {
+		return findByTopicIds(companyId, topicIds, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where topicId = any &#63;.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and topicId = any &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicIds the topic IDs
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -2334,18 +2526,20 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long[] topicIds, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator) {
-		return findByTopicIds(topicIds, start, end, orderByComparator, true);
+	public List<TopicUser> findByTopicIds(long companyId, long[] topicIds,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator) {
+		return findByTopicIds(companyId, topicIds, start, end,
+			orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the topic users where topicId = &#63;, optionally using the finder cache.
+	 * Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;, optionally using the finder cache.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @param start the lower bound of the range of topic users
 	 * @param end the upper bound of the range of topic users (not inclusive)
@@ -2354,8 +2548,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	 * @return the ordered range of matching topic users
 	 */
 	@Override
-	public List<TopicUser> findByTopicIds(long[] topicIds, int start, int end,
-		OrderByComparator<TopicUser> orderByComparator,
+	public List<TopicUser> findByTopicIds(long companyId, long[] topicIds,
+		int start, int end, OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache) {
 		if (topicIds == null) {
 			topicIds = new long[0];
@@ -2367,7 +2561,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		}
 
 		if (topicIds.length == 1) {
-			return findByTopicIds(topicIds[0], start, end, orderByComparator);
+			return findByTopicIds(companyId, topicIds[0], start, end,
+				orderByComparator);
 		}
 
 		boolean pagination = true;
@@ -2376,11 +2571,11 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 				(orderByComparator == null)) {
 			pagination = false;
-			finderArgs = new Object[] { StringUtil.merge(topicIds) };
+			finderArgs = new Object[] { companyId, StringUtil.merge(topicIds) };
 		}
 		else {
 			finderArgs = new Object[] {
-					StringUtil.merge(topicIds),
+					companyId, StringUtil.merge(topicIds),
 					
 					start, end, orderByComparator
 				};
@@ -2394,7 +2589,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 			if ((list != null) && !list.isEmpty()) {
 				for (TopicUser topicUser : list) {
-					if (!ArrayUtil.contains(topicIds, topicUser.getTopicId())) {
+					if ((companyId != topicUser.getCompanyId()) ||
+							!ArrayUtil.contains(topicIds, topicUser.getTopicId())) {
 						list = null;
 
 						break;
@@ -2407,6 +2603,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = new StringBundler();
 
 			query.append(_SQL_SELECT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICIDS_COMPANYID_2);
 
 			if (topicIds.length > 0) {
 				query.append("(");
@@ -2441,6 +2639,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 				Query q = session.createQuery(sql);
 
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
 				if (!pagination) {
 					list = (List<TopicUser>)QueryUtil.list(q, getDialect(),
 							start, end, false);
@@ -2474,36 +2676,40 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Removes all the topic users where topicId = &#63; from the database.
+	 * Removes all the topic users where companyId = &#63; and topicId = &#63; from the database.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 */
 	@Override
-	public void removeByTopicIds(long topicId) {
-		for (TopicUser topicUser : findByTopicIds(topicId, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+	public void removeByTopicIds(long companyId, long topicId) {
+		for (TopicUser topicUser : findByTopicIds(companyId, topicId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(topicUser);
 		}
 	}
 
 	/**
-	 * Returns the number of topic users where topicId = &#63;.
+	 * Returns the number of topic users where companyId = &#63; and topicId = &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicId the topic ID
 	 * @return the number of matching topic users
 	 */
 	@Override
-	public int countByTopicIds(long topicId) {
+	public int countByTopicIds(long companyId, long topicId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_TOPICIDS;
 
-		Object[] finderArgs = new Object[] { topicId };
+		Object[] finderArgs = new Object[] { companyId, topicId };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICIDS_COMPANYID_2);
 
 			query.append(_FINDER_COLUMN_TOPICIDS_TOPICID_2);
 
@@ -2517,6 +2723,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
 
 				qPos.add(topicId);
 
@@ -2538,13 +2746,14 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 	}
 
 	/**
-	 * Returns the number of topic users where topicId = any &#63;.
+	 * Returns the number of topic users where companyId = &#63; and topicId = any &#63;.
 	 *
+	 * @param companyId the company ID
 	 * @param topicIds the topic IDs
 	 * @return the number of matching topic users
 	 */
 	@Override
-	public int countByTopicIds(long[] topicIds) {
+	public int countByTopicIds(long companyId, long[] topicIds) {
 		if (topicIds == null) {
 			topicIds = new long[0];
 		}
@@ -2554,7 +2763,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			Arrays.sort(topicIds);
 		}
 
-		Object[] finderArgs = new Object[] { StringUtil.merge(topicIds) };
+		Object[] finderArgs = new Object[] { companyId, StringUtil.merge(topicIds) };
 
 		Long count = (Long)finderCache.getResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_TOPICIDS,
 				finderArgs, this);
@@ -2563,6 +2772,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			StringBundler query = new StringBundler();
 
 			query.append(_SQL_COUNT_TOPICUSER_WHERE);
+
+			query.append(_FINDER_COLUMN_TOPICIDS_COMPANYID_2);
 
 			if (topicIds.length > 0) {
 				query.append("(");
@@ -2588,6 +2799,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 				Query q = session.createQuery(sql);
 
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(companyId);
+
 				count = (Long)q.uniqueResult();
 
 				finderCache.putResult(FINDER_PATH_WITH_PAGINATION_COUNT_BY_TOPICIDS,
@@ -2607,6 +2822,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_TOPICIDS_COMPANYID_2 = "topicUser.companyId = ? AND ";
 	private static final String _FINDER_COLUMN_TOPICIDS_TOPICID_2 = "topicUser.id.topicId = ?";
 	private static final String _FINDER_COLUMN_TOPICIDS_TOPICID_7 = "topicUser.id.topicId IN (";
 
@@ -2700,6 +2916,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 
 		topicUser.setNew(true);
 		topicUser.setPrimaryKey(topicUserPK);
+
+		topicUser.setCompanyId(companyProvider.getCompanyId());
 
 		return topicUser;
 	}
@@ -2837,25 +3055,37 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		}
 		else
 		 if (isNew) {
-			Object[] args = new Object[] { topicUserModelImpl.getUserId() };
+			Object[] args = new Object[] {
+					topicUserModelImpl.getCompanyId(),
+					topicUserModelImpl.getUserId()
+				};
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
 				args);
 
-			args = new Object[] { topicUserModelImpl.getTopicId() };
+			args = new Object[] {
+					topicUserModelImpl.getCompanyId(),
+					topicUserModelImpl.getTopicId()
+				};
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_TOPICID, args);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID,
 				args);
 
-			args = new Object[] { topicUserModelImpl.getUserId() };
+			args = new Object[] {
+					topicUserModelImpl.getCompanyId(),
+					topicUserModelImpl.getUserId()
+				};
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_USERIDS, args);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDS,
 				args);
 
-			args = new Object[] { topicUserModelImpl.getTopicId() };
+			args = new Object[] {
+					topicUserModelImpl.getCompanyId(),
+					topicUserModelImpl.getTopicId()
+				};
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_TOPICIDS, args);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICIDS,
@@ -2870,6 +3100,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			if ((topicUserModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
+						topicUserModelImpl.getOriginalCompanyId(),
 						topicUserModelImpl.getOriginalUserId()
 					};
 
@@ -2877,7 +3108,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
 					args);
 
-				args = new Object[] { topicUserModelImpl.getUserId() };
+				args = new Object[] {
+						topicUserModelImpl.getCompanyId(),
+						topicUserModelImpl.getUserId()
+					};
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_USERID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERID,
@@ -2887,6 +3121,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			if ((topicUserModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
+						topicUserModelImpl.getOriginalCompanyId(),
 						topicUserModelImpl.getOriginalTopicId()
 					};
 
@@ -2894,7 +3129,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID,
 					args);
 
-				args = new Object[] { topicUserModelImpl.getTopicId() };
+				args = new Object[] {
+						topicUserModelImpl.getCompanyId(),
+						topicUserModelImpl.getTopicId()
+					};
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_TOPICID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICID,
@@ -2904,6 +3142,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			if ((topicUserModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDS.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
+						topicUserModelImpl.getOriginalCompanyId(),
 						topicUserModelImpl.getOriginalUserId()
 					};
 
@@ -2911,7 +3150,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDS,
 					args);
 
-				args = new Object[] { topicUserModelImpl.getUserId() };
+				args = new Object[] {
+						topicUserModelImpl.getCompanyId(),
+						topicUserModelImpl.getUserId()
+					};
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_USERIDS, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERIDS,
@@ -2921,6 +3163,7 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 			if ((topicUserModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICIDS.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
+						topicUserModelImpl.getOriginalCompanyId(),
 						topicUserModelImpl.getOriginalTopicId()
 					};
 
@@ -2928,7 +3171,10 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICIDS,
 					args);
 
-				args = new Object[] { topicUserModelImpl.getTopicId() };
+				args = new Object[] {
+						topicUserModelImpl.getCompanyId(),
+						topicUserModelImpl.getTopicId()
+					};
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_TOPICIDS, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_TOPICIDS,
@@ -3274,6 +3520,8 @@ public class TopicUserPersistenceImpl extends BasePersistenceImpl<TopicUser>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

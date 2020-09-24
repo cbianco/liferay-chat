@@ -3,5 +3,7 @@ create index IX_29906905 on Conversation_Message (uuid_[$COLUMN_LENGTH:75$], com
 
 create index IX_CDB1D32D on Conversation_Topic (uuid_[$COLUMN_LENGTH:75$], companyId);
 
+create index IX_A788FF56 on Conversation_TopicUser (companyId, topicId);
+create index IX_5455CBE on Conversation_TopicUser (companyId, userId);
 create index IX_5DFA9EB6 on Conversation_TopicUser (topicId);
 create index IX_3472515E on Conversation_TopicUser (userId);

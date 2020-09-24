@@ -14,7 +14,10 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.service.base.MessageServiceBaseImpl;
+
+import java.util.Collection;
 
 /**
  * The implementation of the message remote service.
@@ -36,4 +39,22 @@ public class MessageServiceImpl extends MessageServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.MessageServiceUtil} to access the message remote service.
 	 */
+
+	@Override
+	public Collection<Message> getTopicMessages(long topicId) {
+
+		// TODO Add permission controls
+
+		return messageLocalService.getTopicMessages(topicId);
+	}
+
+	@Override
+	public Collection<Message> getTopicMessages(
+		long topicId, int start, int end) {
+
+		// TODO Add permission controls
+
+		return messageLocalService.getTopicMessages(topicId, start, end);
+	}
+
 }

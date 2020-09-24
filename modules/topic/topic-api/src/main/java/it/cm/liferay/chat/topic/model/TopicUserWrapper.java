@@ -58,6 +58,7 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 
 		attributes.put("topicId", getTopicId());
 		attributes.put("userId", getUserId());
+		attributes.put("companyId", getCompanyId());
 
 		return attributes;
 	}
@@ -75,6 +76,12 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 		if (userId != null) {
 			setUserId(userId);
 		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
+		}
 	}
 
 	@Override
@@ -85,6 +92,16 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 	@Override
 	public int compareTo(TopicUser topicUser) {
 		return _topicUser.compareTo(topicUser);
+	}
+
+	/**
+	* Returns the company ID of this topic user.
+	*
+	* @return the company ID of this topic user
+	*/
+	@Override
+	public long getCompanyId() {
+		return _topicUser.getCompanyId();
 	}
 
 	@Override
@@ -165,6 +182,16 @@ public class TopicUserWrapper implements TopicUser, ModelWrapper<TopicUser> {
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_topicUser.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this topic user.
+	*
+	* @param companyId the company ID of this topic user
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_topicUser.setCompanyId(companyId);
 	}
 
 	@Override

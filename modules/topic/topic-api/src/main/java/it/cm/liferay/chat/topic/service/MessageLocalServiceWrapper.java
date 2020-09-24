@@ -281,6 +281,18 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 		return _messageLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId) {
+		return _messageLocalService.getTopicMessages(topicId);
+	}
+
+	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		long topicId, int start, int end) {
+		return _messageLocalService.getTopicMessages(topicId, start, end);
+	}
+
 	/**
 	* Updates the message in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

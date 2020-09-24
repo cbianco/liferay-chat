@@ -16,12 +16,21 @@ package it.cm.liferay.chat.topic.service.http;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.auth.HttpPrincipal;
+import com.liferay.portal.kernel.service.http.TunnelUtil;
+import com.liferay.portal.kernel.util.MethodHandler;
+import com.liferay.portal.kernel.util.MethodKey;
+
+import it.cm.liferay.chat.topic.service.MessageServiceUtil;
+
 /**
  * Provides the HTTP utility for the
- * {@link it.cm.liferay.chat.topic.service.MessageServiceUtil} service utility. The
+ * {@link MessageServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it requires an additional
- * {@link com.liferay.portal.kernel.security.auth.HttpPrincipal} parameter.
+ * {@link HttpPrincipal} parameter.
  *
  * <p>
  * The benefits of using the HTTP utility is that it is fast and allows for
@@ -40,10 +49,70 @@ import aQute.bnd.annotation.ProviderType;
  *
  * @author Brian Wing Shun Chan
  * @see MessageServiceSoap
- * @see com.liferay.portal.kernel.security.auth.HttpPrincipal
- * @see it.cm.liferay.chat.topic.service.MessageServiceUtil
+ * @see HttpPrincipal
+ * @see MessageServiceUtil
  * @generated
  */
 @ProviderType
 public class MessageServiceHttp {
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		HttpPrincipal httpPrincipal, long topicId) {
+		try {
+			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
+					"getTopicMessages", _getTopicMessagesParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (java.util.Collection<it.cm.liferay.chat.topic.model.Message>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
+		HttpPrincipal httpPrincipal, long topicId, int start, int end) {
+		try {
+			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
+					"getTopicMessages", _getTopicMessagesParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, topicId,
+					start, end);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (java.util.Collection<it.cm.liferay.chat.topic.model.Message>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(MessageServiceHttp.class);
+	private static final Class<?>[] _getTopicMessagesParameterTypes0 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getTopicMessagesParameterTypes1 = new Class[] {
+			long.class, int.class, int.class
+		};
 }
