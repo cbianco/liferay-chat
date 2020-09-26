@@ -13,8 +13,9 @@ export default class WriteBar extends React.Component {
 	//  function handler inside class declaration
     keyPress(event) {
         if (event.charCode == 13) {
-            event.preventDefault()
-            this.form.dispatchEvent(new Event('submit'));
+            event.preventDefault();
+            //this.form.dispatchEvent(new Event('submit'), { cancelable: true });
+            this.handleSubmit(new Event('submit'));
         }
     }
 
@@ -23,7 +24,10 @@ export default class WriteBar extends React.Component {
 
 		let userId = this.props.ctxt.userId;
         let topicId = this.props.topic.topicId;
-        let message = event.target.getElementsByClassName('message')[0].value;
+        //let input = event.target.getElementsByClassName('message')[0];
+        let input = document.getElementById('message');
+        let message = input.value;
+        input.value = '';
 		//console.log(message);
 
 		if (!_.isEmpty(message)) {
@@ -42,8 +46,10 @@ export default class WriteBar extends React.Component {
 				>
 					<input
 						type="text"
+						id="message"
 						name="message"
 						className="message"
+						autoComplete="off"
 						onKeyPress={this.keyPress.bind(this)}
 						placeholder={Liferay.Language.get('message')}
 						ref={ (ref) => { this.message = ref; } }

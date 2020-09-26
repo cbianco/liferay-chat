@@ -46,8 +46,6 @@ public class MessageImpl extends MessageBaseImpl {
 
 		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
 
-		DateSearchEntry
-
 		jsonObject.put("messageId", getMessageId());
 		jsonObject.put("userId", getUserId());
 		jsonObject.put("userName", getUserName());

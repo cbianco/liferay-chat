@@ -27,7 +27,7 @@ export default class Conversation extends React.Component {
 			<div className="cmd-topic-conversation">
 				<div className="cmd-conversation-message-list">
 					{this.state.messages.map(message =>
-						<Message key={message.messageId} message={message} />
+						<Message ctxt={this.props.ctxt} key={message.messageId} message={message} />
 					)}
 				</div>
 				<WriteBar ctxt={this.props.ctxt} topic={this.props.topic} />

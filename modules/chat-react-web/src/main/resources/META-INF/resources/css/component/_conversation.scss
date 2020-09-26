@@ -1,5 +1,29 @@
 .cmd-conversation-message-list {
+
 	min-height: 180px;
 	max-height: 230px;
 	overflow: scroll;
+
+	.cmd-conversation-message {
+
+		width: 90%;
+		border: 1px solid;
+		border-radius: 5px;
+		padding: 5px;
+		margin: 5px;
+
+		&.mine {
+			text-align: right;
+			margin-left: 24px;
+		}
+
+		.cmd-message-username {
+			font-weight: bold;
+		}
+
+		.cmd-message-date {
+			margin: 0;
+		}
+	}
+
 }
