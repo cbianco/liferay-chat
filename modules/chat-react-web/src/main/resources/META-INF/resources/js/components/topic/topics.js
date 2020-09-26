@@ -9,7 +9,7 @@ export default class Topics extends React.Component {
 			<div className="cmd-topics-container">
 				<ul className="cmd-topics-list">
 					{this.props.topics.map(topic =>
-						<Topic key={topic.topicId} />
+						<Topic ctxt={this.props.ctxt} key={topic.topicId} topic={topic} />
 					)}
 				</ul>
 			</div>

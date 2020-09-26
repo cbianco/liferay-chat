@@ -1,13 +1,12 @@
 package it.cm.liferay.chat.registry.handler;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.cm.liferay.chat.registry.client.message.ClientMessage;
+import it.cm.liferay.chat.topic.service.MessageServiceUtil;
 
-import javax.websocket.EncodeException;
-import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
-import java.io.IOException;
 
 /**
  * @author Mauro Celani
@@ -22,12 +21,13 @@ public class ClientMessageHandler implements BaseHandler<ClientMessage> {
 		_log.trace(message);
 
 		try {
-			RemoteEndpoint.Basic remoteEndpoint =
-				session.getBasicRemote();
-
-			remoteEndpoint.sendObject(message);
+			MessageServiceUtil.addMessage(
+				message.getUserId(),
+				message.getTopicId(),
+				message.getContent()
+			);
 		}
-		catch (IOException | EncodeException e) {
+		catch (PortalException e) {
 			_log.error(e, e);
 			throw new RuntimeException(e);
 		}

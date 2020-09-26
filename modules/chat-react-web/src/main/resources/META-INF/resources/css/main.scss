@@ -1,7 +1,10 @@
-html body {
-	height: auto;
-	padding-bottom: 30px;
-}
+@import 'component/variables';
+@import 'component/base';
+@import 'component/conversation';
+@import 'component/openable-tab';
+@import 'component/topics';
+@import 'component/write-bar';
+
 
 div.cmd-chat {
 
@@ -12,19 +15,9 @@ div.cmd-chat {
 
 	div.cmd-chat-bar-container {
 
-		$chat-width: 300px;
 		float: right;
 		display: inline-flex;
-
-        a.cmd-chat-bar {
-
-			width: $chat-width;
-			border-bottom-width: 1px;
-			border-bottom-left-radius: 0;
-			border-bottom-right-radius: 0;
-			padding-bottom: 6px;
-
-		}
+		align-items: flex-end;
 
 		div.cmd-chat-list-container {
 
@@ -36,11 +29,7 @@ div.cmd-chat {
 
                     display: block;
                     padding: 5px 5px 4px 7px;
-                    color: #869cad;
-                    border: 2px solid #869cad;
-                    border-top-width: 1px;
-                    border-bottom-width: 1px;
-                    background-color: #FFF;
+                    cursor: pointer;
 
                     &:hover, &:focus {
                         background-color: #e6e6e6;

@@ -1,6 +1,7 @@
 package it.cm.liferay.chat.registry.session.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -15,6 +16,7 @@ import it.cm.liferay.chat.registry.endpoint.MessageType;
 import it.cm.liferay.chat.registry.session.UserSession;
 import it.cm.liferay.chat.registry.session.UserSession.UserStatus;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
+import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.service.TopicService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -27,8 +29,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -189,13 +193,34 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		return _userSessionTopicsMap.containsKey(userId);
 	}
 
+	@Override
+	public void notifyMessage(Message message) {
+
+		try {
+			Collection<Long> topicUserIds =
+				_topicService.getTopic(message.getTopicId())
+					.getUserIds();
+
+			JSONObject messageJson = message.toJson();
+			messageJson.put(
+				MessageType.MSG_TYPE, MessageType.NEW_MESSAGE.name());
+
+			_broadcast(messageJson, t -> topicUserIds.contains(t.getKey()));
+		}
+		catch (PortalException e) {
+			_log.error(e, e);
+		}
+
+		updateLastActivityTime(message.getUserId());
+	}
+
 	private void _getOthers(Session session, long userId) {
 
 		Set<UserSession> others =
 			_userSessionTopicsMap.entrySet()
 				.stream()
 				.filter(t -> t.getKey() != userId)
-				.map(t -> t.getValue())
+				.map(Entry::getValue)
 				.collect(Collectors.toSet());
 
 		JSONObject othersJSON = JSONFactoryUtil.createJSONObject();
@@ -228,7 +253,8 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		_notifyUserOthers(MessageType.REMOVE_USER, userId);
 	}
 
-	private void _notifyUserOthers(MessageType messageType, long userId) {
+	private void _notifyUserOthers(
+		MessageType messageType, long userId) {
 
 		JSONObject newUserJSON = JSONFactoryUtil.createJSONObject();
 		newUserJSON.put(MessageType.MSG_TYPE, messageType.name());
@@ -237,14 +263,21 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 			_userSessionTopicsMap.get(userId)
 				.toJSON());
 
+		_broadcast(newUserJSON, t -> t.getKey() != userId);
+	}
+
+	private void _broadcast(
+		JSONObject messageJSON,
+		Predicate<? super Entry<Long, UserSession>> predicate) {
+
 		_userSessionTopicsMap.entrySet()
 			.stream()
-			.filter(t -> t.getKey() != userId)
+			.filter(predicate)
 			.flatMap(t -> t.getValue().getSessions().stream())
 			.forEach(session -> {
 				try {
 					session.getBasicRemote().sendText(
-						newUserJSON.toJSONString()
+						messageJSON.toJSONString()
 					);
 				}
 				catch (IOException e) {

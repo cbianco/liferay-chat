@@ -18,7 +18,7 @@ import javax.websocket.CloseReason;
 import javax.websocket.Decoder.Text;
 import javax.websocket.Endpoint;
 import javax.websocket.EndpointConfig;
-import javax.websocket.MessageHandler;
+import javax.websocket.MessageHandler.Whole;
 import javax.websocket.Session;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ConversationRegistryEndpoint extends Endpoint {
 		final Session session, EndpointConfig config) {
 
 		session.addMessageHandler(
-			new MessageHandler.Whole<String>() {
+			new Whole<String>() {
 
 				@Override
 				public void onMessage(String message) {

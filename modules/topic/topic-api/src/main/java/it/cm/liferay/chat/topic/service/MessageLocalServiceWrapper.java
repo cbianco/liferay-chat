@@ -32,6 +32,13 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 		_messageLocalService = messageLocalService;
 	}
 
+	@Override
+	public it.cm.liferay.chat.topic.model.Message addMessage(long userId,
+		long topicId, String content)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _messageLocalService.addMessage(userId, topicId, content);
+	}
+
 	/**
 	* Adds the message to the database. Also notifies the appropriate model listeners.
 	*

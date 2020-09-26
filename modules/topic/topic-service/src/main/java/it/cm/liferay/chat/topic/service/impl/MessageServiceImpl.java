@@ -14,6 +14,7 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.service.base.MessageServiceBaseImpl;
 
@@ -39,6 +40,16 @@ public class MessageServiceImpl extends MessageServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.MessageServiceUtil} to access the message remote service.
 	 */
+
+	@Override
+	public Message addMessage(
+			long userId, long topicId, String content)
+		throws PortalException {
+
+		// TODO Add permission controls
+
+		return messageLocalService.addMessage(userId, topicId, content);
+	}
 
 	@Override
 	public Collection<Message> getTopicMessages(long topicId) {

@@ -2,6 +2,7 @@ package it.cm.liferay.chat.registry.session;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
 import it.cm.liferay.chat.registry.client.message.ClientMessage;
+import it.cm.liferay.chat.topic.model.Message;
 import org.osgi.util.tracker.ServiceTracker;
 
 import javax.websocket.Session;
@@ -39,6 +40,10 @@ public class UserSessionRegistryUtil {
 		getService().updateLastActivityTime(userId);
 	}
 
+	public static void notifyMessage(Message message) {
+		getService().notifyMessage(message);
+	}
+
 	protected static UserSessionRegistry getService() {
 		return _serviceTracker.getService();
 	}
@@ -46,5 +51,4 @@ public class UserSessionRegistryUtil {
 	private static ServiceTracker<UserSessionRegistry, UserSessionRegistry>
 		_serviceTracker = ServiceTrackerFactory.open(
 			UserSessionRegistry.class);
-
 }

@@ -55,11 +55,43 @@ import it.cm.liferay.chat.topic.service.MessageServiceUtil;
  */
 @ProviderType
 public class MessageServiceHttp {
+	public static it.cm.liferay.chat.topic.model.Message addMessage(
+		HttpPrincipal httpPrincipal, long userId, long topicId, String content)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
+					"addMessage", _addMessageParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
+					topicId, content);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (it.cm.liferay.chat.topic.model.Message)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
 		HttpPrincipal httpPrincipal, long topicId) {
 		try {
 			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
-					"getTopicMessages", _getTopicMessagesParameterTypes0);
+					"getTopicMessages", _getTopicMessagesParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
 
@@ -85,7 +117,7 @@ public class MessageServiceHttp {
 		HttpPrincipal httpPrincipal, long topicId, int start, int end) {
 		try {
 			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
-					"getTopicMessages", _getTopicMessagesParameterTypes1);
+					"getTopicMessages", _getTopicMessagesParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, topicId,
 					start, end);
@@ -109,10 +141,13 @@ public class MessageServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(MessageServiceHttp.class);
-	private static final Class<?>[] _getTopicMessagesParameterTypes0 = new Class[] {
-			long.class
+	private static final Class<?>[] _addMessageParameterTypes0 = new Class[] {
+			long.class, long.class, String.class
 		};
 	private static final Class<?>[] _getTopicMessagesParameterTypes1 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getTopicMessagesParameterTypes2 = new Class[] {
 			long.class, int.class, int.class
 		};
 }

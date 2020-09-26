@@ -42,6 +42,11 @@ public class MessageLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.MessageLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static it.cm.liferay.chat.topic.model.Message addMessage(
+		long userId, long topicId, String content)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().addMessage(userId, topicId, content);
+	}
 
 	/**
 	* Adds the message to the database. Also notifies the appropriate model listeners.

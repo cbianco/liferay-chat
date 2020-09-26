@@ -54,6 +54,8 @@ public interface MessageService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link MessageServiceUtil} to access the message remote service. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.MessageServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public Message addMessage(long userId, long topicId, String content)
+		throws PortalException;
 
 	/**
 	* Returns the OSGi service identifier.

@@ -32,6 +32,13 @@ public class MessageServiceWrapper implements MessageService,
 		_messageService = messageService;
 	}
 
+	@Override
+	public it.cm.liferay.chat.topic.model.Message addMessage(long userId,
+		long topicId, String content)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _messageService.addMessage(userId, topicId, content);
+	}
+
 	/**
 	* Returns the OSGi service identifier.
 	*

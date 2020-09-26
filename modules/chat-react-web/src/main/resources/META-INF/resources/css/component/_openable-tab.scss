@@ -1,0 +1,19 @@
+.cmd-chat-openable-tab {
+
+	.cmd-chat-openable-tab-topper {
+		width: 300px;
+        border-bottom-width: 1px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding-bottom: 6px;
+	}
+
+	.cmd-chat-openable-tab-body {
+		background-color: $bg-color;
+		color: $palette-color1;
+		border: 2px solid $palette-color1;
+		border-top-width: 1px;
+		border-bottom-width: 1px;
+	}
+
+}

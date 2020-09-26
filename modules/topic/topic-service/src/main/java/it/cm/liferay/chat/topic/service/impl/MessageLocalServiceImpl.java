@@ -14,10 +14,13 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.service.base.MessageLocalServiceBaseImpl;
 
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * The implementation of the message local service.
@@ -39,6 +42,30 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link it.cm.liferay.chat.topic.service.MessageLocalServiceUtil} to access the message local service.
 	 */
+
+	@Override
+	public Message addMessage(
+			long userId, long topicId, String content)
+		throws PortalException {
+
+		long messageId = counterLocalService.increment(Message.class.getName());
+		Message message = messagePersistence.create(messageId);
+
+		User user = userLocalService.getUser(userId);
+		Date createDate = new Date();
+
+		message.setCompanyId(user.getCompanyId());
+		message.setUserId(userId);
+		message.setUserName(user.getFullName());
+		message.setCreateDate(createDate);
+		message.setModifiedDate(createDate);
+		message.setTopicId(topicId);
+		message.setContent(content);
+
+		messagePersistence.update(message);
+
+		return message;
+	}
 
 	@Override
 	public Collection<Message> getTopicMessages(long topicId) {

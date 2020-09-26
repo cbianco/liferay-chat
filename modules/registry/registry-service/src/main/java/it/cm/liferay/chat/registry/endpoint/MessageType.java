@@ -5,9 +5,15 @@ package it.cm.liferay.chat.registry.endpoint;
  */
 public enum MessageType {
 
+	// USERS
+
 	NEW_USER("newUser"),
 	REMOVE_USER("removeUser"),
-	OTHERS("others");
+	OTHERS("others"),
+
+	// MESSAGES
+
+	NEW_MESSAGE("newMessage");
 
 	MessageType(String jsonField) {
 		_jsonField = jsonField;

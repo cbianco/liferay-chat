@@ -17,6 +17,8 @@ package it.cm.liferay.chat.topic.model.impl;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.TopicService;
 
@@ -39,6 +41,30 @@ public class MessageImpl extends MessageBaseImpl {
 	public MessageImpl() {
 	}
 
+	@Override
+	public JSONObject toJson() {
+
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+		DateSearchEntry
+
+		jsonObject.put("messageId", getMessageId());
+		jsonObject.put("userId", getUserId());
+		jsonObject.put("userName", getUserName());
+		jsonObject.put("topicId", getTopicId());
+		jsonObject.put("content", getContent());
+		jsonObject.put("date", getCreateDate());
+
+		return jsonObject;
+	}
+
+	@Override
+	public String toJsonString() {
+
+		return toJson().toString();
+	}
+
+	@Override
 	public Topic getTopic() throws PortalException {
 		return topicService.getTopic(getTopicId());
 	}

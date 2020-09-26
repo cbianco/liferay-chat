@@ -2,6 +2,7 @@ package it.cm.liferay.chat.registry.session;
 
 import it.cm.liferay.chat.registry.client.message.ClientMessage;
 import it.cm.liferay.chat.registry.session.UserSession.UserStatus;
+import it.cm.liferay.chat.topic.model.Message;
 
 import javax.websocket.Session;
 import java.util.Collection;
@@ -27,6 +28,7 @@ public interface UserSessionRegistry {
 
 	public boolean isOnline(long userId);
 
-	public void updateLastActivityTime(long userId);
+	public void notifyMessage(Message message);
 
+	public void updateLastActivityTime(long userId);
 }

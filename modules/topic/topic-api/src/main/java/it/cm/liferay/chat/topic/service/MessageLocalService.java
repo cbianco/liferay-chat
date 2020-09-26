@@ -64,6 +64,8 @@ public interface MessageLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link MessageLocalServiceUtil} to access the message local service. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.MessageLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	public Message addMessage(long userId, long topicId, String content)
+		throws PortalException;
 
 	/**
 	* Adds the message to the database. Also notifies the appropriate model listeners.
