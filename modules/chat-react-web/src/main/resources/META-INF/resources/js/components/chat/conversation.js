@@ -10,7 +10,7 @@ export default class Conversation extends React.Component {
         super(props);
 
         this.state = {
-            messages: props.topic.messages
+            messages: _.sortBy(props.topic.messages, 'createDate')
         };
 
         let setState = this.setState.bind(this);
@@ -22,9 +22,21 @@ export default class Conversation extends React.Component {
 		});
 	}
 
-	componentDidUpdate() {
-        this.messageList.scrollIntoView({ behavior: "smooth" })
+	componentDidMount() {
+		this.scrollToBottom('auto');
     }
+
+	componentDidUpdate() {
+		this.scrollToBottom('smooth');
+    }
+
+    scrollToBottom(behavior) {
+		let bottomPos = this.messageList.scrollHeight;
+		this.messageList.scroll({
+			top: bottomPos,
+			behavior: behavior
+		});
+	}
 
 	render() {
 		return(
