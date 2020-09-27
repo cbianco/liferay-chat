@@ -10,7 +10,7 @@ export default class Conversation extends React.Component {
         super(props);
 
         this.state = {
-            messages: []
+            messages: props.topic.messages
         };
 
         let setState = this.setState.bind(this);
@@ -22,10 +22,17 @@ export default class Conversation extends React.Component {
 		});
 	}
 
+	componentDidUpdate() {
+        this.messageList.scrollIntoView({ behavior: "smooth" })
+    }
+
 	render() {
 		return(
 			<div className="cmd-topic-conversation">
-				<div className="cmd-conversation-message-list">
+				<div
+					className="cmd-conversation-message-list"
+					ref={(ref) => this.messageList = ref}
+				>
 					{this.state.messages.map(message =>
 						<Message ctxt={this.props.ctxt} key={message.messageId} message={message} />
 					)}

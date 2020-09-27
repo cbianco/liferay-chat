@@ -14,7 +14,6 @@ export default class WriteBar extends React.Component {
     keyPress(event) {
         if (event.charCode == 13) {
             event.preventDefault();
-            //this.form.dispatchEvent(new Event('submit'), { cancelable: true });
             this.handleSubmit(new Event('submit'));
         }
     }
@@ -24,7 +23,6 @@ export default class WriteBar extends React.Component {
 
 		let userId = this.props.ctxt.userId;
         let topicId = this.props.topic.topicId;
-        //let input = event.target.getElementsByClassName('message')[0];
         let input = document.getElementById('message');
         let message = input.value;
         input.value = '';

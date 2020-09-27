@@ -9,20 +9,25 @@
 		width: 90%;
 		border: 1px solid;
 		border-radius: 5px;
-		padding: 5px;
+		padding: 10px 13px;
 		margin: 5px;
+		color: white;
+		background-color: $palette-color2;
 
 		&.mine {
 			text-align: right;
 			margin-left: 24px;
+			background-color: $palette-color3;
 		}
 
 		.cmd-message-username {
 			font-weight: bold;
+			margin: 0;
 		}
 
 		.cmd-message-date {
 			margin: 0;
+			font-size: 12px;
 		}
 	}
 

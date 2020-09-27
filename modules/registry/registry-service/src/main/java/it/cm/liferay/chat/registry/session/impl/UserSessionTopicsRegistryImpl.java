@@ -201,7 +201,9 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 				_topicService.getTopic(message.getTopicId())
 					.getUserIds();
 
-			JSONObject messageJson = message.toJson();
+			JSONObject messageJson = JSONFactoryUtil.createJSONObject(
+				message.toJsonString());
+
 			messageJson.put(
 				MessageType.MSG_TYPE, MessageType.NEW_MESSAGE.name());
 

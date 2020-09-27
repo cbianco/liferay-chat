@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONSerializer;
 import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.TopicService;
 
@@ -42,24 +43,11 @@ public class MessageImpl extends MessageBaseImpl {
 	}
 
 	@Override
-	public JSONObject toJson() {
-
-		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
-
-		jsonObject.put("messageId", getMessageId());
-		jsonObject.put("userId", getUserId());
-		jsonObject.put("userName", getUserName());
-		jsonObject.put("topicId", getTopicId());
-		jsonObject.put("content", getContent());
-		jsonObject.put("date", getCreateDate());
-
-		return jsonObject;
-	}
-
-	@Override
 	public String toJsonString() {
 
-		return toJson().toString();
+		JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
+
+		return jsonSerializer.serialize(this);
 	}
 
 	@Override

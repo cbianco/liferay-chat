@@ -54,8 +54,6 @@ public interface Message extends MessageModel, PersistedModel {
 			}
 		};
 
-	public com.liferay.portal.kernel.json.JSONObject toJson();
-
 	public String toJsonString();
 
 	public it.cm.liferay.chat.topic.model.Topic getTopic()
