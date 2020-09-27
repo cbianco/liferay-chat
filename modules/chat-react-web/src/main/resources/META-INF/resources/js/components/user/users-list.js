@@ -1,15 +1,15 @@
 import React from 'react';
 
-import OnlineUser from './online-user';
+import User from './user';
 
-export default class OnlineUsersList extends React.Component {
+export default class UsersList extends React.Component {
 
 	render() {
 		return(
 			<div className="cmd-chat-list-container">
 				<ul className="cmd-chat-list">
 					{this.props.users.map(user =>
-						<OnlineUser key={user.userId} user={user} openTopic={this.props.openTopic} />
+						<User key={user.userId} user={user} openTopic={this.props.openTopic} />
 					)}
 				</ul>
 			</div>

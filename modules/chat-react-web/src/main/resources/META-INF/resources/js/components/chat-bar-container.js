@@ -1,6 +1,6 @@
 import React from 'react';
 
-import OnlineUsersList from './user/online-users-list';
+import UsersList from './user/users-list';
 import OpenableTab from './openable-tab';
 import Topics from './topic/topics';
 import { setWsHandler } from './websocket';
@@ -77,7 +77,7 @@ export default class ChatBarContainer extends React.Component {
 				<Topics ctxt={this.props.ctxt} topics={this.state.topics} />
 				<OpenableTab
 					topperTitle={A.Lang.sub(Liferay.Language.get('online-users-x'), [this.state.users.length])}
-					body={<OnlineUsersList ctxt={this.props.ctxt} users={this.state.users} openTopic={this.openTopic} />}
+					body={<UsersList ctxt={this.props.ctxt} users={this.state.users} openTopic={this.openTopic} />}
 				/>
 			</div>
 		);
