@@ -21,11 +21,9 @@ export default class OpenableTab extends React.Component {
 	render() {
 		return(
 			<div className="cmd-chat-openable-tab">
-				<a onClick={this.handleClick} className="cmd-chat-openable-tab-topper btn btn-default btn-sm">
-					<span>{this.props.topperTitle}</span>
-				</a>
-				<div className="cmd-chat-openable-tab-body">{this.state.isOpen && this.props.body}</div>
-			</div>
+				<a onClick={this.handleClick} className="cmd-chat-openable-tab-head btn btn-default btn-sm">{this.props.head}</a>
+            	<div className="cmd-chat-openable-tab-body">{this.state.isOpen && this.props.body}</div>
+            </div>
 		);
 	}
 

@@ -16,6 +16,7 @@ export default class ChatBarContainer extends React.Component {
 			onlineUsers: {}
         };
 
+		this.handleAdd = this.handleAdd.bind(this);
 		this.openTopic = this.openTopic.bind(this);
 		this.setState = this.setState.bind(this);
 
@@ -63,6 +64,12 @@ export default class ChatBarContainer extends React.Component {
 		});
 	}
 
+	handleAdd() {
+		this.setState({
+			isOpen: !this.state.isOpen
+		});
+	}
+
 	render() {
 
 		let A = this.props.ctxt.AUI;
@@ -73,10 +80,15 @@ export default class ChatBarContainer extends React.Component {
 			<div className="cmd-chat-bar-container container-fluid-1280">
 				<ActiveTopics ctxt={this.props.ctxt} activeTopics={this.state.activeTopics} />
 				<OpenableTab
-					topperTitle={A.Lang.sub(
-						Liferay.Language.get('online-users-x'),
-						[onlineUsersCount]
-					)}
+					head={
+						<div>
+							<span>{A.Lang.sub(
+								Liferay.Language.get('online-users-x'),
+								[onlineUsersCount]
+							)}</span>
+							<button onClick={this.handleAdd}>+</button>
+						</div>
+					}
 					body={
 						<TopicsList
 							ctxt={this.props.ctxt}

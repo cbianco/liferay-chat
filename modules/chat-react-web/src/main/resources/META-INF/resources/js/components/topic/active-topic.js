@@ -9,7 +9,7 @@ export default class ActiveTopic extends React.Component {
 		return(
 			<div className="cmd-topic-container">
 				<OpenableTab
-					topperTitle={this.props.topic.otherUsers[0].fullName}
+					head={<span>{this.props.topic.otherUsers[0].fullName}</span>}
 					body={<Conversation ctxt={this.props.ctxt} topic={this.props.topic} />} />
 			</div>
 		);
