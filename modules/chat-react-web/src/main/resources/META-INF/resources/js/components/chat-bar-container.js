@@ -64,10 +64,9 @@ export default class ChatBarContainer extends React.Component {
 		});
 	}
 
-	handleAdd() {
-		this.setState({
-			isOpen: !this.state.isOpen
-		});
+	handleAdd(event) {
+		event.stopPropagation();
+
 	}
 
 	render() {
@@ -81,12 +80,12 @@ export default class ChatBarContainer extends React.Component {
 				<ActiveTopics ctxt={this.props.ctxt} activeTopics={this.state.activeTopics} />
 				<OpenableTab
 					head={
-						<div>
+						<div className="cmd-chat-bar-main-topper">
 							<span>{A.Lang.sub(
 								Liferay.Language.get('online-users-x'),
 								[onlineUsersCount]
 							)}</span>
-							<button onClick={this.handleAdd}>+</button>
+							<button className="add-user" onClick={this.handleAdd}>+</button>
 						</div>
 					}
 					body={
