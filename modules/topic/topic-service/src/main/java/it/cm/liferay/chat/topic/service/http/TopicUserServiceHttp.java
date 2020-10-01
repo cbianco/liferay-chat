@@ -56,14 +56,13 @@ import it.cm.liferay.chat.topic.service.TopicUserServiceUtil;
 @ProviderType
 public class TopicUserServiceHttp {
 	public static java.util.Collection<Long> getTopicIdsByUserId(
-		HttpPrincipal httpPrincipal, long companyId, long userId)
+		HttpPrincipal httpPrincipal, long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(TopicUserServiceUtil.class,
 					"getTopicIdsByUserId", _getTopicIdsByUserIdParameterTypes0);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					companyId, userId);
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
 
 			Object returnObj = null;
 
@@ -88,14 +87,14 @@ public class TopicUserServiceHttp {
 	}
 
 	public static it.cm.liferay.chat.topic.model.Topic getTopicByUserIds(
-		HttpPrincipal httpPrincipal, long companyId, long userId1, long userId2)
+		HttpPrincipal httpPrincipal, long userId1, long userId2)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(TopicUserServiceUtil.class,
 					"getTopicByUserIds", _getTopicByUserIdsParameterTypes1);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					companyId, userId1, userId2);
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId1,
+					userId2);
 
 			Object returnObj = null;
 
@@ -120,14 +119,12 @@ public class TopicUserServiceHttp {
 	}
 
 	public static java.util.Collection<Long> getUserIdsByTopicId(
-		HttpPrincipal httpPrincipal, long companyId, long topicId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal, long topicId) {
 		try {
 			MethodKey methodKey = new MethodKey(TopicUserServiceUtil.class,
 					"getUserIdsByTopicId", _getUserIdsByTopicIdParameterTypes2);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					companyId, topicId);
+			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
 
 			Object returnObj = null;
 
@@ -135,10 +132,6 @@ public class TopicUserServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
@@ -153,12 +146,12 @@ public class TopicUserServiceHttp {
 
 	private static Log _log = LogFactoryUtil.getLog(TopicUserServiceHttp.class);
 	private static final Class<?>[] _getTopicIdsByUserIdParameterTypes0 = new Class[] {
-			long.class, long.class
+			long.class
 		};
 	private static final Class<?>[] _getTopicByUserIdsParameterTypes1 = new Class[] {
-			long.class, long.class, long.class
+			long.class, long.class
 		};
 	private static final Class<?>[] _getUserIdsByTopicIdParameterTypes2 = new Class[] {
-			long.class, long.class
+			long.class
 		};
 }

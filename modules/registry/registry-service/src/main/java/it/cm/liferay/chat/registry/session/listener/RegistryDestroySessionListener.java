@@ -35,7 +35,9 @@ public class RegistryDestroySessionListener extends SessionAction {
 
 		UserSession userSession = _userSessionRegistry.clearUserSession(userId);
 
-		userSession.closeSessions();
+		if (userSession != null) {
+			userSession.closeSessions();
+		}
 	}
 
 	@Reference

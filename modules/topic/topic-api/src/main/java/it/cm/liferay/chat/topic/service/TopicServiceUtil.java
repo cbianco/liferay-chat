@@ -68,6 +68,11 @@ public class TopicServiceUtil {
 		return getService().getTopicByUserIds(companyId, userId1, userId2);
 	}
 
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(
+		long userId) {
+		return getService().getTopicsByUserId(userId);
+	}
+
 	public static TopicService getService() {
 		return _serviceTracker.getService();
 	}

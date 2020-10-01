@@ -44,19 +44,15 @@
 		<!-- Finder methods -->
 
 		<finder name="UserId" return-type="Collection">
-			<finder-column name="companyId" />
 			<finder-column name="userId" />
 		</finder>
 		<finder name="TopicId" return-type="Collection">
-			<finder-column name="companyId" />
 			<finder-column name="topicId" />
 		</finder>
 		<finder name="UserIds" return-type="Collection">
-			<finder-column name="companyId" />
 			<finder-column arrayable-operator="OR" name="userId" />
 		</finder>
 		<finder name="TopicIds" return-type="Collection">
-			<finder-column name="companyId" />
 			<finder-column arrayable-operator="OR" name="topicId" />
 		</finder>
 

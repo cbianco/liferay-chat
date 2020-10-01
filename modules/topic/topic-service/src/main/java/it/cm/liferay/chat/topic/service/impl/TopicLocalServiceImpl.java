@@ -17,9 +17,13 @@ package it.cm.liferay.chat.topic.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import it.cm.liferay.chat.topic.model.Topic;
+import it.cm.liferay.chat.topic.model.TopicUserModel;
 import it.cm.liferay.chat.topic.service.base.TopicLocalServiceBaseImpl;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the topic local service.
@@ -62,13 +66,25 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 		// TODO validate
 
 		// TopicUser
-		topicUserLocalService.addTopicUser(companyId, topicId, userId);
+		topicUserLocalService.addTopicUser(topicId, userId);
 
 		for (long otherId : otherIds) {
-			topicUserLocalService.addTopicUser(companyId, topicId, otherId);
+			topicUserLocalService.addTopicUser(topicId, otherId);
 		}
 
 		return topicPersistence.update(topic);
+	}
+
+	@Override
+	public Collection<Topic> getTopicsByUserId(long userId) {
+
+		return topicUserPersistence
+			.findByUserId(userId)
+			.stream()
+			.map(TopicUserModel::getTopicId)
+			.map(topicLocalService::fetchTopic)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList());
 	}
 
 }

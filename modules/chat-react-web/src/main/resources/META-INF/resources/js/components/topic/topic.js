@@ -1,17 +1,20 @@
 import React from 'react';
 
-import Conversation from '../chat/conversation';
-import OpenableTab from '../openable-tab';
-
 export default class Topic extends React.Component {
 
 	render() {
+		// TODO Mange multiple users
+		let otherUser = this.props.topic.otherUsers[0];
+		let otherUserIsOnline = otherUser.userId in this.props.onlineUsers;
+
 		return(
-			<div className="cmd-topic-container">
-				<OpenableTab
-					topperTitle={this.props.topic.dest.fullName}
-					body={<Conversation ctxt={this.props.ctxt} topic={this.props.topic} />} />
-			</div>
+			<a onClick={() => this.props.openTopic(this.props.topic)} className="cmd-chat-list-contact">
+				<span className={otherUserIsOnline ? "user-icon online" : "user-icon"}>
+					<img src={otherUser.portraitUrl} />
+				</span>
+				
+				<span className="user-name">{otherUser.fullName}</span>
+			</a>
 		);
 	}
 

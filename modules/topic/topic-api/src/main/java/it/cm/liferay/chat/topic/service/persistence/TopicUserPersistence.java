@@ -42,56 +42,52 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	 */
 
 	/**
-	* Returns all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns all the topic users where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @return the matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserId(long companyId, long userId);
+	public java.util.List<TopicUser> findByUserId(long userId);
 
 	/**
-	* Returns a range of all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns a range of all the topic users where userId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @return the range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserId(long companyId, long userId,
-		int start, int end);
+	public java.util.List<TopicUser> findByUserId(long userId, int start,
+		int end);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns an ordered range of all the topic users where userId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserId(long companyId, long userId,
-		int start, int end,
+	public java.util.List<TopicUser> findByUserId(long userId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns an ordered range of all the topic users where userId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
@@ -99,64 +95,59 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserId(long companyId, long userId,
-		int start, int end,
+	public java.util.List<TopicUser> findByUserId(long userId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the first topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByUserId_First(long companyId, long userId,
+	public TopicUser findByUserId_First(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the first topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByUserId_First(long companyId, long userId,
+	public TopicUser fetchByUserId_First(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the last topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByUserId_Last(long companyId, long userId,
+	public TopicUser findByUserId_Last(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the last topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByUserId_Last(long companyId, long userId,
+	public TopicUser fetchByUserId_Last(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the topic users before and after the current topic user in the ordered set where userId = &#63;.
 	*
 	* @param topicUserPK the primary key of the current topic user
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next topic user
@@ -164,78 +155,72 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	*/
 	public TopicUser[] findByUserId_PrevAndNext(
 		it.cm.liferay.chat.topic.service.persistence.TopicUserPK topicUserPK,
-		long companyId, long userId,
+		long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Removes all the topic users where companyId = &#63; and userId = &#63; from the database.
+	* Removes all the topic users where userId = &#63; from the database.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	*/
-	public void removeByUserId(long companyId, long userId);
+	public void removeByUserId(long userId);
 
 	/**
-	* Returns the number of topic users where companyId = &#63; and userId = &#63;.
+	* Returns the number of topic users where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @return the number of matching topic users
 	*/
-	public int countByUserId(long companyId, long userId);
+	public int countByUserId(long userId);
 
 	/**
-	* Returns all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns all the topic users where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @return the matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicId(long companyId, long topicId);
+	public java.util.List<TopicUser> findByTopicId(long topicId);
 
 	/**
-	* Returns a range of all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns a range of all the topic users where topicId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @return the range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicId(long companyId,
-		long topicId, int start, int end);
+	public java.util.List<TopicUser> findByTopicId(long topicId, int start,
+		int end);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns an ordered range of all the topic users where topicId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicId(long companyId,
-		long topicId, int start, int end,
+	public java.util.List<TopicUser> findByTopicId(long topicId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns an ordered range of all the topic users where topicId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
@@ -243,64 +228,59 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicId(long companyId,
-		long topicId, int start, int end,
+	public java.util.List<TopicUser> findByTopicId(long topicId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the first topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByTopicId_First(long companyId, long topicId,
+	public TopicUser findByTopicId_First(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the first topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByTopicId_First(long companyId, long topicId,
+	public TopicUser fetchByTopicId_First(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the last topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByTopicId_Last(long companyId, long topicId,
+	public TopicUser findByTopicId_Last(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the last topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByTopicId_Last(long companyId, long topicId,
+	public TopicUser fetchByTopicId_Last(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the topic users before and after the current topic user in the ordered set where topicId = &#63;.
 	*
 	* @param topicUserPK the primary key of the current topic user
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next topic user
@@ -308,78 +288,72 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	*/
 	public TopicUser[] findByTopicId_PrevAndNext(
 		it.cm.liferay.chat.topic.service.persistence.TopicUserPK topicUserPK,
-		long companyId, long topicId,
+		long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Removes all the topic users where companyId = &#63; and topicId = &#63; from the database.
+	* Removes all the topic users where topicId = &#63; from the database.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	*/
-	public void removeByTopicId(long companyId, long topicId);
+	public void removeByTopicId(long topicId);
 
 	/**
-	* Returns the number of topic users where companyId = &#63; and topicId = &#63;.
+	* Returns the number of topic users where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @return the number of matching topic users
 	*/
-	public int countByTopicId(long companyId, long topicId);
+	public int countByTopicId(long topicId);
 
 	/**
-	* Returns all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns all the topic users where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @return the matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId, long userId);
+	public java.util.List<TopicUser> findByUserIds(long userId);
 
 	/**
-	* Returns a range of all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns a range of all the topic users where userId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @return the range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId, long userId,
-		int start, int end);
+	public java.util.List<TopicUser> findByUserIds(long userId, int start,
+		int end);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns an ordered range of all the topic users where userId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId, long userId,
-		int start, int end,
+	public java.util.List<TopicUser> findByUserIds(long userId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;.
+	* Returns an ordered range of all the topic users where userId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
@@ -387,64 +361,59 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId, long userId,
-		int start, int end,
+	public java.util.List<TopicUser> findByUserIds(long userId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the first topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByUserIds_First(long companyId, long userId,
+	public TopicUser findByUserIds_First(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the first topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByUserIds_First(long companyId, long userId,
+	public TopicUser fetchByUserIds_First(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the last topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByUserIds_Last(long companyId, long userId,
+	public TopicUser findByUserIds_Last(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the last topic user in the ordered set where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByUserIds_Last(long companyId, long userId,
+	public TopicUser fetchByUserIds_Last(long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and userId = &#63;.
+	* Returns the topic users before and after the current topic user in the ordered set where userId = &#63;.
 	*
 	* @param topicUserPK the primary key of the current topic user
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next topic user
@@ -452,66 +421,61 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	*/
 	public TopicUser[] findByUserIds_PrevAndNext(
 		it.cm.liferay.chat.topic.service.persistence.TopicUserPK topicUserPK,
-		long companyId, long userId,
+		long userId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns all the topic users where companyId = &#63; and userId = any &#63;.
+	* Returns all the topic users where userId = any &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userIds the user IDs
 	* @return the matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId,
-		long[] userIds);
+	public java.util.List<TopicUser> findByUserIds(long[] userIds);
 
 	/**
-	* Returns a range of all the topic users where companyId = &#63; and userId = any &#63;.
+	* Returns a range of all the topic users where userId = any &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userIds the user IDs
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @return the range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId,
-		long[] userIds, int start, int end);
+	public java.util.List<TopicUser> findByUserIds(long[] userIds, int start,
+		int end);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and userId = any &#63;.
+	* Returns an ordered range of all the topic users where userId = any &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userIds the user IDs
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId,
-		long[] userIds, int start, int end,
+	public java.util.List<TopicUser> findByUserIds(long[] userIds, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and userId = &#63;, optionally using the finder cache.
+	* Returns an ordered range of all the topic users where userId = &#63;, optionally using the finder cache.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
@@ -519,88 +483,81 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByUserIds(long companyId,
-		long[] userIds, int start, int end,
+	public java.util.List<TopicUser> findByUserIds(long[] userIds, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Removes all the topic users where companyId = &#63; and userId = &#63; from the database.
+	* Removes all the topic users where userId = &#63; from the database.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	*/
-	public void removeByUserIds(long companyId, long userId);
+	public void removeByUserIds(long userId);
 
 	/**
-	* Returns the number of topic users where companyId = &#63; and userId = &#63;.
+	* Returns the number of topic users where userId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param userId the user ID
 	* @return the number of matching topic users
 	*/
-	public int countByUserIds(long companyId, long userId);
+	public int countByUserIds(long userId);
 
 	/**
-	* Returns the number of topic users where companyId = &#63; and userId = any &#63;.
+	* Returns the number of topic users where userId = any &#63;.
 	*
-	* @param companyId the company ID
 	* @param userIds the user IDs
 	* @return the number of matching topic users
 	*/
-	public int countByUserIds(long companyId, long[] userIds);
+	public int countByUserIds(long[] userIds);
 
 	/**
-	* Returns all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns all the topic users where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @return the matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId, long topicId);
+	public java.util.List<TopicUser> findByTopicIds(long topicId);
 
 	/**
-	* Returns a range of all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns a range of all the topic users where topicId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @return the range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId,
-		long topicId, int start, int end);
+	public java.util.List<TopicUser> findByTopicIds(long topicId, int start,
+		int end);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns an ordered range of all the topic users where topicId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId,
-		long topicId, int start, int end,
+	public java.util.List<TopicUser> findByTopicIds(long topicId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;.
+	* Returns an ordered range of all the topic users where topicId = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
@@ -608,64 +565,59 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId,
-		long topicId, int start, int end,
+	public java.util.List<TopicUser> findByTopicIds(long topicId, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the first topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByTopicIds_First(long companyId, long topicId,
+	public TopicUser findByTopicIds_First(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the first topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the first topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByTopicIds_First(long companyId, long topicId,
+	public TopicUser fetchByTopicIds_First(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the last topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user
 	* @throws NoSuchTopicUserException if a matching topic user could not be found
 	*/
-	public TopicUser findByTopicIds_Last(long companyId, long topicId,
+	public TopicUser findByTopicIds_Last(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns the last topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the last topic user in the ordered set where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching topic user, or <code>null</code> if a matching topic user could not be found
 	*/
-	public TopicUser fetchByTopicIds_Last(long companyId, long topicId,
+	public TopicUser fetchByTopicIds_Last(long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns the topic users before and after the current topic user in the ordered set where companyId = &#63; and topicId = &#63;.
+	* Returns the topic users before and after the current topic user in the ordered set where topicId = &#63;.
 	*
 	* @param topicUserPK the primary key of the current topic user
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next topic user
@@ -673,66 +625,61 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	*/
 	public TopicUser[] findByTopicIds_PrevAndNext(
 		it.cm.liferay.chat.topic.service.persistence.TopicUserPK topicUserPK,
-		long companyId, long topicId,
+		long topicId,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator)
 		throws NoSuchTopicUserException;
 
 	/**
-	* Returns all the topic users where companyId = &#63; and topicId = any &#63;.
+	* Returns all the topic users where topicId = any &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicIds the topic IDs
 	* @return the matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId,
-		long[] topicIds);
+	public java.util.List<TopicUser> findByTopicIds(long[] topicIds);
 
 	/**
-	* Returns a range of all the topic users where companyId = &#63; and topicId = any &#63;.
+	* Returns a range of all the topic users where topicId = any &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicIds the topic IDs
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @return the range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId,
-		long[] topicIds, int start, int end);
+	public java.util.List<TopicUser> findByTopicIds(long[] topicIds, int start,
+		int end);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and topicId = any &#63;.
+	* Returns an ordered range of all the topic users where topicId = any &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicIds the topic IDs
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId,
-		long[] topicIds, int start, int end,
+	public java.util.List<TopicUser> findByTopicIds(long[] topicIds, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator);
 
 	/**
-	* Returns an ordered range of all the topic users where companyId = &#63; and topicId = &#63;, optionally using the finder cache.
+	* Returns an ordered range of all the topic users where topicId = &#63;, optionally using the finder cache.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link TopicUserModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @param start the lower bound of the range of topic users
 	* @param end the upper bound of the range of topic users (not inclusive)
@@ -740,36 +687,33 @@ public interface TopicUserPersistence extends BasePersistence<TopicUser> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching topic users
 	*/
-	public java.util.List<TopicUser> findByTopicIds(long companyId,
-		long[] topicIds, int start, int end,
+	public java.util.List<TopicUser> findByTopicIds(long[] topicIds, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<TopicUser> orderByComparator,
 		boolean retrieveFromCache);
 
 	/**
-	* Removes all the topic users where companyId = &#63; and topicId = &#63; from the database.
+	* Removes all the topic users where topicId = &#63; from the database.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	*/
-	public void removeByTopicIds(long companyId, long topicId);
+	public void removeByTopicIds(long topicId);
 
 	/**
-	* Returns the number of topic users where companyId = &#63; and topicId = &#63;.
+	* Returns the number of topic users where topicId = &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicId the topic ID
 	* @return the number of matching topic users
 	*/
-	public int countByTopicIds(long companyId, long topicId);
+	public int countByTopicIds(long topicId);
 
 	/**
-	* Returns the number of topic users where companyId = &#63; and topicId = any &#63;.
+	* Returns the number of topic users where topicId = any &#63;.
 	*
-	* @param companyId the company ID
 	* @param topicIds the topic IDs
 	* @return the number of matching topic users
 	*/
-	public int countByTopicIds(long companyId, long[] topicIds);
+	public int countByTopicIds(long[] topicIds);
 
 	/**
 	* Caches the topic user in the entity cache if it is enabled.

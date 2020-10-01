@@ -1,8 +1,8 @@
 import React from 'react';
 
-import UsersList from './user/users-list';
+import ActiveTopics from './topic/active-topics';
 import OpenableTab from './openable-tab';
-import Topics from './topic/topics';
+import TopicsList from './topic/topics-list';
 import { setWsHandler } from './websocket';
 
 export default class ChatBarContainer extends React.Component {
@@ -11,8 +11,9 @@ export default class ChatBarContainer extends React.Component {
         super(props);
 
         this.state = {
-            users: [],
-			topics: []
+            topics: {},
+			activeTopics: [],
+			onlineUsers: {}
         };
 
 		this.openTopic = this.openTopic.bind(this);
@@ -20,64 +21,70 @@ export default class ChatBarContainer extends React.Component {
 
         let setState = this.setState;
 
-        setWsHandler('NEW_USER', message => {
-        	setState(prevState => ({
-				users: prevState.users.concat([message.newUser])
-			}));
+        setWsHandler('ACTIVE_USER', ({activeUser}) => {
+        	setState(prevState => {
+        		let onlineUsers = Object.assign({}, prevState.onlineUsers);
+				onlineUsers[activeUser.userId] = activeUser;
+				return { onlineUsers };
+			});
         });
 
-        setWsHandler('REMOVE_USER', message => {
+        setWsHandler('INACTIVE_USER', ({inactiveUser}) => {
         	setState(prevState => ({
-				users: prevState.users.filter(user =>
-					user.userId !== message.removeUser.userId
+				onlineUsers: _.pick(prevState.onlineUsers, (user, userId) =>
+					userId !== inactiveUser.userId
 				)
 			}));
         });
 
-        setWsHandler('OTHERS', message => {
+        setWsHandler('TOPICS', message => {
         	setState({
-				users: message.others
+				topics: message.topics,
+				onlineUsers: message.onlineUsers
 			});
         });
     }
 
-    openTopic(user) {
+    openTopic(topic) {
 
 		let setState = this.setState;
 		let Liferay = this.props.ctxt.Liferay;
 
-		Liferay.Service('/conversation.topic/get-topic-by-user-ids', {
-			companyId: Liferay.ThemeDisplay.getCompanyId(),
-			userId1: this.props.ctxt.userId,
-			userId2: user.userId
+		Liferay.Service('/conversation.message/get-topic-messages', {
+			topicId: topic.topicId,
 		},
-		function(topic) {
+		function(messages) {
 
-			Liferay.Service('/conversation.message/get-topic-messages', {
-				topicId: topic.topicId,
-			},
-			function(messages) {
+			topic.messages = messages;
 
-				topic.messages = messages;
-				topic.dest = user;
-
-				setState(prevState => ({
-					topics: prevState.topics.concat([topic])
-				}));
-			});
+			setState(prevState => ({
+				activeTopics: prevState.activeTopics.concat([topic])
+			}));
 		});
 	}
 
 	render() {
 
 		let A = this.props.ctxt.AUI;
+		let onlineUsersSize = _.size(this.state.onlineUsers);
+		let onlineUsersCount = (onlineUsersSize > 0) ? onlineUsersSize - 1 : onlineUsersSize;
 
         return(
 			<div className="cmd-chat-bar-container container-fluid-1280">
-				<Topics ctxt={this.props.ctxt} topics={this.state.topics} />
+				<ActiveTopics ctxt={this.props.ctxt} activeTopics={this.state.activeTopics} />
 				<OpenableTab
-					topperTitle={A.Lang.sub(Liferay.Language.get('online-users-x'), [this.state.users.length])}
-					body={<UsersList ctxt={this.props.ctxt} users={this.state.users} openTopic={this.openTopic} />}
+					topperTitle={A.Lang.sub(
+						Liferay.Language.get('online-users-x'),
+						[onlineUsersCount]
+					)}
+					body={
+						<TopicsList
+							ctxt={this.props.ctxt}
+							topics={this.state.topics}
+							onlineUsers={this.state.onlineUsers}
+							openTopic={this.openTopic}
+						/>
+					}
 				/>
 			</div>
 		);

@@ -94,9 +94,8 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(it.cm.liferay.chat.topic.service.util.ServiceProps.get(
 				"value.object.column.bitmask.enabled.it.cm.liferay.chat.topic.model.TopicUser"),
 			true);
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long TOPICID_COLUMN_BITMASK = 2L;
-	public static final long USERID_COLUMN_BITMASK = 4L;
+	public static final long TOPICID_COLUMN_BITMASK = 1L;
+	public static final long USERID_COLUMN_BITMASK = 2L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -280,19 +279,7 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
-		}
-
 		_companyId = companyId;
-	}
-
-	public long getOriginalCompanyId() {
-		return _originalCompanyId;
 	}
 
 	public long getColumnBitmask() {
@@ -378,10 +365,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 
 		topicUserModelImpl._setOriginalUserId = false;
 
-		topicUserModelImpl._originalCompanyId = topicUserModelImpl._companyId;
-
-		topicUserModelImpl._setOriginalCompanyId = false;
-
 		topicUserModelImpl._columnBitmask = 0;
 	}
 
@@ -452,8 +435,6 @@ public class TopicUserModelImpl extends BaseModelImpl<TopicUser>
 	private long _originalUserId;
 	private boolean _setOriginalUserId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _columnBitmask;
 	private TopicUser _escapedModel;
 }

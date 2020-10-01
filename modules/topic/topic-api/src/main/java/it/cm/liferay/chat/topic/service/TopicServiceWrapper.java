@@ -63,6 +63,12 @@ public class TopicServiceWrapper implements TopicService,
 	}
 
 	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(
+		long userId) {
+		return _topicService.getTopicsByUserId(userId);
+	}
+
+	@Override
 	public TopicService getWrappedService() {
 		return _topicService;
 	}

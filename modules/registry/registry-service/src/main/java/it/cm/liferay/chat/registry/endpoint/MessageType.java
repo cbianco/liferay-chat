@@ -7,9 +7,9 @@ public enum MessageType {
 
 	// USERS
 
-	NEW_USER("newUser"),
-	REMOVE_USER("removeUser"),
-	OTHERS("others"),
+	ACTIVE_USER("activeUser"),
+	INACTIVE_USER("inactiveUser"),
+	TOPICS("topics"),
 
 	// MESSAGES
 

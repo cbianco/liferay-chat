@@ -277,6 +277,12 @@ public class TopicLocalServiceWrapper implements TopicLocalService,
 		return _topicLocalService.getTopics(start, end);
 	}
 
+	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(
+		long userId) {
+		return _topicLocalService.getTopicsByUserId(userId);
+	}
+
 	/**
 	* Returns the number of topics.
 	*

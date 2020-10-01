@@ -39,6 +39,7 @@ import it.cm.liferay.chat.topic.model.Topic;
 
 import java.io.Serializable;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -239,6 +240,9 @@ public interface TopicLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Topic> getTopics(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Topic> getTopicsByUserId(long userId);
 
 	/**
 	* Returns the number of topics.

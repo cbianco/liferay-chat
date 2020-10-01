@@ -15,14 +15,13 @@
 package it.cm.liferay.chat.topic.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import it.cm.liferay.chat.topic.model.Topic;
+import com.liferay.portal.kernel.model.User;
 import it.cm.liferay.chat.topic.model.TopicUser;
 import it.cm.liferay.chat.topic.model.TopicUserModel;
 import it.cm.liferay.chat.topic.service.base.TopicUserLocalServiceBaseImpl;
 import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
 
 import java.util.Collection;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -48,59 +47,46 @@ public class TopicUserLocalServiceImpl extends TopicUserLocalServiceBaseImpl {
 
 	@Override
 	public void addTopicUser(
-			long companyId, long topicId, long userId)
+			long topicId, long userId)
 		throws PortalException {
+
+		User user = userLocalService.getUser(userId);
 
 		TopicUserPK topicUserPK = new TopicUserPK(topicId, userId);
 		TopicUser topicUser = topicUserPersistence.create(topicUserPK);
-		topicUser.setCompanyId(companyId);
+		topicUser.setCompanyId(user.getCompanyId());
 		topicUserPersistence.update(topicUser);
 	}
 
 	@Override
-	public Collection<Long> getTopicIdsByUserId(
-			long companyId, long userId)
+	public int countByTopicId(
+		long topicId)
 		throws PortalException {
 
-		return topicUserPersistence
-			.findByUserId(companyId, userId)
-			.stream()
-			.map(TopicUserModel::getTopicId)
-			.collect(Collectors.toList());
+		return topicUserPersistence.countByTopicId(topicId);
 	}
 
 	@Override
-	public Collection<Topic> getTopicsByUserId(
-			long companyId, long userId)
-		throws PortalException {
+	public Collection<Long> getUserIdsByTopicId(long topicId) {
 
 		return topicUserPersistence
-			.findByUserId(companyId, userId)
-			.stream()
-			.map(TopicUserModel::getTopicId)
-			.map(topicLocalService::fetchTopic)
-			.filter(Objects::nonNull)
-			.collect(Collectors.toList());
-	}
-
-	@Override
-	public Collection<Long> getUserIdsByTopicId(
-			long companyId, long topicId)
-		throws PortalException {
-
-		return topicUserPersistence
-			.findByTopicId(companyId, topicId)
+			.findByTopicId(topicId)
 			.stream()
 			.map(TopicUserModel::getUserId)
 			.collect(Collectors.toSet());
 	}
 
+
 	@Override
-	public int countByTopicId(
-			long companyId, long topicId)
+	public Collection<Long> getTopicIdsByUserId(
+		long userId)
 		throws PortalException {
 
-		return topicUserPersistence.countByTopicId(companyId, topicId);
+		return topicUserPersistence
+			.findByUserId(userId)
+			.stream()
+			.map(TopicUserModel::getTopicId)
+			.collect(Collectors.toList());
 	}
 
 }

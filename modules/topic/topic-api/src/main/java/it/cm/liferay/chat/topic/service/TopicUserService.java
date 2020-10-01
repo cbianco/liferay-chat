@@ -63,14 +63,13 @@ public interface TopicUserService extends BaseService {
 	public String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Topic getTopicByUserIds(long companyId, long userId1, long userId2)
+	public Topic getTopicByUserIds(long userId1, long userId2)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Collection<Long> getTopicIdsByUserId(long companyId, long userId)
+	public Collection<Long> getTopicIdsByUserId(long userId)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Collection<Long> getUserIdsByTopicId(long companyId, long topicId)
-		throws PortalException;
+	public Collection<Long> getUserIdsByTopicId(long topicId);
 }

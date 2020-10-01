@@ -47,8 +47,7 @@ public class TopicImpl extends TopicBaseImpl {
 	@Override
 	public Collection<Long> getUserIds() throws PortalException {
 
-		return TopicUserServiceUtil.getUserIdsByTopicId(
-			getCompanyId(), getTopicId());
+		return TopicUserServiceUtil.getUserIdsByTopicId(getTopicId());
 	}
 
 	@Override

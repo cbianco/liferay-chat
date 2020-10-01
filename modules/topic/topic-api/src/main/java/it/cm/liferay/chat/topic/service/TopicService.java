@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.transaction.Transactional;
 
 import it.cm.liferay.chat.topic.model.Topic;
 
+import java.util.Collection;
+
 /**
  * Provides the remote service interface for Topic. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -68,4 +70,7 @@ public interface TopicService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Topic getTopicByUserIds(long companyId, long userId1, long userId2)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Topic> getTopicsByUserId(long userId);
 }

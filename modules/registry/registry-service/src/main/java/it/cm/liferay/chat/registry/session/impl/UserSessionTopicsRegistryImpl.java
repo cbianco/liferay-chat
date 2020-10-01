@@ -1,7 +1,6 @@
 package it.cm.liferay.chat.registry.session.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -17,7 +16,9 @@ import it.cm.liferay.chat.registry.session.UserSession;
 import it.cm.liferay.chat.registry.session.UserSession.UserStatus;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import it.cm.liferay.chat.topic.model.Message;
+import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.TopicService;
+import it.cm.liferay.chat.topic.service.TopicUserService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -30,10 +31,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * @author Mauro Celani
@@ -47,14 +46,13 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	@Activate
 	protected void activate(Map<String, Object> properties) {
 
-		_userSessionTopicsMap = new ConcurrentHashMap<>();
+		_userSessionMap = new UserSessionMap();
 	}
 
 	@Deactivate
 	protected void deactivate(Map<String, Object> properties) {
 
-		_userSessionTopicsMap.clear();
-		_userSessionTopicsMap = null;
+		_userSessionMap.clear();
 	}
 
 		/**
@@ -77,7 +75,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 					_portal.getPathImage(), user.isMale(),
 					user.getPortraitId(), user.getUserUuid());
 
-				_userSessionTopicsMap.put(
+				_userSessionMap.put(
 					userId, new UserSession(
 						userId, user.getFullName(), portraitUrl));
 			}
@@ -88,12 +86,12 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 			_notifyNewUserOthers(userId);
 		}
 
-		_userSessionTopicsMap.get(userId)
+		_userSessionMap.get(userId)
 			.addSocketSession(socketSession);
 
 		_log.info("Added user to session topic registry: " + userId);
 
-		_getOthers(socketSession, userId);
+		_sendTopics(socketSession, userId);
 	}
 
 	@Override
@@ -107,7 +105,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 			_log.info("Try to add user(" + userId + ")" +
 					  " to topic registry: " + topicId);
 
-			_userSessionTopicsMap.get(userId)
+			_userSessionMap.get(userId)
 				.addTopic(_topicService.getTopic(topicId));
 		}
 		catch (PortalException e) {
@@ -121,15 +119,15 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		_notifyRemovedUserOthers(userId);
 
-		return _userSessionTopicsMap.remove(userId);
+		return _userSessionMap.remove(userId);
 	}
 
 	@Override
 	public void clearSession(Session session) {
 
-		for (long userId : _userSessionTopicsMap.keySet()) {
+		for (long userId : _userSessionMap.keySet()) {
 
-			UserSession userSession = _userSessionTopicsMap.get(userId);
+			UserSession userSession = _userSessionMap.get(userId);
 
 			if (userSession.getSessions().contains(session)) {
 
@@ -158,7 +156,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	public UserSession getUserSession(
 		long userId) {
 
-		return _userSessionTopicsMap.get(userId);
+		return _userSessionMap.get(userId);
 	}
 
 	@Override
@@ -166,7 +164,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		long userId) {
 
 		if (isOnline(userId)) {
-			return _userSessionTopicsMap.get(userId)
+			return _userSessionMap.get(userId)
 				.getStatus();
 		}
 		return UserStatus.OFFLINE;
@@ -176,7 +174,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	public Collection<Long> getOnlineUsers(
 		long userId) {
 
-		List<Long> userList = new LinkedList<>(_userSessionTopicsMap.keySet());
+		List<Long> userList = new LinkedList<>(_userSessionMap.keySet());
 
 		userList.remove(userId);
 
@@ -190,7 +188,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	 */
 	@Override
 	public boolean isOnline(long userId) {
-		return _userSessionTopicsMap.containsKey(userId);
+		return _userSessionMap.containsKey(userId);
 	}
 
 	@Override
@@ -216,30 +214,61 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		updateLastActivityTime(message.getUserId());
 	}
 
-	private void _getOthers(Session session, long userId) {
+	private void _sendTopics(Session session, long userId) {
 
-		Set<UserSession> others =
-			_userSessionTopicsMap.entrySet()
-				.stream()
-				.filter(t -> t.getKey() != userId)
-				.map(Entry::getValue)
-				.collect(Collectors.toSet());
+		Collection<Topic> topicsByUserId =
+			_topicService.getTopicsByUserId(userId);
 
-		JSONObject othersJSON = JSONFactoryUtil.createJSONObject();
+		JSONObject responseJSON = JSONFactoryUtil.createJSONObject();
 
-		othersJSON.put(MessageType.MSG_TYPE, MessageType.OTHERS.name());
+		responseJSON.put(MessageType.MSG_TYPE, MessageType.TOPICS.name());
 
-		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
+		JSONObject topicsJSON = JSONFactoryUtil.createJSONObject();
 
-		for (UserSession other : others) {
-			jsonArray.put(other.toJSON());
+		for (Topic topic : topicsByUserId) {
+			try {
+				JSONObject topicJSON = JSONFactoryUtil.createJSONObject();
+
+				long topicId = topic.getTopicId();
+				topicJSON.put("topicId", topicId);
+
+				Collection<Long> otherUserIds =
+					_topicUserService.getUserIdsByTopicId(topicId);
+
+				otherUserIds.remove(userId);
+
+				JSONArray otherUsersJSON = JSONFactoryUtil.createJSONArray();
+
+				for (long otherUserId : otherUserIds) {
+
+					otherUsersJSON.put(
+						_userSessionMap.getJSON(otherUserId));
+				}
+
+				topicJSON.put("otherUsers", otherUsersJSON);
+
+				topicsJSON.put(Long.toString(topicId), topicJSON);
+			}
+				catch (PortalException e) {
+				_log.error(e, e);
+			}
 		}
 
-		othersJSON.put(MessageType.OTHERS.getJsonField(), jsonArray);
+		responseJSON.put(MessageType.TOPICS.getJsonField(), topicsJSON);
+
+		JSONObject onlineUsersJSON = JSONFactoryUtil.createJSONObject();
+
+		for (UserSession userSession : _userSessionMap.values()) {
+
+			onlineUsersJSON.put(
+				Long.toString(userSession.getUserId()), userSession.toJSON());
+		}
+
+		responseJSON.put("onlineUsers", onlineUsersJSON);
 
 		try {
 			session.getBasicRemote().sendText(
-				othersJSON.toJSONString());
+				responseJSON.toJSONString());
 		}
 		catch (IOException e) {
 			// TODO clearSession??
@@ -248,31 +277,34 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	}
 
 	private void _notifyNewUserOthers(long userId) {
-		_notifyUserOthers(MessageType.NEW_USER, userId);
+		_notifyUserOthers(MessageType.ACTIVE_USER, userId);
 	}
 
 	private void _notifyRemovedUserOthers(long userId) {
-		_notifyUserOthers(MessageType.REMOVE_USER, userId);
+		_notifyUserOthers(MessageType.INACTIVE_USER, userId);
 	}
 
 	private void _notifyUserOthers(
 		MessageType messageType, long userId) {
 
-		JSONObject newUserJSON = JSONFactoryUtil.createJSONObject();
-		newUserJSON.put(MessageType.MSG_TYPE, messageType.name());
-		newUserJSON.put(
-			messageType.getJsonField(),
-			_userSessionTopicsMap.get(userId)
-				.toJSON());
+		if (_userSessionMap.containsKey(userId)) {
 
-		_broadcast(newUserJSON, t -> t.getKey() != userId);
+			JSONObject newUserJSON = JSONFactoryUtil.createJSONObject();
+			newUserJSON.put(MessageType.MSG_TYPE, messageType.name());
+			newUserJSON.put(
+				messageType.getJsonField(),
+				_userSessionMap.get(userId)
+					.toJSON());
+
+			_broadcast(newUserJSON, t -> t.getKey() != userId);
+		}
 	}
 
 	private void _broadcast(
 		JSONObject messageJSON,
 		Predicate<? super Entry<Long, UserSession>> predicate) {
 
-		_userSessionTopicsMap.entrySet()
+		_userSessionMap.entrySet()
 			.stream()
 			.filter(predicate)
 			.flatMap(t -> t.getValue().getSessions().stream())
@@ -290,7 +322,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	}
 
 	public void updateLastActivityTime(long userId) {
-		_userSessionTopicsMap.get(userId).updateLastActivityTime();
+		_userSessionMap.get(userId).updateLastActivityTime();
 	}
 
 	@Reference
@@ -300,9 +332,12 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	private TopicService _topicService;
 
 	@Reference
+	private TopicUserService _topicUserService;
+
+	@Reference
 	private UserLocalService _userLocalService;
 
-	private Map<Long, UserSession> _userSessionTopicsMap;
+	private UserSessionMap _userSessionMap;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UserSessionTopicsRegistryImpl.class);

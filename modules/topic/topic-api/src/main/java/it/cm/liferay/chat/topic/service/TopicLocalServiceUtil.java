@@ -265,6 +265,11 @@ public class TopicLocalServiceUtil {
 		return getService().getTopics(start, end);
 	}
 
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(
+		long userId) {
+		return getService().getTopicsByUserId(userId);
+	}
+
 	/**
 	* Returns the number of topics.
 	*

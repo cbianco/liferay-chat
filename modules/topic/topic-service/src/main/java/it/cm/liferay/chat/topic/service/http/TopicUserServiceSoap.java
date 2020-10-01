@@ -65,11 +65,10 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class TopicUserServiceSoap {
-	public static java.util.Collection<Long> getTopicIdsByUserId(
-		long companyId, long userId) throws RemoteException {
+	public static java.util.Collection<Long> getTopicIdsByUserId(long userId)
+		throws RemoteException {
 		try {
-			java.util.Collection<Long> returnValue = TopicUserServiceUtil.getTopicIdsByUserId(companyId,
-					userId);
+			java.util.Collection<Long> returnValue = TopicUserServiceUtil.getTopicIdsByUserId(userId);
 
 			return returnValue;
 		}
@@ -81,10 +80,10 @@ public class TopicUserServiceSoap {
 	}
 
 	public static it.cm.liferay.chat.topic.model.TopicSoap getTopicByUserIds(
-		long companyId, long userId1, long userId2) throws RemoteException {
+		long userId1, long userId2) throws RemoteException {
 		try {
-			it.cm.liferay.chat.topic.model.Topic returnValue = TopicUserServiceUtil.getTopicByUserIds(companyId,
-					userId1, userId2);
+			it.cm.liferay.chat.topic.model.Topic returnValue = TopicUserServiceUtil.getTopicByUserIds(userId1,
+					userId2);
 
 			return it.cm.liferay.chat.topic.model.TopicSoap.toSoapModel(returnValue);
 		}
@@ -95,11 +94,10 @@ public class TopicUserServiceSoap {
 		}
 	}
 
-	public static java.util.Collection<Long> getUserIdsByTopicId(
-		long companyId, long topicId) throws RemoteException {
+	public static java.util.Collection<Long> getUserIdsByTopicId(long topicId)
+		throws RemoteException {
 		try {
-			java.util.Collection<Long> returnValue = TopicUserServiceUtil.getUserIdsByTopicId(companyId,
-					topicId);
+			java.util.Collection<Long> returnValue = TopicUserServiceUtil.getUserIdsByTopicId(topicId);
 
 			return returnValue;
 		}

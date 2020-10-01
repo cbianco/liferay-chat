@@ -106,10 +106,12 @@ public class UserSession {
 	}
 
 	public JSONObject toJSON() {
+
 		JSONObject retJSON = JSONFactoryUtil.createJSONObject();
 
 		retJSON.put("userId", _userId);
 		retJSON.put("fullName", _fullName);
+		retJSON.put("isOnline", isOnline());
 		retJSON.put("portraitUrl", _portraitUrl);
 		retJSON.put("lastActivityTime", _lastActivityTime);
 

@@ -1,5 +1,6 @@
 @import 'component/variables';
 @import 'component/base';
+@import 'component/contact';
 @import 'component/conversation';
 @import 'component/openable-tab';
 @import 'component/topics';
@@ -24,29 +25,6 @@ div.cmd-chat {
 		    ul.cmd-chat-list {
 		        padding: 0;
 		        margin: 0;
-
-                a.cmd-chat-list-contact {
-
-                    display: block;
-                    padding: 5px 5px 4px 7px;
-                    cursor: pointer;
-
-                    &:hover, &:focus {
-                        background-color: #e6e6e6;
-                    }
-
-                    .user-icon img {
-                        width: 35px;
-						border-radius: 5px;
-						box-shadow: 1px 1px 1px;
-                    }
-
-                    .user-name {
-                        position: absolute;
-                        margin: 6px 8px;
-                    }
-                }
-
 		    }
 
 		}

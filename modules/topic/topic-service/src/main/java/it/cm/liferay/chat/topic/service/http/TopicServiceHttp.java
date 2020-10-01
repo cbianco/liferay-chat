@@ -118,12 +118,38 @@ public class TopicServiceHttp {
 		}
 	}
 
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(
+		HttpPrincipal httpPrincipal, long userId) {
+		try {
+			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
+					"getTopicsByUserId", _getTopicsByUserIdParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (java.util.Collection<it.cm.liferay.chat.topic.model.Topic>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static it.cm.liferay.chat.topic.model.Topic getTopicByUserIds(
 		HttpPrincipal httpPrincipal, long companyId, long userId1, long userId2)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
-					"getTopicByUserIds", _getTopicByUserIdsParameterTypes2);
+					"getTopicByUserIds", _getTopicByUserIdsParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					companyId, userId1, userId2);
@@ -157,7 +183,10 @@ public class TopicServiceHttp {
 	private static final Class<?>[] _getTopicParameterTypes1 = new Class[] {
 			long.class
 		};
-	private static final Class<?>[] _getTopicByUserIdsParameterTypes2 = new Class[] {
+	private static final Class<?>[] _getTopicsByUserIdParameterTypes2 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getTopicByUserIdsParameterTypes3 = new Class[] {
 			long.class, long.class, long.class
 		};
 }

@@ -44,26 +44,26 @@ public class TopicUserServiceImpl extends TopicUserServiceBaseImpl {
 
 	@Override
 	public Collection<Long> getTopicIdsByUserId(
-			long companyId, long userId)
+			long userId)
 		throws PortalException {
 
 		// TODO Add permission controls
 
-		return topicUserLocalService.getTopicIdsByUserId(companyId, userId);
+		return topicUserLocalService.getTopicIdsByUserId(userId);
 	}
 
 	@Override
 	public Topic getTopicByUserIds(
-			long companyId, long userId1, long userId2)
+			long userId1, long userId2)
 		throws PortalException {
 
 		// TODO Add permission controls
 
 		Collection<Topic> user1Topics =
-			topicUserLocalService.getTopicsByUserId(companyId, userId1);
+			topicLocalService.getTopicsByUserId(userId1);
 
 		Collection<Topic> user2Topics =
-			topicUserLocalService.getTopicsByUserId(companyId, userId2);
+			topicLocalService.getTopicsByUserId(userId2);
 
 		return user1Topics
 				.stream()
@@ -74,13 +74,11 @@ public class TopicUserServiceImpl extends TopicUserServiceBaseImpl {
 	}
 
 	@Override
-	public Collection<Long> getUserIdsByTopicId(
-			long companyId, long topicId)
-		throws PortalException {
+	public Collection<Long> getUserIdsByTopicId(long topicId) {
 
 		// TODO Add permission controls
 
-		return topicUserLocalService.getUserIdsByTopicId(companyId, topicId);
+		return topicUserLocalService.getUserIdsByTopicId(topicId);
 	}
 
 }
