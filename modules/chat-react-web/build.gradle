@@ -8,4 +8,5 @@ dependencies {
 	compileOnly group: "org.osgi", name: "osgi.cmpn", version: "6.0.0"
 
 	compileOnly project(":modules:registry:registry-api")
+	compileOnly project(":modules:topic:topic-api")
 }

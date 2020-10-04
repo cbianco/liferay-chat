@@ -44,13 +44,13 @@ public class TopicServiceImpl extends TopicServiceBaseImpl {
 
 	@Override
 	public Topic addTopic(
-			long companyId, long userId1, long user2)
+			long userId1, long user2)
 		throws PortalException {
 
 		// TODO Add permission controls
 
 		return topicLocalService.addTopic(
-			companyId, userId1, new long[]{ user2 });
+			userId1, new long[]{ user2 });
 	}
 
 	@Override
@@ -71,17 +71,53 @@ public class TopicServiceImpl extends TopicServiceBaseImpl {
 
 	@Override
 	public Topic getTopicByUserIds(
-			long companyId, long userId1, long userId2)
+			long userId1, long userId2)
+		throws PortalException {
+
+		// TODO Add permission controls
+
+		Collection<Topic> user1Topics =
+			topicLocalService.getTopicsByUserId(userId1);
+
+		Collection<Topic> user2Topics =
+			topicLocalService.getTopicsByUserId(userId2);
+
+		return user1Topics
+			.stream()
+			.filter(user2Topics::contains)
+			.filter(t -> t.fetchUserIds().size() == 2)
+			.findAny()
+			.orElseThrow(NoSuchTopicException::new);
+	}
+
+	@Override
+	public Topic getOrCreateTopicByUserIds(
+			long userId1, long userId2)
 		throws PortalException {
 
 		// TODO Add permission controls
 
 		try {
-			return topicUserService.getTopicByUserIds(
-				userId1, userId2);
+			return getTopicByUserIds(userId1, userId2);
 		}
 		catch (NoSuchTopicException e) {
-			return addTopic(companyId, userId1, userId2);
+			return addTopic(userId1, userId2);
+		}
+	}
+
+	@Override
+	public boolean existsTopicByUserIds(
+			long userId1, long userId2)
+		throws PortalException {
+
+		// TODO Add permission controls
+
+		try {
+			getTopicByUserIds(userId1, userId2);
+			return true;
+		}
+		catch (NoSuchTopicException e) {
+			return false;
 		}
 	}
 

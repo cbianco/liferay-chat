@@ -6,10 +6,14 @@ import OpenableTab from '../openable-tab';
 export default class ActiveTopic extends React.Component {
 
 	render() {
-		return(
+		// TODO Mange multiple users
+		let otherUsers = _.filter(this.props.topic.users, user => user.userId != this.props.ctxt.userId);
+        let otherUser = otherUsers[0];
+
+        return(
 			<div className="cmd-topic-container">
 				<OpenableTab
-					head={<span>{this.props.topic.otherUsers[0].fullName}</span>}
+					head={<span>{otherUser.fullName}</span>}
 					body={<Conversation ctxt={this.props.ctxt} topic={this.props.topic} />} />
 			</div>
 		);

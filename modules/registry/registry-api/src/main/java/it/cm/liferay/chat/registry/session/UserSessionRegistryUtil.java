@@ -1,7 +1,7 @@
 package it.cm.liferay.chat.registry.session;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
-import it.cm.liferay.chat.registry.client.message.ClientMessage;
+import it.cm.liferay.chat.registry.client.message.AddMessageMessage;
 import it.cm.liferay.chat.topic.model.Message;
 import org.osgi.util.tracker.ServiceTracker;
 
@@ -20,7 +20,7 @@ public class UserSessionRegistryUtil {
 	}
 
 	public static void addUserTopicSession(
-		ClientMessage message) {
+		AddMessageMessage message) {
 
 		getService().addUserTopic(message);
 	}

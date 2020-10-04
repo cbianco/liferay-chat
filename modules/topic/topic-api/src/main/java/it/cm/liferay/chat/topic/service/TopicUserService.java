@@ -26,8 +26,6 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
-import it.cm.liferay.chat.topic.model.Topic;
-
 import java.util.Collection;
 
 /**
@@ -61,10 +59,6 @@ public interface TopicUserService extends BaseService {
 	* @return the OSGi service identifier
 	*/
 	public String getOSGiServiceIdentifier();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Topic getTopicByUserIds(long userId1, long userId2)
-		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Collection<Long> getTopicIdsByUserId(long userId)

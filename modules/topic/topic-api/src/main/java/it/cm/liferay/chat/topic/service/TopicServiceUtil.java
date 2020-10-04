@@ -42,10 +42,20 @@ public class TopicServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link it.cm.liferay.chat.topic.service.impl.TopicServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static it.cm.liferay.chat.topic.model.Topic addTopic(
-		long companyId, long userId1, long user2)
+	public static it.cm.liferay.chat.topic.model.Topic addTopic(long userId1,
+		long user2) throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().addTopic(userId1, user2);
+	}
+
+	public static boolean existsTopicByUserIds(long userId1, long userId2)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().addTopic(companyId, userId1, user2);
+		return getService().existsTopicByUserIds(userId1, userId2);
+	}
+
+	public static it.cm.liferay.chat.topic.model.Topic getOrCreateTopicByUserIds(
+		long userId1, long userId2)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getOrCreateTopicByUserIds(userId1, userId2);
 	}
 
 	/**
@@ -63,9 +73,9 @@ public class TopicServiceUtil {
 	}
 
 	public static it.cm.liferay.chat.topic.model.Topic getTopicByUserIds(
-		long companyId, long userId1, long userId2)
+		long userId1, long userId2)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService().getTopicByUserIds(companyId, userId1, userId2);
+		return getService().getTopicByUserIds(userId1, userId2);
 	}
 
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.Topic> getTopicsByUserId(

@@ -33,10 +33,10 @@ public class TopicLocalServiceWrapper implements TopicLocalService,
 	}
 
 	@Override
-	public it.cm.liferay.chat.topic.model.Topic addTopic(long companyId,
-		long userId, long[] otherIds)
+	public it.cm.liferay.chat.topic.model.Topic addTopic(long userId,
+		long[] otherIds)
 		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicLocalService.addTopic(companyId, userId, otherIds);
+		return _topicLocalService.addTopic(userId, otherIds);
 	}
 
 	/**

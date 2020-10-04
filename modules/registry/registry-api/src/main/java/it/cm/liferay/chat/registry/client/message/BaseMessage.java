@@ -3,8 +3,8 @@ package it.cm.liferay.chat.registry.client.message;
 /**
  * @author Mauro Celani
  */
-public interface BaseMessage {
+public abstract class BaseMessage {
 
-	public String toString();
+	public abstract String toString();
 
 }

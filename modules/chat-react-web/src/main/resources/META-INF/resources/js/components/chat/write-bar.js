@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getWs, setWsHandler } from '../websocket';
+import { sendWsMessage, setWsHandler } from '../websocket';
 
 export default class WriteBar extends React.Component {
 
@@ -29,7 +29,7 @@ export default class WriteBar extends React.Component {
 		//console.log(message);
 
 		if (!_.isEmpty(message)) {
-			getWs().send('{userId: "' + userId + '", topicId: "' + topicId + '", content: "' + message + '"}');
+			sendWsMessage('{msgType: "ADD_MESSAGE", userId: "' + userId + '", topicId: "' + topicId + '", content: "' + message + '"}');
 		}
 	}
 

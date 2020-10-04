@@ -10,9 +10,10 @@ export default class TopicsList extends React.Component {
 				<ul className="cmd-chat-list">
 					{_.map(this.props.topics, (topic, topicId) =>
 						<Topic
+							ctxt={this.props.ctxt}
 							key={topicId}
 							topic={topic}
-							onlineUsers={this.props.onlineUsers}
+                            onlineUsers={this.props.onlineUsers}
 							openTopic={this.props.openTopic}
 						/>
 					)}

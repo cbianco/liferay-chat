@@ -12,12 +12,14 @@
 		AUI().use(
 			'aui-base',
 			function(A) {
-				var webSocketUrl = '<%= themeDisplay.getPortalURL().replaceAll("http[s]?", "ws") %>'
+				var webSocketUrl = '<%= themeDisplay.getPortalURL().replaceAll("http[s]?", "ws") %>';
+				Liferay.PortletKeys.CHAT_REACT_PORTLET = '<%= ChatReactPortletKeys.CHAT_REACT_PORTLET %>';
 				chatReactWeb100.default(
 					'<portlet:namespace />-root',
 					{
 						AUI: A,
 						Liferay: Liferay,
+						namespace: '<portlet:namespace />',
 						userId: <%= userId %>,
 						wsUrl: webSocketUrl
 					}

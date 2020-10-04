@@ -56,14 +56,14 @@ import it.cm.liferay.chat.topic.service.TopicServiceUtil;
 @ProviderType
 public class TopicServiceHttp {
 	public static it.cm.liferay.chat.topic.model.Topic addTopic(
-		HttpPrincipal httpPrincipal, long companyId, long userId1, long user2)
+		HttpPrincipal httpPrincipal, long userId1, long user2)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
 					"addTopic", _addTopicParameterTypes0);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					companyId, userId1, user2);
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId1,
+					user2);
 
 			Object returnObj = null;
 
@@ -145,14 +145,14 @@ public class TopicServiceHttp {
 	}
 
 	public static it.cm.liferay.chat.topic.model.Topic getTopicByUserIds(
-		HttpPrincipal httpPrincipal, long companyId, long userId1, long userId2)
+		HttpPrincipal httpPrincipal, long userId1, long userId2)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
 					"getTopicByUserIds", _getTopicByUserIdsParameterTypes3);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					companyId, userId1, userId2);
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId1,
+					userId2);
 
 			Object returnObj = null;
 
@@ -176,9 +176,74 @@ public class TopicServiceHttp {
 		}
 	}
 
+	public static it.cm.liferay.chat.topic.model.Topic getOrCreateTopicByUserIds(
+		HttpPrincipal httpPrincipal, long userId1, long userId2)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
+					"getOrCreateTopicByUserIds",
+					_getOrCreateTopicByUserIdsParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId1,
+					userId2);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (it.cm.liferay.chat.topic.model.Topic)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static boolean existsTopicByUserIds(HttpPrincipal httpPrincipal,
+		long userId1, long userId2)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(TopicServiceUtil.class,
+					"existsTopicByUserIds", _existsTopicByUserIdsParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId1,
+					userId2);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return ((Boolean)returnObj).booleanValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(TopicServiceHttp.class);
 	private static final Class<?>[] _addTopicParameterTypes0 = new Class[] {
-			long.class, long.class, long.class
+			long.class, long.class
 		};
 	private static final Class<?>[] _getTopicParameterTypes1 = new Class[] {
 			long.class
@@ -187,6 +252,12 @@ public class TopicServiceHttp {
 			long.class
 		};
 	private static final Class<?>[] _getTopicByUserIdsParameterTypes3 = new Class[] {
-			long.class, long.class, long.class
+			long.class, long.class
+		};
+	private static final Class<?>[] _getOrCreateTopicByUserIdsParameterTypes4 = new Class[] {
+			long.class, long.class
+		};
+	private static final Class<?>[] _existsTopicByUserIdsParameterTypes5 = new Class[] {
+			long.class, long.class
 		};
 }

@@ -43,13 +43,6 @@ public class TopicUserServiceWrapper implements TopicUserService,
 	}
 
 	@Override
-	public it.cm.liferay.chat.topic.model.Topic getTopicByUserIds(
-		long userId1, long userId2)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return _topicUserService.getTopicByUserIds(userId1, userId2);
-	}
-
-	@Override
 	public java.util.Collection<Long> getTopicIdsByUserId(long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _topicUserService.getTopicIdsByUserId(userId);

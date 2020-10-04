@@ -6,7 +6,7 @@ export const initWs = (ctxt) => {
 	client = new WebSocket(ctxt.wsUrl + '/o/chat');
 
 	client.onopen = function() {
-		this.send('{userId: "' + ctxt.userId + '"}');
+		this.send('{msgType: "ACTIVE_USER", userId: "' + ctxt.userId + '"}');
 	};
 
 	client.onmessage = function(event) {
@@ -39,4 +39,8 @@ export const setWsHandler = (key, handler) => {
 
 export const getWs = () => {
 	return client;
+}
+
+export const sendWsMessage = (message) => {
+	getWs().send(message);
 }

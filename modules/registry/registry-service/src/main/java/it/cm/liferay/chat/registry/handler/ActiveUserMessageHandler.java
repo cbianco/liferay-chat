@@ -2,7 +2,7 @@ package it.cm.liferay.chat.registry.handler;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import it.cm.liferay.chat.registry.client.message.OnlineMessage;
+import it.cm.liferay.chat.registry.client.message.ActiveUserMessage;
 import it.cm.liferay.chat.registry.session.UserSessionRegistryUtil;
 
 import javax.websocket.Session;
@@ -10,11 +10,12 @@ import javax.websocket.Session;
 /**
  * @author Mauro Celani
  */
-public class OnlineMessageHandler implements BaseHandler<OnlineMessage> {
+public class ActiveUserMessageHandler
+	implements BaseHandler<ActiveUserMessage> {
 
 	@Override
 	public void handle(
-		Session session, OnlineMessage message) {
+		Session session, ActiveUserMessage message) {
 
 		try {
 			_log.info("It's just arrived a new online message.");
@@ -30,6 +31,6 @@ public class OnlineMessageHandler implements BaseHandler<OnlineMessage> {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		OnlineMessageHandler.class);
+		ActiveUserMessageHandler.class);
 
 }

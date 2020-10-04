@@ -3,7 +3,7 @@ import React from 'react';
 import ActiveTopics from './topic/active-topics';
 import OpenableTab from './openable-tab';
 import TopicsList from './topic/topics-list';
-import { setWsHandler } from './websocket';
+import { sendWsMessage, setWsHandler } from './websocket';
 
 export default class ChatBarContainer extends React.Component {
 
@@ -44,6 +44,14 @@ export default class ChatBarContainer extends React.Component {
 				onlineUsers: message.onlineUsers
 			});
         });
+
+        setWsHandler('ADD_TOPIC', ({addTopic}) => {
+			setState(prevState => {
+				let topics = Object.assign({}, prevState.topics);
+				topics[addTopic.topicId] = addTopic;
+				return { topics };
+			});
+		});
     }
 
     openTopic(topic) {
@@ -67,6 +75,45 @@ export default class ChatBarContainer extends React.Component {
 	handleAdd(event) {
 		event.stopPropagation();
 
+		let A = this.props.ctxt.AUI;
+
+		A.use(
+			'liferay-portlet-url',
+			'liferay-item-selector-dialog', A => {
+
+			let Liferay = this.props.ctxt.Liferay;
+			let namespace = this.props.ctxt.namespace;
+
+			let selectUserUrl = Liferay.PortletURL.createRenderURL();
+			selectUserUrl.setPortletId(Liferay.PortletKeys.CHAT_REACT_PORTLET);
+			selectUserUrl.setWindowState('POP_UP');
+			selectUserUrl.setParameter('mvcPath', '/user/select_user.jsp');
+
+    		let itemSelectorDialog = new A.LiferayItemSelectorDialog({
+				eventName: namespace + 'selectUsers',
+				on: {
+					selectedItemChange: e => {
+						let selectedItem = e.newVal;
+
+						if (selectedItem) {
+							console.log(selectedItem);
+
+							if (selectedItem.length == 1) {
+								let userId1 = this.props.ctxt.userId;
+                                let userId2 = selectedItem[0].value;
+
+								sendWsMessage('{msgType: "ADD_TOPIC", userId1: ' + userId1 + ', userId2: ' + userId2 + '}');
+							}
+						}
+					}
+				},
+				'strings.add': Liferay.Language.get('done'),
+				title: Liferay.Language.get('select-user'),
+				url: selectUserUrl.toString()
+			});
+
+			itemSelectorDialog.open();
+		});
 	}
 
 	render() {

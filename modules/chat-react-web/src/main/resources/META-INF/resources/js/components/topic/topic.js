@@ -3,8 +3,9 @@ import React from 'react';
 export default class Topic extends React.Component {
 
 	render() {
+		let otherUsers = _.filter(this.props.topic.users, user => user.userId != this.props.ctxt.userId);
 		// TODO Mange multiple users
-		let otherUser = this.props.topic.otherUsers[0];
+		let otherUser = otherUsers[0];
 		let otherUserIsOnline = otherUser.userId in this.props.onlineUsers;
 
 		return(

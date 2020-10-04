@@ -79,21 +79,6 @@ public class TopicUserServiceSoap {
 		}
 	}
 
-	public static it.cm.liferay.chat.topic.model.TopicSoap getTopicByUserIds(
-		long userId1, long userId2) throws RemoteException {
-		try {
-			it.cm.liferay.chat.topic.model.Topic returnValue = TopicUserServiceUtil.getTopicByUserIds(userId1,
-					userId2);
-
-			return it.cm.liferay.chat.topic.model.TopicSoap.toSoapModel(returnValue);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
 	public static java.util.Collection<Long> getUserIdsByTopicId(long topicId)
 		throws RemoteException {
 		try {

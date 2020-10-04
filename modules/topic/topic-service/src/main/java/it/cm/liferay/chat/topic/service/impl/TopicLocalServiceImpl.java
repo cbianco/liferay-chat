@@ -48,7 +48,7 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 
 	@Override
 	public Topic addTopic(
-			long companyId, long userId, long otherIds[])
+			long userId, long otherIds[])
 		throws PortalException {
 
 		long topicId = counterLocalService.increment();
@@ -57,7 +57,7 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 		User user = userLocalService.getUser(userId);
 		Date createDate = new Date();
 
-		topic.setCompanyId(companyId);
+		topic.setCompanyId(user.getCompanyId());
 		topic.setCreateDate(createDate);
 		topic.setUserId(userId);
 		topic.setUserName(user.getFullName());

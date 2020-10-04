@@ -7,11 +7,13 @@ import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
 import it.cm.liferay.chat.registry.client.message.BaseMessage;
-import it.cm.liferay.chat.registry.decoder.ClientMessageDecoder;
-import it.cm.liferay.chat.registry.decoder.OnlineMessageDecoder;
+import it.cm.liferay.chat.registry.decoder.AddMessageMessageDecoder;
+import it.cm.liferay.chat.registry.decoder.ActiveUserMessageDecoder;
+import it.cm.liferay.chat.registry.decoder.AddTopicMessageDecoder;
+import it.cm.liferay.chat.registry.handler.AddTopicMessageHandler;
 import it.cm.liferay.chat.registry.handler.BaseHandler;
-import it.cm.liferay.chat.registry.handler.ClientMessageHandler;
-import it.cm.liferay.chat.registry.handler.OnlineMessageHandler;
+import it.cm.liferay.chat.registry.handler.AddMessageMessageHandler;
+import it.cm.liferay.chat.registry.handler.ActiveUserMessageHandler;
 import it.cm.liferay.chat.registry.session.UserSessionRegistryUtil;
 
 import javax.websocket.CloseReason;
@@ -32,14 +34,17 @@ import java.util.function.Function;
 public class ConversationRegistryEndpoint extends Endpoint {
 
 	private static List<Tuple2<Text<? extends BaseMessage>, BaseHandler>>
-		decoders = new ArrayList<>(2);
+		decoders = new ArrayList<>(3);
 
 	static {
 		decoders.add(Tuple.of(
-			new ClientMessageDecoder(), new ClientMessageHandler()));
+			new AddMessageMessageDecoder(), new AddMessageMessageHandler()));
 
 		decoders.add(Tuple.of(
-			new OnlineMessageDecoder(), new OnlineMessageHandler()));
+			new AddTopicMessageDecoder(), new AddTopicMessageHandler()));
+
+		decoders.add(Tuple.of(
+			new ActiveUserMessageDecoder(), new ActiveUserMessageHandler()));
 	}
 
 	@Override

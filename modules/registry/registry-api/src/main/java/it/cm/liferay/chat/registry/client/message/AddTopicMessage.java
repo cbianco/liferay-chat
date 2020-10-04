@@ -9,17 +9,19 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 /**
  * @author Mauro Celani
  */
-public class OnlineMessage implements BaseMessage {
+public class AddTopicMessage extends BaseMessage {
 
-	private long _userId;
+	private long _userId1;
+	private long _userId2;
 
-	public OnlineMessage(String json) {
+	public AddTopicMessage(String json) {
 
 		try {
 			JSONObject msgJSON =
 				JSONFactoryUtil.createJSONObject(json);
 
-			_userId = msgJSON.getLong("userId");
+			_userId1 = msgJSON.getLong("userId1");
+			_userId2 = msgJSON.getLong("userId2");
 		}
 		catch (JSONException e) {
 			_log.error(e, e);
@@ -28,13 +30,17 @@ public class OnlineMessage implements BaseMessage {
 
 	@Override
 	public String toString() {
-		return "User: " + _userId;
+		return "User1: " + _userId1 + " User2: " + _userId2;
 	}
 
-	public long getUserId() {
-		return _userId;
+	public long getUserId1() {
+		return _userId1;
+	}
+	public long getUserId2() {
+		return _userId2;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(OnlineMessage.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AddTopicMessage.class);
 
 }

@@ -9,13 +9,13 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 /**
  * @author Mauro Celani
  */
-public class ClientMessage implements BaseMessage {
+public class AddMessageMessage extends BaseMessage {
 
 	private long _userId;
 	private long _topicId;
 	private String _content;
 
-	public ClientMessage(String json) {
+	public AddMessageMessage(String json) {
 
 		try {
 			JSONObject msgJSON =
@@ -49,6 +49,7 @@ public class ClientMessage implements BaseMessage {
 		return _topicId;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(ClientMessage.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		AddMessageMessage.class);
 
 }

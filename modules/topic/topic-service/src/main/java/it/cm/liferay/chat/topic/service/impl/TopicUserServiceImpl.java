@@ -15,8 +15,6 @@
 package it.cm.liferay.chat.topic.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import it.cm.liferay.chat.topic.exception.NoSuchTopicException;
-import it.cm.liferay.chat.topic.model.Topic;
 import it.cm.liferay.chat.topic.service.base.TopicUserServiceBaseImpl;
 
 import java.util.Collection;
@@ -50,27 +48,6 @@ public class TopicUserServiceImpl extends TopicUserServiceBaseImpl {
 		// TODO Add permission controls
 
 		return topicUserLocalService.getTopicIdsByUserId(userId);
-	}
-
-	@Override
-	public Topic getTopicByUserIds(
-			long userId1, long userId2)
-		throws PortalException {
-
-		// TODO Add permission controls
-
-		Collection<Topic> user1Topics =
-			topicLocalService.getTopicsByUserId(userId1);
-
-		Collection<Topic> user2Topics =
-			topicLocalService.getTopicsByUserId(userId2);
-
-		return user1Topics
-				.stream()
-				.filter(user2Topics::contains)
-				.filter(t -> t.fetchUserIds().size() == 2)
-				.findAny()
-				.orElseThrow(NoSuchTopicException::new);
 	}
 
 	@Override
