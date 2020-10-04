@@ -18,7 +18,7 @@ public class AddMessageMessageHandler
 	public void handle(
 		Session session, AddMessageMessage message) {
 
-		_log.info("It's just arrived a new message.");
+		_log.debug("It's just arrived a new message.");
 		_log.trace(message);
 
 		try {

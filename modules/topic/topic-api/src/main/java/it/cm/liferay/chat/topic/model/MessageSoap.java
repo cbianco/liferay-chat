@@ -43,6 +43,7 @@ public class MessageSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setTopicId(model.getTopicId());
 		soapModel.setContent(model.getContent());
+		soapModel.setRead(model.isRead());
 
 		return soapModel;
 	}
@@ -167,6 +168,18 @@ public class MessageSoap implements Serializable {
 		_content = content;
 	}
 
+	public boolean getRead() {
+		return _read;
+	}
+
+	public boolean isRead() {
+		return _read;
+	}
+
+	public void setRead(boolean read) {
+		_read = read;
+	}
+
 	private String _uuid;
 	private long _messageId;
 	private long _companyId;
@@ -176,4 +189,5 @@ public class MessageSoap implements Serializable {
 	private Date _modifiedDate;
 	private long _topicId;
 	private String _content;
+	private boolean _read;
 }

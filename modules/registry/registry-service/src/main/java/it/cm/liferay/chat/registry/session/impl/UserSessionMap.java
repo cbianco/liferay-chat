@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import it.cm.liferay.chat.registry.session.UserSession;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,13 +54,16 @@ public class UserSessionMap {
 
 		retJSON.put("userId", user.getUserId());
 		retJSON.put("fullName", user.getFullName());
-		retJSON.put("isOnline", false);
 
 		retJSON.put("portraitUrl", UserConstants.getPortraitURL(
 			PortalUtil.getPathImage(), user.isMale(),
 			user.getPortraitId(), user.getUserUuid()));
 
-		retJSON.put("lastActivityTime", user.getLastLoginDate().getTime());
+		Date lastLoginDate = user.getLastLoginDate();
+		if (lastLoginDate == null) {
+			lastLoginDate = new Date();
+		}
+		retJSON.put("lastActivityTime", lastLoginDate.getTime());
 
 		return retJSON;
 	}

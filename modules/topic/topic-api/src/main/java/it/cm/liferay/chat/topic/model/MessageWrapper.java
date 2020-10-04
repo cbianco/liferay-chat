@@ -68,6 +68,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("topicId", getTopicId());
 		attributes.put("content", getContent());
+		attributes.put("read", isRead());
 
 		return attributes;
 	}
@@ -126,6 +127,12 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 		if (content != null) {
 			setContent(content);
+		}
+
+		Boolean read = (Boolean)attributes.get("read");
+
+		if (read != null) {
+			setRead(read);
 		}
 	}
 
@@ -209,6 +216,16 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 		return _message.getPrimaryKeyObj();
 	}
 
+	/**
+	* Returns the read of this message.
+	*
+	* @return the read of this message
+	*/
+	@Override
+	public boolean getRead() {
+		return _message.getRead();
+	}
+
 	@Override
 	public it.cm.liferay.chat.topic.model.Topic getTopic()
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -283,6 +300,16 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	@Override
 	public boolean isNew() {
 		return _message.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this message is read.
+	*
+	* @return <code>true</code> if this message is read; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isRead() {
+		return _message.isRead();
 	}
 
 	@Override
@@ -379,6 +406,16 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_message.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets whether this message is read.
+	*
+	* @param read the read of this message
+	*/
+	@Override
+	public void setRead(boolean read) {
+		_message.setRead(read);
 	}
 
 	/**

@@ -17,6 +17,7 @@ import it.cm.liferay.chat.registry.session.UserSession.UserStatus;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.model.Topic;
+import it.cm.liferay.chat.topic.service.MessageService;
 import it.cm.liferay.chat.topic.service.TopicService;
 import it.cm.liferay.chat.topic.service.TopicUserService;
 import org.osgi.service.component.annotations.Activate;
@@ -27,7 +28,6 @@ import org.osgi.service.component.annotations.Reference;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +65,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		long userId, Session socketSession) {
 
 		if (!isOnline(userId)) {
-			_log.info("User (" + userId + ") made login and his session" +
+			_log.debug("User (" + userId + ") made login and his session" +
 					  " will be created");
 
 			try {
@@ -89,7 +89,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		_userSessionMap.get(userId)
 			.addSocketSession(socketSession);
 
-		_log.info("Added user to session topic registry: " + userId);
+		_log.debug("Added user to session topic registry: " + userId);
 
 		_sendTopics(socketSession, userId);
 	}
@@ -219,10 +219,6 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	public void notifyTopic(Topic topic) {
 
 		try {
-			Collection<Long> topicUserIds =
-				_topicService.getTopic(topic.getTopicId())
-					.getUserIds();
-
 			JSONObject topicJson = JSONFactoryUtil.createJSONObject();
 
 			topicJson.put(
@@ -294,6 +290,9 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		long topicId = topic.getTopicId();
 		topicJSON.put("topicId", topicId);
+
+		topicJSON.put(
+			"unreads", _messageService.countUnreadTopicMessages(topicId));
 
 		Collection<Long> userIds =
 			_topicUserService.getUserIdsByTopicId(topicId);
@@ -368,6 +367,9 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	public void updateLastActivityTime(long userId) {
 		_userSessionMap.get(userId).updateLastActivityTime();
 	}
+
+	@Reference
+	private MessageService _messageService;
 
 	@Reference
 	private Portal _portal;

@@ -59,6 +59,10 @@ public class MessageLocalServiceUtil {
 		return getService().addMessage(message);
 	}
 
+	public static int countUnreadTopicMessages(long topicId) {
+		return getService().countUnreadTopicMessages(topicId);
+	}
+
 	/**
 	* Creates a new message with the primary key. Does not add the message to the database.
 	*
@@ -286,6 +290,11 @@ public class MessageLocalServiceUtil {
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
 		long topicId, int start, int end) {
 		return getService().getTopicMessages(topicId, start, end);
+	}
+
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getUnreadTopicMessages(
+		long topicId) {
+		return getService().getUnreadTopicMessages(topicId);
 	}
 
 	/**

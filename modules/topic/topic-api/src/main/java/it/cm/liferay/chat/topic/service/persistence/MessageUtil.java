@@ -589,6 +589,174 @@ public class MessageUtil {
 	}
 
 	/**
+	* Returns all the messages where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @return the matching messages
+	*/
+	public static List<Message> findByT_R(long topicId, boolean read) {
+		return getPersistence().findByT_R(topicId, read);
+	}
+
+	/**
+	* Returns a range of all the messages where topicId = &#63; and read = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param start the lower bound of the range of messages
+	* @param end the upper bound of the range of messages (not inclusive)
+	* @return the range of matching messages
+	*/
+	public static List<Message> findByT_R(long topicId, boolean read,
+		int start, int end) {
+		return getPersistence().findByT_R(topicId, read, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the messages where topicId = &#63; and read = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param start the lower bound of the range of messages
+	* @param end the upper bound of the range of messages (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching messages
+	*/
+	public static List<Message> findByT_R(long topicId, boolean read,
+		int start, int end, OrderByComparator<Message> orderByComparator) {
+		return getPersistence()
+				   .findByT_R(topicId, read, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the messages where topicId = &#63; and read = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param start the lower bound of the range of messages
+	* @param end the upper bound of the range of messages (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching messages
+	*/
+	public static List<Message> findByT_R(long topicId, boolean read,
+		int start, int end, OrderByComparator<Message> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByT_R(topicId, read, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching message
+	* @throws NoSuchMessageException if a matching message could not be found
+	*/
+	public static Message findByT_R_First(long topicId, boolean read,
+		OrderByComparator<Message> orderByComparator)
+		throws it.cm.liferay.chat.topic.exception.NoSuchMessageException {
+		return getPersistence().findByT_R_First(topicId, read, orderByComparator);
+	}
+
+	/**
+	* Returns the first message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching message, or <code>null</code> if a matching message could not be found
+	*/
+	public static Message fetchByT_R_First(long topicId, boolean read,
+		OrderByComparator<Message> orderByComparator) {
+		return getPersistence()
+				   .fetchByT_R_First(topicId, read, orderByComparator);
+	}
+
+	/**
+	* Returns the last message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching message
+	* @throws NoSuchMessageException if a matching message could not be found
+	*/
+	public static Message findByT_R_Last(long topicId, boolean read,
+		OrderByComparator<Message> orderByComparator)
+		throws it.cm.liferay.chat.topic.exception.NoSuchMessageException {
+		return getPersistence().findByT_R_Last(topicId, read, orderByComparator);
+	}
+
+	/**
+	* Returns the last message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching message, or <code>null</code> if a matching message could not be found
+	*/
+	public static Message fetchByT_R_Last(long topicId, boolean read,
+		OrderByComparator<Message> orderByComparator) {
+		return getPersistence().fetchByT_R_Last(topicId, read, orderByComparator);
+	}
+
+	/**
+	* Returns the messages before and after the current message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param messageId the primary key of the current message
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next message
+	* @throws NoSuchMessageException if a message with the primary key could not be found
+	*/
+	public static Message[] findByT_R_PrevAndNext(long messageId, long topicId,
+		boolean read, OrderByComparator<Message> orderByComparator)
+		throws it.cm.liferay.chat.topic.exception.NoSuchMessageException {
+		return getPersistence()
+				   .findByT_R_PrevAndNext(messageId, topicId, read,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the messages where topicId = &#63; and read = &#63; from the database.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	*/
+	public static void removeByT_R(long topicId, boolean read) {
+		getPersistence().removeByT_R(topicId, read);
+	}
+
+	/**
+	* Returns the number of messages where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @return the number of matching messages
+	*/
+	public static int countByT_R(long topicId, boolean read) {
+		return getPersistence().countByT_R(topicId, read);
+	}
+
+	/**
 	* Caches the message in the entity cache if it is enabled.
 	*
 	* @param message the message

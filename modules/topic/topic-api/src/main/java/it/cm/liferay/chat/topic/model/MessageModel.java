@@ -222,6 +222,27 @@ public interface MessageModel extends BaseModel<Message>, ShardedModel,
 	 */
 	public void setContent(String content);
 
+	/**
+	 * Returns the read of this message.
+	 *
+	 * @return the read of this message
+	 */
+	public boolean getRead();
+
+	/**
+	 * Returns <code>true</code> if this message is read.
+	 *
+	 * @return <code>true</code> if this message is read; <code>false</code> otherwise
+	 */
+	public boolean isRead();
+
+	/**
+	 * Sets whether this message is read.
+	 *
+	 * @param read the read of this message
+	 */
+	public void setRead(boolean read);
+
 	@Override
 	public boolean isNew();
 

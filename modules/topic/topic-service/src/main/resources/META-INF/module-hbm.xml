@@ -17,6 +17,7 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="topicId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="read_" name="read" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="it.cm.liferay.chat.topic.model.impl.TopicImpl" table="Conversation_Topic">
 		<id name="topicId" type="long">

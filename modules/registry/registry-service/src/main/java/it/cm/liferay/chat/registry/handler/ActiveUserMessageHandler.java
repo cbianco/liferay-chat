@@ -18,7 +18,7 @@ public class ActiveUserMessageHandler
 		Session session, ActiveUserMessage message) {
 
 		try {
-			_log.info("It's just arrived a new online message.");
+			_log.debug("It's just arrived a new online message.");
 			_log.trace(message);
 
 			// Register himself session

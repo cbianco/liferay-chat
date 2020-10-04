@@ -64,7 +64,7 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -84,6 +84,8 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		sb.append(topicId);
 		sb.append(", content=");
 		sb.append(content);
+		sb.append(", read=");
+		sb.append(read);
 		sb.append("}");
 
 		return sb.toString();
@@ -134,6 +136,8 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 			messageImpl.setContent(content);
 		}
 
+		messageImpl.setRead(read);
+
 		messageImpl.resetOriginalValues();
 
 		return messageImpl;
@@ -154,6 +158,8 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 
 		topicId = objectInput.readLong();
 		content = objectInput.readUTF();
+
+		read = objectInput.readBoolean();
 	}
 
 	@Override
@@ -190,6 +196,8 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 		else {
 			objectOutput.writeUTF(content);
 		}
+
+		objectOutput.writeBoolean(read);
 	}
 
 	public String uuid;
@@ -201,4 +209,5 @@ public class MessageCacheModel implements CacheModel<Message>, Externalizable {
 	public long modifiedDate;
 	public long topicId;
 	public String content;
+	public boolean read;
 }

@@ -57,6 +57,8 @@ public interface MessageService extends BaseService {
 	public Message addMessage(long userId, long topicId, String content)
 		throws PortalException;
 
+	public int countUnreadTopicMessages(long topicId);
+
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -69,4 +71,7 @@ public interface MessageService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Collection<Message> getTopicMessages(long topicId, int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Collection<Message> getUnreadTopicMessages(long topicId);
 }

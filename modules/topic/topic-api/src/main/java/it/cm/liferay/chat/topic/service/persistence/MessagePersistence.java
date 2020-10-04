@@ -444,6 +444,149 @@ public interface MessagePersistence extends BasePersistence<Message> {
 	public int countByTopicId(long topicId);
 
 	/**
+	* Returns all the messages where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @return the matching messages
+	*/
+	public java.util.List<Message> findByT_R(long topicId, boolean read);
+
+	/**
+	* Returns a range of all the messages where topicId = &#63; and read = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param start the lower bound of the range of messages
+	* @param end the upper bound of the range of messages (not inclusive)
+	* @return the range of matching messages
+	*/
+	public java.util.List<Message> findByT_R(long topicId, boolean read,
+		int start, int end);
+
+	/**
+	* Returns an ordered range of all the messages where topicId = &#63; and read = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param start the lower bound of the range of messages
+	* @param end the upper bound of the range of messages (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching messages
+	*/
+	public java.util.List<Message> findByT_R(long topicId, boolean read,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Message> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the messages where topicId = &#63; and read = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MessageModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param start the lower bound of the range of messages
+	* @param end the upper bound of the range of messages (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching messages
+	*/
+	public java.util.List<Message> findByT_R(long topicId, boolean read,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Message> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching message
+	* @throws NoSuchMessageException if a matching message could not be found
+	*/
+	public Message findByT_R_First(long topicId, boolean read,
+		com.liferay.portal.kernel.util.OrderByComparator<Message> orderByComparator)
+		throws NoSuchMessageException;
+
+	/**
+	* Returns the first message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching message, or <code>null</code> if a matching message could not be found
+	*/
+	public Message fetchByT_R_First(long topicId, boolean read,
+		com.liferay.portal.kernel.util.OrderByComparator<Message> orderByComparator);
+
+	/**
+	* Returns the last message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching message
+	* @throws NoSuchMessageException if a matching message could not be found
+	*/
+	public Message findByT_R_Last(long topicId, boolean read,
+		com.liferay.portal.kernel.util.OrderByComparator<Message> orderByComparator)
+		throws NoSuchMessageException;
+
+	/**
+	* Returns the last message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching message, or <code>null</code> if a matching message could not be found
+	*/
+	public Message fetchByT_R_Last(long topicId, boolean read,
+		com.liferay.portal.kernel.util.OrderByComparator<Message> orderByComparator);
+
+	/**
+	* Returns the messages before and after the current message in the ordered set where topicId = &#63; and read = &#63;.
+	*
+	* @param messageId the primary key of the current message
+	* @param topicId the topic ID
+	* @param read the read
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next message
+	* @throws NoSuchMessageException if a message with the primary key could not be found
+	*/
+	public Message[] findByT_R_PrevAndNext(long messageId, long topicId,
+		boolean read,
+		com.liferay.portal.kernel.util.OrderByComparator<Message> orderByComparator)
+		throws NoSuchMessageException;
+
+	/**
+	* Removes all the messages where topicId = &#63; and read = &#63; from the database.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	*/
+	public void removeByT_R(long topicId, boolean read);
+
+	/**
+	* Returns the number of messages where topicId = &#63; and read = &#63;.
+	*
+	* @param topicId the topic ID
+	* @param read the read
+	* @return the number of matching messages
+	*/
+	public int countByT_R(long topicId, boolean read);
+
+	/**
 	* Caches the message in the entity cache if it is enabled.
 	*
 	* @param message the message

@@ -22,7 +22,7 @@ export default class ChatBarContainer extends React.Component {
 
         let setState = this.setState;
 
-        setWsHandler('ACTIVE_USER', ({activeUser}) => {
+        setWsHandler('ACTIVE_USER', ({ activeUser }) => {
         	setState(prevState => {
         		let onlineUsers = Object.assign({}, prevState.onlineUsers);
 				onlineUsers[activeUser.userId] = activeUser;
@@ -30,7 +30,7 @@ export default class ChatBarContainer extends React.Component {
 			});
         });
 
-        setWsHandler('INACTIVE_USER', ({inactiveUser}) => {
+        setWsHandler('INACTIVE_USER', ({ inactiveUser }) => {
         	setState(prevState => ({
 				onlineUsers: _.pick(prevState.onlineUsers, (user, userId) =>
 					userId !== inactiveUser.userId
@@ -45,7 +45,7 @@ export default class ChatBarContainer extends React.Component {
 			});
         });
 
-        setWsHandler('ADD_TOPIC', ({addTopic}) => {
+        setWsHandler('ADD_TOPIC', ({ addTopic }) => {
 			setState(prevState => {
 				let topics = Object.assign({}, prevState.topics);
 				topics[addTopic.topicId] = addTopic;
@@ -119,8 +119,10 @@ export default class ChatBarContainer extends React.Component {
 	render() {
 
 		let A = this.props.ctxt.AUI;
-		let onlineUsersSize = _.size(this.state.onlineUsers);
+		let Liferay = this.props.ctxt.Liferay;
+        let onlineUsersSize = _.size(this.state.onlineUsers);
 		let onlineUsersCount = (onlineUsersSize > 0) ? onlineUsersSize - 1 : onlineUsersSize;
+		let unreads = _.reduce(this.state.topics, (memo, { unreads }) => { return memo + unreads }, 0);
 
         return(
 			<div className="cmd-chat-bar-container container-fluid-1280">
@@ -128,6 +130,9 @@ export default class ChatBarContainer extends React.Component {
 				<OpenableTab
 					head={
 						<div className="cmd-chat-bar-main-topper">
+							{unreads > 0 && (<span className="cmd-chat-unread-message">
+								<span dangerouslySetInnerHTML={{__html: Liferay.Util.getLexiconIconTpl('envelope-closed')}}></span> {unreads}
+							</span>)}
 							<span>{A.Lang.sub(
 								Liferay.Language.get('online-users-x'),
 								[onlineUsersCount]

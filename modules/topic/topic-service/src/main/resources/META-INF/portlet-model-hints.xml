@@ -11,6 +11,7 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="topicId" type="long" />
 		<field name="content" type="String" />
+		<field name="read" type="boolean" />
 	</model>
 	<model name="it.cm.liferay.chat.topic.model.Topic">
 		<field name="uuid" type="String" />

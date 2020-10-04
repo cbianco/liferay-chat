@@ -51,6 +51,11 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 		return _messageLocalService.addMessage(message);
 	}
 
+	@Override
+	public int countUnreadTopicMessages(long topicId) {
+		return _messageLocalService.countUnreadTopicMessages(topicId);
+	}
+
 	/**
 	* Creates a new message with the primary key. Does not add the message to the database.
 	*
@@ -298,6 +303,12 @@ public class MessageLocalServiceWrapper implements MessageLocalService,
 	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
 		long topicId, int start, int end) {
 		return _messageLocalService.getTopicMessages(topicId, start, end);
+	}
+
+	@Override
+	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getUnreadTopicMessages(
+		long topicId) {
+		return _messageLocalService.getUnreadTopicMessages(topicId);
 	}
 
 	/**

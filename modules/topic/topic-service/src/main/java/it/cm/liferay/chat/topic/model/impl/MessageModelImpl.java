@@ -82,7 +82,8 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "topicId", Types.BIGINT },
-			{ "content", Types.VARCHAR }
+			{ "content", Types.VARCHAR },
+			{ "read_", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -96,9 +97,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("topicId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("content", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("read_", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table Conversation_Message (uuid_ VARCHAR(75) null,messageId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,topicId LONG,content VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table Conversation_Message (uuid_ VARCHAR(75) null,messageId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,topicId LONG,content VARCHAR(75) null,read_ BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table Conversation_Message";
 	public static final String ORDER_BY_JPQL = " ORDER BY message.createDate DESC";
 	public static final String ORDER_BY_SQL = " ORDER BY Conversation_Message.createDate DESC";
@@ -115,9 +117,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 				"value.object.column.bitmask.enabled.it.cm.liferay.chat.topic.model.Message"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long TOPICID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
+	public static final long READ_COLUMN_BITMASK = 2L;
+	public static final long TOPICID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long CREATEDATE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -141,6 +144,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setTopicId(soapModel.getTopicId());
 		model.setContent(soapModel.getContent());
+		model.setRead(soapModel.isRead());
 
 		return model;
 	}
@@ -214,6 +218,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("topicId", getTopicId());
 		attributes.put("content", getContent());
+		attributes.put("read", isRead());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -275,6 +280,12 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		if (content != null) {
 			setContent(content);
+		}
+
+		Boolean read = (Boolean)attributes.get("read");
+
+		if (read != null) {
+			setRead(read);
 		}
 	}
 
@@ -448,6 +459,35 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		_content = content;
 	}
 
+	@JSON
+	@Override
+	public boolean getRead() {
+		return _read;
+	}
+
+	@JSON
+	@Override
+	public boolean isRead() {
+		return _read;
+	}
+
+	@Override
+	public void setRead(boolean read) {
+		_columnBitmask |= READ_COLUMN_BITMASK;
+
+		if (!_setOriginalRead) {
+			_setOriginalRead = true;
+
+			_originalRead = _read;
+		}
+
+		_read = read;
+	}
+
+	public boolean getOriginalRead() {
+		return _originalRead;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -494,6 +534,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		messageImpl.setModifiedDate(getModifiedDate());
 		messageImpl.setTopicId(getTopicId());
 		messageImpl.setContent(getContent());
+		messageImpl.setRead(isRead());
 
 		messageImpl.resetOriginalValues();
 
@@ -568,6 +609,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 		messageModelImpl._setOriginalTopicId = false;
 
+		messageModelImpl._originalRead = messageModelImpl._read;
+
+		messageModelImpl._setOriginalRead = false;
+
 		messageModelImpl._columnBitmask = 0;
 	}
 
@@ -625,12 +670,14 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			messageCacheModel.content = null;
 		}
 
+		messageCacheModel.read = isRead();
+
 		return messageCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -650,6 +697,8 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 		sb.append(getTopicId());
 		sb.append(", content=");
 		sb.append(getContent());
+		sb.append(", read=");
+		sb.append(isRead());
 		sb.append("}");
 
 		return sb.toString();
@@ -657,7 +706,7 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(34);
 
 		sb.append("<model><model-name>");
 		sb.append("it.cm.liferay.chat.topic.model.Message");
@@ -699,6 +748,10 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 			"<column><column-name>content</column-name><column-value><![CDATA[");
 		sb.append(getContent());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>read</column-name><column-value><![CDATA[");
+		sb.append(isRead());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -724,6 +777,9 @@ public class MessageModelImpl extends BaseModelImpl<Message>
 	private long _originalTopicId;
 	private boolean _setOriginalTopicId;
 	private String _content;
+	private boolean _read;
+	private boolean _originalRead;
+	private boolean _setOriginalRead;
 	private long _columnBitmask;
 	private Message _escapedModel;
 }

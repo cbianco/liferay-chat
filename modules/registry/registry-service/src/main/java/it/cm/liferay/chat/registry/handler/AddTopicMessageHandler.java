@@ -18,7 +18,7 @@ public class AddTopicMessageHandler
 		Session session, AddTopicMessage message) {
 
 		try {
-			_log.info("It's just arrived a new add topic message.");
+			_log.debug("It's just arrived a new add topic message.");
 			_log.trace(message);
 
 			TopicLocalServiceUtil.addTopic(

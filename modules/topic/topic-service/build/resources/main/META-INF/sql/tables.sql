@@ -7,7 +7,8 @@ create table Conversation_Message (
 	createDate DATE null,
 	modifiedDate DATE null,
 	topicId LONG,
-	content VARCHAR(75) null
+	content VARCHAR(75) null,
+	read_ BOOLEAN
 );
 
 create table Conversation_Topic (

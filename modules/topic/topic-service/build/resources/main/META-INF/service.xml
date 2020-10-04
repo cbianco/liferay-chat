@@ -76,6 +76,7 @@
 
 		<column name="topicId" type="long" />
 		<column name="content" type="String" />
+		<column name="read" type="boolean" />
 
 		<!-- Order -->
 
@@ -87,6 +88,11 @@
 
 		<finder name="TopicId" return-type="Collection">
 			<finder-column name="topicId" />
+		</finder>
+
+		<finder name="T_R" return-type="Collection">
+			<finder-column name="topicId" />
+			<finder-column name="read" />
 		</finder>
 
 	</entity>

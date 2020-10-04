@@ -61,6 +61,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 		message.setModifiedDate(createDate);
 		message.setTopicId(topicId);
 		message.setContent(content);
+		message.setRead(false);
 
 		messagePersistence.update(message);
 
@@ -78,6 +79,20 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 		long topicId, int start, int end) {
 
 		return messagePersistence.findByTopicId(topicId, start, end);
+	}
+
+	@Override
+	public Collection<Message> getUnreadTopicMessages(
+		long topicId) {
+
+		return messagePersistence.findByT_R(topicId, false);
+	}
+
+	@Override
+	public int countUnreadTopicMessages(
+		long topicId) {
+
+		return messagePersistence.countByT_R(topicId, false);
 	}
 
 }
