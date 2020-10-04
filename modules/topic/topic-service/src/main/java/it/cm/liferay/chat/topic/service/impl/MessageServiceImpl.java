@@ -68,18 +68,4 @@ public class MessageServiceImpl extends MessageServiceBaseImpl {
 		return messageLocalService.getTopicMessages(topicId, start, end);
 	}
 
-	@Override
-	public Collection<Message> getUnreadTopicMessages(
-		long topicId) {
-
-		return messageLocalService.getUnreadTopicMessages(topicId);
-	}
-
-	@Override
-	public int countUnreadTopicMessages(
-		long topicId) {
-
-		return messageLocalService.countUnreadTopicMessages(topicId);
-	}
-
 }

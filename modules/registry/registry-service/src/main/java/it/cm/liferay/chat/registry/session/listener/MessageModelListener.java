@@ -23,7 +23,7 @@ public class MessageModelListener extends BaseModelListener<Message> {
 	public void onAfterCreate(Message message)
 		throws ModelListenerException {
 
-		_userSessionRegistry.notifyMessage(message);
+		_userSessionRegistry.notifyMessageCreation(message);
 
 		super.onAfterCreate(message);
 	}

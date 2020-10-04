@@ -29,10 +29,10 @@ public interface UserSessionRegistry {
 
 	public boolean isOnline(long userId);
 
-	public void notifyMessage(Message message);
+	public void notifyMessageCreation(Message message);
+
+	public void notifyTopicCreation(Topic topic);
 
 	public void updateLastActivityTime(long userId);
-
-	public void notifyTopic(Topic topic);
 
 }

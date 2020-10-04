@@ -7,8 +7,15 @@ create table Conversation_Message (
 	createDate DATE null,
 	modifiedDate DATE null,
 	topicId LONG,
-	content VARCHAR(75) null,
-	read_ BOOLEAN
+	content VARCHAR(75) null
+);
+
+create table Conversation_MessageUser (
+	messageId LONG not null,
+	userId LONG not null,
+	topicId LONG,
+	read_ BOOLEAN,
+	primary key (messageId, userId)
 );
 
 create table Conversation_Topic (

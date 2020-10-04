@@ -39,11 +39,6 @@ public class MessageServiceWrapper implements MessageService,
 		return _messageService.addMessage(userId, topicId, content);
 	}
 
-	@Override
-	public int countUnreadTopicMessages(long topicId) {
-		return _messageService.countUnreadTopicMessages(topicId);
-	}
-
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -64,12 +59,6 @@ public class MessageServiceWrapper implements MessageService,
 	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
 		long topicId, int start, int end) {
 		return _messageService.getTopicMessages(topicId, start, end);
-	}
-
-	@Override
-	public java.util.Collection<it.cm.liferay.chat.topic.model.Message> getUnreadTopicMessages(
-		long topicId) {
-		return _messageService.getUnreadTopicMessages(topicId);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ import it.cm.liferay.chat.registry.session.UserSession.UserStatus;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.model.Topic;
-import it.cm.liferay.chat.topic.service.MessageService;
+import it.cm.liferay.chat.topic.service.MessageUserService;
 import it.cm.liferay.chat.topic.service.TopicService;
 import it.cm.liferay.chat.topic.service.TopicUserService;
 import org.osgi.service.component.annotations.Activate;
@@ -192,7 +192,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	}
 
 	@Override
-	public void notifyMessage(Message message) {
+	public void notifyMessageCreation(Message message) {
 
 		try {
 			Collection<Long> topicUserIds =
@@ -216,7 +216,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	}
 
 	@Override
-	public void notifyTopic(Topic topic) {
+	public void notifyTopicCreation(Topic topic) {
 
 		try {
 			JSONObject topicJson = JSONFactoryUtil.createJSONObject();
@@ -227,7 +227,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 			topicJson.put(
 				ServerToClientMessageType.ADD_TOPIC.getJsonField(),
-				_getTopicJSON(topic));
+				_getTopicJSON(topic, topic.getUserId()));
 
 			_multicast(topicJson, topic.getUserIds());
 		}
@@ -254,7 +254,8 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		for (Topic topic : topicsByUserId) {
 			try {
 				topicsJSON.put(
-					Long.toString(topic.getTopicId()), _getTopicJSON(topic));
+					Long.toString(
+						topic.getTopicId()), _getTopicJSON(topic, userId));
 			}
 			catch (PortalException e) {
 				_log.error(e, e);
@@ -284,7 +285,9 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		}
 	}
 
-	private JSONObject _getTopicJSON(Topic topic) throws PortalException {
+	private JSONObject _getTopicJSON(
+			Topic topic, long userId)
+		throws PortalException {
 
 		JSONObject topicJSON = JSONFactoryUtil.createJSONObject();
 
@@ -292,17 +295,18 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		topicJSON.put("topicId", topicId);
 
 		topicJSON.put(
-			"unreads", _messageService.countUnreadTopicMessages(topicId));
+			"unreads", _messageUserService.countUnreadTopicMessages(
+				userId, topicId));
 
 		Collection<Long> userIds =
 			_topicUserService.getUserIdsByTopicId(topicId);
 
 		JSONArray usersJSON = JSONFactoryUtil.createJSONArray();
 
-		for (long userId : userIds) {
+		for (long userId2 : userIds) {
 
 			usersJSON.put(
-				_userSessionMap.getJSON(userId));
+				_userSessionMap.getJSON(userId2));
 		}
 
 		topicJSON.put("users", usersJSON);
@@ -369,7 +373,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	}
 
 	@Reference
-	private MessageService _messageService;
+	private MessageUserService _messageUserService;
 
 	@Reference
 	private Portal _portal;

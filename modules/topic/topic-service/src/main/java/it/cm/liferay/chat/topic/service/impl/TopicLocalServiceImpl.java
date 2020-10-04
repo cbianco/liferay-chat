@@ -51,7 +51,7 @@ public class TopicLocalServiceImpl extends TopicLocalServiceBaseImpl {
 			long userId, long otherIds[])
 		throws PortalException {
 
-		long topicId = counterLocalService.increment();
+		long topicId = counterLocalService.increment(Topic.class.getName());
 		Topic topic = topicPersistence.create(topicId);
 
 		User user = userLocalService.getUser(userId);

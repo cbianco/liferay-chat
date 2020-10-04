@@ -76,8 +76,6 @@ public interface MessageLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Message addMessage(Message message);
 
-	public int countUnreadTopicMessages(long topicId);
-
 	/**
 	* Creates a new message with the primary key. Does not add the message to the database.
 	*
@@ -256,9 +254,6 @@ public interface MessageLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Collection<Message> getTopicMessages(long topicId, int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Collection<Message> getUnreadTopicMessages(long topicId);
 
 	/**
 	* Updates the message in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

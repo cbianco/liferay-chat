@@ -3,6 +3,7 @@
 
 <hibernate-mapping auto-import="false" default-lazy="false">
 	<import class="it.cm.liferay.chat.topic.model.Message" />
+	<import class="it.cm.liferay.chat.topic.model.MessageUser" />
 	<import class="it.cm.liferay.chat.topic.model.Topic" />
 	<import class="it.cm.liferay.chat.topic.model.TopicUser" />
 	<class name="it.cm.liferay.chat.topic.model.impl.MessageImpl" table="Conversation_Message">
@@ -17,6 +18,13 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="topicId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="it.cm.liferay.chat.topic.model.impl.MessageUserImpl" table="Conversation_MessageUser">
+		<composite-id class="it.cm.liferay.chat.topic.service.persistence.MessageUserPK" name="primaryKey">
+			<key-property name="messageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		</composite-id>
+		<property name="topicId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property column="read_" name="read" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="it.cm.liferay.chat.topic.model.impl.TopicImpl" table="Conversation_Topic">

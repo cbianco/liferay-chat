@@ -45,6 +45,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import it.cm.liferay.chat.topic.model.TopicUser;
 import it.cm.liferay.chat.topic.service.TopicUserLocalService;
 import it.cm.liferay.chat.topic.service.persistence.MessagePersistence;
+import it.cm.liferay.chat.topic.service.persistence.MessageUserPersistence;
 import it.cm.liferay.chat.topic.service.persistence.TopicPersistence;
 import it.cm.liferay.chat.topic.service.persistence.TopicUserPK;
 import it.cm.liferay.chat.topic.service.persistence.TopicUserPersistence;
@@ -356,6 +357,44 @@ public abstract class TopicUserLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the message user local service.
+	 *
+	 * @return the message user local service
+	 */
+	public it.cm.liferay.chat.topic.service.MessageUserLocalService getMessageUserLocalService() {
+		return messageUserLocalService;
+	}
+
+	/**
+	 * Sets the message user local service.
+	 *
+	 * @param messageUserLocalService the message user local service
+	 */
+	public void setMessageUserLocalService(
+		it.cm.liferay.chat.topic.service.MessageUserLocalService messageUserLocalService) {
+		this.messageUserLocalService = messageUserLocalService;
+	}
+
+	/**
+	 * Returns the message user persistence.
+	 *
+	 * @return the message user persistence
+	 */
+	public MessageUserPersistence getMessageUserPersistence() {
+		return messageUserPersistence;
+	}
+
+	/**
+	 * Sets the message user persistence.
+	 *
+	 * @param messageUserPersistence the message user persistence
+	 */
+	public void setMessageUserPersistence(
+		MessageUserPersistence messageUserPersistence) {
+		this.messageUserPersistence = messageUserPersistence;
+	}
+
+	/**
 	 * Returns the topic local service.
 	 *
 	 * @return the topic local service
@@ -599,6 +638,10 @@ public abstract class TopicUserLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected it.cm.liferay.chat.topic.service.MessageLocalService messageLocalService;
 	@BeanReference(type = MessagePersistence.class)
 	protected MessagePersistence messagePersistence;
+	@BeanReference(type = it.cm.liferay.chat.topic.service.MessageUserLocalService.class)
+	protected it.cm.liferay.chat.topic.service.MessageUserLocalService messageUserLocalService;
+	@BeanReference(type = MessageUserPersistence.class)
+	protected MessageUserPersistence messageUserPersistence;
 	@BeanReference(type = it.cm.liferay.chat.topic.service.TopicLocalService.class)
 	protected it.cm.liferay.chat.topic.service.TopicLocalService topicLocalService;
 	@BeanReference(type = TopicPersistence.class)

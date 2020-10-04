@@ -76,7 +76,6 @@
 
 		<column name="topicId" type="long" />
 		<column name="content" type="String" />
-		<column name="read" type="boolean" />
 
 		<!-- Order -->
 
@@ -90,7 +89,32 @@
 			<finder-column name="topicId" />
 		</finder>
 
+	</entity>
+
+	<entity local-service="true" name="MessageUser" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="messageId" primary="true" type="long" />
+		<column name="userId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="topicId" type="long" />
+		<column name="read" type="boolean" />
+
+		<!-- Finder methods -->
+
 		<finder name="T_R" return-type="Collection">
+			<finder-column name="topicId" />
+			<finder-column name="read" />
+		</finder>
+		<finder name="U_R" return-type="Collection">
+			<finder-column name="userId" />
+			<finder-column name="read" />
+		</finder>
+		<finder name="U_T_R" return-type="Collection">
+			<finder-column name="userId" />
 			<finder-column name="topicId" />
 			<finder-column name="read" />
 		</finder>

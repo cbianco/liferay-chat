@@ -23,7 +23,7 @@ public class TopicModelListener extends BaseModelListener<Topic> {
 	public void onAfterCreate(Topic topic)
 		throws ModelListenerException {
 
-		_userSessionRegistry.notifyTopic(topic);
+		_userSessionRegistry.notifyTopicCreation(topic);
 
 		super.onAfterCreate(topic);
 	}

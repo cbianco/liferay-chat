@@ -48,10 +48,6 @@ public class MessageServiceUtil {
 		return getService().addMessage(userId, topicId, content);
 	}
 
-	public static int countUnreadTopicMessages(long topicId) {
-		return getService().countUnreadTopicMessages(topicId);
-	}
-
 	/**
 	* Returns the OSGi service identifier.
 	*
@@ -69,11 +65,6 @@ public class MessageServiceUtil {
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
 		long topicId, int start, int end) {
 		return getService().getTopicMessages(topicId, start, end);
-	}
-
-	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getUnreadTopicMessages(
-		long topicId) {
-		return getService().getUnreadTopicMessages(topicId);
 	}
 
 	public static MessageService getService() {

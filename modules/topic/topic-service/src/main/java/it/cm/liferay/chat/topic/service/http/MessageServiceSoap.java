@@ -110,34 +110,5 @@ public class MessageServiceSoap {
 		}
 	}
 
-	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getUnreadTopicMessages(
-		long topicId) throws RemoteException {
-		try {
-			java.util.Collection<it.cm.liferay.chat.topic.model.Message> returnValue =
-				MessageServiceUtil.getUnreadTopicMessages(topicId);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static int countUnreadTopicMessages(long topicId)
-		throws RemoteException {
-		try {
-			int returnValue = MessageServiceUtil.countUnreadTopicMessages(topicId);
-
-			return returnValue;
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
 	private static Log _log = LogFactoryUtil.getLog(MessageServiceSoap.class);
 }

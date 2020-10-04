@@ -140,60 +140,6 @@ public class MessageServiceHttp {
 		}
 	}
 
-	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getUnreadTopicMessages(
-		HttpPrincipal httpPrincipal, long topicId) {
-		try {
-			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
-					"getUnreadTopicMessages",
-					_getUnreadTopicMessagesParameterTypes3);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (java.util.Collection<it.cm.liferay.chat.topic.model.Message>)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
-	public static int countUnreadTopicMessages(HttpPrincipal httpPrincipal,
-		long topicId) {
-		try {
-			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
-					"countUnreadTopicMessages",
-					_countUnreadTopicMessagesParameterTypes4);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return ((Integer)returnObj).intValue();
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
 	private static Log _log = LogFactoryUtil.getLog(MessageServiceHttp.class);
 	private static final Class<?>[] _addMessageParameterTypes0 = new Class[] {
 			long.class, long.class, String.class
@@ -203,11 +149,5 @@ public class MessageServiceHttp {
 		};
 	private static final Class<?>[] _getTopicMessagesParameterTypes2 = new Class[] {
 			long.class, int.class, int.class
-		};
-	private static final Class<?>[] _getUnreadTopicMessagesParameterTypes3 = new Class[] {
-			long.class
-		};
-	private static final Class<?>[] _countUnreadTopicMessagesParameterTypes4 = new Class[] {
-			long.class
 		};
 }

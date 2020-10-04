@@ -41,7 +41,7 @@ public class UserSessionRegistryUtil {
 	}
 
 	public static void notifyMessage(Message message) {
-		getService().notifyMessage(message);
+		getService().notifyMessageCreation(message);
 	}
 
 	protected static UserSessionRegistry getService() {
