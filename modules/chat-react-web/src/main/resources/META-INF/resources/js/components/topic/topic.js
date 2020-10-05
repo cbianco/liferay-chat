@@ -7,10 +7,12 @@ export default class Topic extends React.Component {
 		// TODO Mange multiple users
 		let otherUser = otherUsers[0];
 		let otherUserIsOnline = otherUser.userId in this.props.onlineUsers;
+		let topic = this.props.topic;
 
 		return(
-			<a onClick={() => this.props.openTopic(this.props.topic)} className="cmd-chat-list-contact">
+			<a onClick={() => this.props.openTopic(topic)} className="cmd-chat-list-contact">
 				<span className={otherUserIsOnline ? "user-icon online" : "user-icon"}>
+					{topic.unreads > 0 && <span className="cmd-chat-list-contact-unreads unreads">{topic.unreads}</span>}
 					<img src={otherUser.portraitUrl} />
 				</span>
 				

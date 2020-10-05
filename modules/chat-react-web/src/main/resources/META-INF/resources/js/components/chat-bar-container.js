@@ -56,20 +56,27 @@ export default class ChatBarContainer extends React.Component {
 
     openTopic(topic) {
 
-		let setState = this.setState;
-		let Liferay = this.props.ctxt.Liferay;
+    	let isAlreadyActive = _.find(
+    		this.state.activeTopics,
+    		topic2 => topic2.topicId === topic.topicId);
 
-		Liferay.Service('/conversation.message/get-topic-messages', {
-			topicId: topic.topicId,
-		},
-		function(messages) {
+    	if (!isAlreadyActive) {
 
-			topic.messages = messages;
+			let setState = this.setState;
+			let Liferay = this.props.ctxt.Liferay;
 
-			setState(prevState => ({
-				activeTopics: prevState.activeTopics.concat([topic])
-			}));
-		});
+			Liferay.Service('/conversation.message/get-topic-messages', {
+				topicId: topic.topicId,
+			},
+			function(messages) {
+
+				topic.messages = messages;
+
+				setState(prevState => ({
+					activeTopics: prevState.activeTopics.concat([topic])
+				}));
+			});
+		}
 	}
 
 	handleAdd(event) {
@@ -130,7 +137,7 @@ export default class ChatBarContainer extends React.Component {
 				<OpenableTab
 					head={
 						<div className="cmd-chat-bar-main-topper">
-							{unreads > 0 && (<span className="cmd-chat-unread-message">
+							{unreads > 0 && (<span className="cmd-chat-unread-message unreads">
 								<span dangerouslySetInnerHTML={{__html: Liferay.Util.getLexiconIconTpl('envelope-closed')}}></span> {unreads}
 							</span>)}
 							<span>{A.Lang.sub(

@@ -2,19 +2,6 @@
 
 	position: relative;
 
-	.cmd-chat-unread-message {
-		background-color: firebrick;
-		color: white;
-		border-radius: 5px;
-		padding: 1px 3px;
-		position: absolute;
-		left: -12px;
-
-		.lexicon-icon-envelope-closed {
-			padding-bottom: 2px;
-		}
-	}
-
 	button.add-user {
 		position: absolute;
 		right: -13px;

@@ -24,11 +24,11 @@
              bottom: 2px;
              content: '.';
              font-size: 85px;
-             color: darkgrey;
+             color: $offline-user-color;
 		 }
 
 		 &.online:after {
-		 	color: limegreen;
+		 	color: $online-user-color;
 		 }
 	 }
 

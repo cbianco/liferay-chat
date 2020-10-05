@@ -71,7 +71,7 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 
 			if (userId2 != userId) {
 				messageUserLocalService.addMessageUser(
-					messageId, userId, topicId);
+					messageId, userId2, topicId);
 			}
 		}
 
