@@ -36,12 +36,16 @@ public class UserSessionRegistryUtil {
 		return getService().getOnlineUsers(userId);
 	}
 
-	public static void updateLastActivityTime(long userId) {
-		getService().updateLastActivityTime(userId);
-	}
-
 	public static void notifyMessage(Message message) {
 		getService().notifyMessageCreation(message);
+	}
+
+	public static void sendTopics(long userId) {
+		getService().sendTopics(userId);
+	}
+
+	public static void updateLastActivityTime(long userId) {
+		getService().updateLastActivityTime(userId);
 	}
 
 	protected static UserSessionRegistry getService() {

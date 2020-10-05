@@ -65,6 +65,9 @@ public interface MessageUserLocalService extends BaseLocalService,
 	public void addMessageUser(long messageId, long userId, long topicId)
 		throws PortalException;
 
+	public void addMessageUser(long messageId, long userId, long topicId,
+		boolean read) throws PortalException;
+
 	/**
 	* Adds the message user to the database. Also notifies the appropriate model listeners.
 	*
@@ -227,6 +230,12 @@ public interface MessageUserLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Collection<MessageUser> getUnreadTopicMessages(long topicId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isRead(long userId, long messageId)
+		throws PortalException;
+
+	public void setReadTopic(long userId, long topicId);
 
 	/**
 	* Updates the message user in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

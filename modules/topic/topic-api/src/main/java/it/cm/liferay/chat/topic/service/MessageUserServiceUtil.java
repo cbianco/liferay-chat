@@ -60,6 +60,10 @@ public class MessageUserServiceUtil {
 		return getService().getUnreadTopicMessages(topicId);
 	}
 
+	public static void setReadTopic(long userId, long topicId) {
+		getService().setReadTopic(userId, topicId);
+	}
+
 	public static MessageUserService getService() {
 		return _serviceTracker.getService();
 	}

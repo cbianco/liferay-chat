@@ -47,6 +47,12 @@ public class MessageUserLocalServiceUtil {
 		getService().addMessageUser(messageId, userId, topicId);
 	}
 
+	public static void addMessageUser(long messageId, long userId,
+		long topicId, boolean read)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		getService().addMessageUser(messageId, userId, topicId, read);
+	}
+
 	/**
 	* Adds the message user to the database. Also notifies the appropriate model listeners.
 	*
@@ -253,6 +259,15 @@ public class MessageUserLocalServiceUtil {
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.MessageUser> getUnreadTopicMessages(
 		long topicId) {
 		return getService().getUnreadTopicMessages(topicId);
+	}
+
+	public static boolean isRead(long userId, long messageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().isRead(userId, messageId);
+	}
+
+	public static void setReadTopic(long userId, long topicId) {
+		getService().setReadTopic(userId, topicId);
 	}
 
 	/**

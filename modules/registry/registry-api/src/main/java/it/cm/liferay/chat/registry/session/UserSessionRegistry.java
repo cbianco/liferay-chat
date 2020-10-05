@@ -33,6 +33,8 @@ public interface UserSessionRegistry {
 
 	public void notifyTopicCreation(Topic topic);
 
+	public void sendTopics(long userId);
+
 	public void updateLastActivityTime(long userId);
 
 }

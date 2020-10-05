@@ -57,14 +57,15 @@ public class MessageServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
-		long topicId) {
-		return getService().getTopicMessages(topicId);
+	public static com.liferay.portal.kernel.json.JSONArray getTopicMessages(
+		long userId, long topicId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getTopicMessages(userId, topicId);
 	}
 
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
-		long topicId, int start, int end) {
-		return getService().getTopicMessages(topicId, start, end);
+		long userId, long topicId, int start, int end) {
+		return getService().getTopicMessages(userId, topicId, start, end);
 	}
 
 	public static MessageService getService() {

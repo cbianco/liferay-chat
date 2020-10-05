@@ -67,6 +67,7 @@ export default class ChatBarContainer extends React.Component {
 
 			Liferay.Service('/conversation.message/get-topic-messages', {
 				topicId: topic.topicId,
+				userId: this.props.ctxt.userId
 			},
 			function(messages) {
 

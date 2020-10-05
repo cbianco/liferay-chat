@@ -54,6 +54,11 @@ public class MessageUserServiceWrapper implements MessageUserService,
 	}
 
 	@Override
+	public void setReadTopic(long userId, long topicId) {
+		_messageUserService.setReadTopic(userId, topicId);
+	}
+
+	@Override
 	public MessageUserService getWrappedService() {
 		return _messageUserService;
 	}

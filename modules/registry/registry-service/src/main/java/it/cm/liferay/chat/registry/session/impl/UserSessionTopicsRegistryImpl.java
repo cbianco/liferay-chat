@@ -91,7 +91,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		_log.debug("Added user to session topic registry: " + userId);
 
-		_sendTopics(socketSession, userId);
+		sendTopics(userId);
 	}
 
 	@Override
@@ -238,7 +238,8 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		updateLastActivityTime(topic.getUserId());
 	}
 
-	private void _sendTopics(Session session, long userId) {
+	@Override
+	public void sendTopics(long userId) {
 
 		Collection<Topic> topicsByUserId =
 			_topicService.getTopicsByUserId(userId);
@@ -275,14 +276,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		responseJSON.put("onlineUsers", onlineUsersJSON);
 
-		try {
-			session.getBasicRemote().sendText(
-				responseJSON.toJSONString());
-		}
-		catch (IOException e) {
-			// TODO clearSession??
-			_log.error(e, e);
-		}
+		_unicast(responseJSON, userId);
 	}
 
 	private JSONObject _getTopicJSON(
@@ -341,6 +335,12 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		}
 	}
 
+	private void _unicast(
+		JSONObject messageJSON, long userId) {
+
+		_broadcast(messageJSON, t -> t.getKey().equals(userId));
+	}
+
 	private void _multicast(
 		JSONObject messageJSON, Collection<Long> userIds) {
 
@@ -369,7 +369,12 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	}
 
 	public void updateLastActivityTime(long userId) {
-		_userSessionMap.get(userId).updateLastActivityTime();
+
+		UserSession userSession = _userSessionMap.get(userId);
+
+		if (userSession != null) {
+			userSession.updateLastActivityTime();
+		}
 	}
 
 	@Reference

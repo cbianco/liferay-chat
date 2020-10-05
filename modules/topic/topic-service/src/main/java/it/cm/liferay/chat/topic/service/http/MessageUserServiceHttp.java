@@ -110,11 +110,37 @@ public class MessageUserServiceHttp {
 		}
 	}
 
+	public static void setReadTopic(HttpPrincipal httpPrincipal, long userId,
+		long topicId) {
+		try {
+			MethodKey methodKey = new MethodKey(MessageUserServiceUtil.class,
+					"setReadTopic", _setReadTopicParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
+					topicId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(MessageUserServiceHttp.class);
 	private static final Class<?>[] _getUnreadTopicMessagesParameterTypes0 = new Class[] {
 			long.class
 		};
 	private static final Class<?>[] _countUnreadTopicMessagesParameterTypes1 = new Class[] {
+			long.class, long.class
+		};
+	private static final Class<?>[] _setReadTopicParameterTypes2 = new Class[] {
 			long.class, long.class
 		};
 }

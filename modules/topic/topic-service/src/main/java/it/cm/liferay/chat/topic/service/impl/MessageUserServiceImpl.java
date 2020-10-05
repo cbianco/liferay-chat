@@ -45,6 +45,8 @@ public class MessageUserServiceImpl extends MessageUserServiceBaseImpl {
 	public Collection<MessageUser> getUnreadTopicMessages(
 		long topicId) {
 
+		// TODO Add permission controls
+
 		return messageUserLocalService.getUnreadTopicMessages(topicId);
 	}
 
@@ -52,7 +54,19 @@ public class MessageUserServiceImpl extends MessageUserServiceBaseImpl {
 	public int countUnreadTopicMessages(
 		long userId, long topicId) {
 
+		// TODO Add permission controls
+
 		return messageUserLocalService.countUnreadTopicMessages(
+			userId, topicId);
+	}
+
+	@Override
+	public void setReadTopic(
+		long userId, long topicId) {
+
+		// TODO Add permission controls
+
+		messageUserLocalService.setReadTopic(
 			userId, topicId);
 	}
 

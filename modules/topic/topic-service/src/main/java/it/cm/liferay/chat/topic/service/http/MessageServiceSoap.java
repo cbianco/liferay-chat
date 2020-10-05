@@ -80,13 +80,13 @@ public class MessageServiceSoap {
 		}
 	}
 
-	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
-		long topicId) throws RemoteException {
+	public static String getTopicMessages(long userId, long topicId)
+		throws RemoteException {
 		try {
-			java.util.Collection<it.cm.liferay.chat.topic.model.Message> returnValue =
-				MessageServiceUtil.getTopicMessages(topicId);
+			com.liferay.portal.kernel.json.JSONArray returnValue = MessageServiceUtil.getTopicMessages(userId,
+					topicId);
 
-			return returnValue;
+			return returnValue.toString();
 		}
 		catch (Exception e) {
 			_log.error(e, e);
@@ -96,10 +96,11 @@ public class MessageServiceSoap {
 	}
 
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
-		long topicId, int start, int end) throws RemoteException {
+		long userId, long topicId, int start, int end)
+		throws RemoteException {
 		try {
 			java.util.Collection<it.cm.liferay.chat.topic.model.Message> returnValue =
-				MessageServiceUtil.getTopicMessages(topicId, start, end);
+				MessageServiceUtil.getTopicMessages(userId, topicId, start, end);
 
 			return returnValue;
 		}

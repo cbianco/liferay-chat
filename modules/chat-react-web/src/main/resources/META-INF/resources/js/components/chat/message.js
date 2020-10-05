@@ -12,7 +12,7 @@ export default class Message extends React.Component {
 		if (this.props.message.userId == this.props.ctxt.userId) {
 			className += ' mine';
 		}
-		if (this.props.message.userId == this.props.ctxt.userId) {
+		if (!this.props.message.read) {
 			className += ' unread';
 		}
 

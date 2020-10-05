@@ -13,11 +13,21 @@
 		margin: 5px;
 		color: white;
 		background-color: $palette-color2;
+		position: relative;
 
 		&.mine {
 			text-align: right;
 			margin-left: 24px;
 			background-color: $palette-color3;
+		}
+
+		&.unread:after {
+			position: absolute;
+			right: 4px;
+            top: 0px;
+			content: '.';
+			font-size: 85px;
+			color: $unreads-background;
 		}
 
 		.cmd-message-username {

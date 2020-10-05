@@ -15,11 +15,9 @@
 package it.cm.liferay.chat.topic.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.model.MessageUser;
 import it.cm.liferay.chat.topic.service.base.MessageUserLocalServiceBaseImpl;
 import it.cm.liferay.chat.topic.service.persistence.MessageUserPK;
-import it.cm.liferay.chat.topic.service.persistence.MessageUserPersistence;
 
 import java.util.Collection;
 
@@ -49,13 +47,29 @@ public class MessageUserLocalServiceImpl extends MessageUserLocalServiceBaseImpl
 			long messageId, long userId, long topicId)
 		throws PortalException {
 
+		addMessageUser(messageId, userId, topicId, false);
+	}
+
+	@Override
+	public void addMessageUser(
+			long messageId, long userId, long topicId, boolean read)
+		throws PortalException {
+
 		MessageUserPK messageUserPK = new MessageUserPK(messageId, userId);
 		MessageUser messageUser = messageUserPersistence.create(messageUserPK);
 
 		messageUser.setTopicId(topicId);
-		messageUser.setRead(false);
+		messageUser.setRead(read);
 
 		messageUserPersistence.update(messageUser);
+	}
+
+	@Override
+	public int countUnreadTopicMessages(
+		long userId, long topicId) {
+
+		return messageUserPersistence.countByU_T_R(
+			userId, topicId, false);
 	}
 
 	@Override
@@ -66,11 +80,24 @@ public class MessageUserLocalServiceImpl extends MessageUserLocalServiceBaseImpl
 	}
 
 	@Override
-	public int countUnreadTopicMessages(
+	public boolean isRead(long userId, long messageId) throws PortalException {
+
+		return messageUserPersistence.findByPrimaryKey(
+			new MessageUserPK(messageId, userId))
+			.isRead();
+	}
+
+	@Override
+	public void setReadTopic(
 		long userId, long topicId) {
 
-		return messageUserPersistence.countByU_T_R(
-			userId, topicId, false);
+		for (MessageUser messageUser : messageUserPersistence.findByU_T_R(
+			userId, topicId, false)) {
+
+			messageUser.setRead(true);
+
+			messageUserPersistence.update(messageUser);
+		}
 	}
 
 }

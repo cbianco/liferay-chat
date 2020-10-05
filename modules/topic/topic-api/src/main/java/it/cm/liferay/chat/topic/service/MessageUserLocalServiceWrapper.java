@@ -39,6 +39,13 @@ public class MessageUserLocalServiceWrapper implements MessageUserLocalService,
 		_messageUserLocalService.addMessageUser(messageId, userId, topicId);
 	}
 
+	@Override
+	public void addMessageUser(long messageId, long userId, long topicId,
+		boolean read)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		_messageUserLocalService.addMessageUser(messageId, userId, topicId, read);
+	}
+
 	/**
 	* Adds the message user to the database. Also notifies the appropriate model listeners.
 	*
@@ -267,6 +274,17 @@ public class MessageUserLocalServiceWrapper implements MessageUserLocalService,
 	public java.util.Collection<it.cm.liferay.chat.topic.model.MessageUser> getUnreadTopicMessages(
 		long topicId) {
 		return _messageUserLocalService.getUnreadTopicMessages(topicId);
+	}
+
+	@Override
+	public boolean isRead(long userId, long messageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _messageUserLocalService.isRead(userId, messageId);
+	}
+
+	@Override
+	public void setReadTopic(long userId, long topicId) {
+		_messageUserLocalService.setReadTopic(userId, topicId);
 	}
 
 	/**

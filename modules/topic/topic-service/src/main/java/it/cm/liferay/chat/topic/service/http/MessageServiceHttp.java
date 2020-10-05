@@ -87,13 +87,15 @@ public class MessageServiceHttp {
 		}
 	}
 
-	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
-		HttpPrincipal httpPrincipal, long topicId) {
+	public static com.liferay.portal.kernel.json.JSONArray getTopicMessages(
+		HttpPrincipal httpPrincipal, long userId, long topicId)
+		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
 					"getTopicMessages", _getTopicMessagesParameterTypes1);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
+					topicId);
 
 			Object returnObj = null;
 
@@ -101,10 +103,14 @@ public class MessageServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
 
-			return (java.util.Collection<it.cm.liferay.chat.topic.model.Message>)returnObj;
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);
@@ -114,13 +120,14 @@ public class MessageServiceHttp {
 	}
 
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.Message> getTopicMessages(
-		HttpPrincipal httpPrincipal, long topicId, int start, int end) {
+		HttpPrincipal httpPrincipal, long userId, long topicId, int start,
+		int end) {
 		try {
 			MethodKey methodKey = new MethodKey(MessageServiceUtil.class,
 					"getTopicMessages", _getTopicMessagesParameterTypes2);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey, topicId,
-					start, end);
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
+					topicId, start, end);
 
 			Object returnObj = null;
 
@@ -145,9 +152,9 @@ public class MessageServiceHttp {
 			long.class, long.class, String.class
 		};
 	private static final Class<?>[] _getTopicMessagesParameterTypes1 = new Class[] {
-			long.class
+			long.class, long.class
 		};
 	private static final Class<?>[] _getTopicMessagesParameterTypes2 = new Class[] {
-			long.class, int.class, int.class
+			long.class, long.class, int.class, int.class
 		};
 }

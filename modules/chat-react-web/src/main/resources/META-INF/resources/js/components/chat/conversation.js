@@ -14,8 +14,14 @@ export default class Conversation extends React.Component {
         };
 
         let setState = this.setState.bind(this);
+        let userId = this.props.ctxt.userId;
 
 		setWsHandler('NEW_MESSAGE', message => {
+
+			if (message.userId == userId) {
+				message.read = true;
+			}
+
 			setState(prevState => ({
 				messages: prevState.messages.concat([message])
 			}));

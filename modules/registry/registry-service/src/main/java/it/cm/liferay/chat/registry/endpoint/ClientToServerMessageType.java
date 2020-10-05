@@ -8,7 +8,11 @@ public enum ClientToServerMessageType {
 	// USERS
 
 	ACTIVE_USER,
+
+	// TOPIC
+
 	ADD_TOPIC,
+	READ_TOPIC,
 
 	// MESSAGES
 

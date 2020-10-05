@@ -15,6 +15,10 @@
 package it.cm.liferay.chat.topic.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONSerializer;
 import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.service.base.MessageServiceBaseImpl;
 
@@ -52,16 +56,34 @@ public class MessageServiceImpl extends MessageServiceBaseImpl {
 	}
 
 	@Override
-	public Collection<Message> getTopicMessages(long topicId) {
+	public JSONArray getTopicMessages(
+			long userId, long topicId)
+		throws PortalException {
 
 		// TODO Add permission controls
 
-		return messageLocalService.getTopicMessages(topicId);
+		JSONSerializer serializer = JSONFactoryUtil.createJSONSerializer();
+
+		JSONArray messagesJson = JSONFactoryUtil.createJSONArray();
+
+		for (Message message : messageLocalService.getTopicMessages(topicId)) {
+
+			JSONObject messageJson = JSONFactoryUtil.createJSONObject(
+				serializer.serialize(message));
+
+			messageJson.put(
+				"read", messageUserLocalService.isRead(
+					userId, message.getMessageId()));
+
+			messagesJson.put(messageJson);
+		}
+
+		return messagesJson;
 	}
 
 	@Override
 	public Collection<Message> getTopicMessages(
-		long topicId, int start, int end) {
+		long userId, long topicId, int start, int end) {
 
 		// TODO Add permission controls
 

@@ -10,10 +10,12 @@ import it.cm.liferay.chat.registry.client.message.BaseMessage;
 import it.cm.liferay.chat.registry.decoder.AddMessageMessageDecoder;
 import it.cm.liferay.chat.registry.decoder.ActiveUserMessageDecoder;
 import it.cm.liferay.chat.registry.decoder.AddTopicMessageDecoder;
+import it.cm.liferay.chat.registry.decoder.ReadTopicMessageDecoder;
 import it.cm.liferay.chat.registry.handler.AddTopicMessageHandler;
 import it.cm.liferay.chat.registry.handler.BaseHandler;
 import it.cm.liferay.chat.registry.handler.AddMessageMessageHandler;
 import it.cm.liferay.chat.registry.handler.ActiveUserMessageHandler;
+import it.cm.liferay.chat.registry.handler.ReadTopicMessageHandler;
 import it.cm.liferay.chat.registry.session.UserSessionRegistryUtil;
 
 import javax.websocket.CloseReason;
@@ -34,7 +36,7 @@ import java.util.function.Function;
 public class ConversationRegistryEndpoint extends Endpoint {
 
 	private static List<Tuple2<Text<? extends BaseMessage>, BaseHandler>>
-		decoders = new ArrayList<>(3);
+		decoders = new ArrayList<>(4);
 
 	static {
 		decoders.add(Tuple.of(
@@ -45,6 +47,9 @@ public class ConversationRegistryEndpoint extends Endpoint {
 
 		decoders.add(Tuple.of(
 			new ActiveUserMessageDecoder(), new ActiveUserMessageHandler()));
+
+		decoders.add(Tuple.of(
+			new ReadTopicMessageDecoder(), new ReadTopicMessageHandler()));
 	}
 
 	@Override

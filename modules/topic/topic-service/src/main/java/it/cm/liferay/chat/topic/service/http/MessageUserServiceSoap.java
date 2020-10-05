@@ -95,5 +95,17 @@ public class MessageUserServiceSoap {
 		}
 	}
 
+	public static void setReadTopic(long userId, long topicId)
+		throws RemoteException {
+		try {
+			MessageUserServiceUtil.setReadTopic(userId, topicId);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(MessageUserServiceSoap.class);
 }

@@ -13,8 +13,18 @@ export default class OpenableTab extends React.Component {
     }
 
     handleClick() {
+
+    	let willOpen = !this.state.isOpen;
+
+    	if (willOpen && this.props.onOpen) {
+			this.props.onOpen();
+		}
+		if (!willOpen && this.props.onClose) {
+			this.props.onClose();
+		}
+
 		this.setState({
-			isOpen: !this.state.isOpen
+			isOpen: willOpen
 		});
 	}
 
