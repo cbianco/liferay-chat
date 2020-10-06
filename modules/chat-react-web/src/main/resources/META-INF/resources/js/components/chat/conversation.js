@@ -6,28 +6,6 @@ import { setWsHandler } from '../websocket';
 
 export default class Conversation extends React.Component {
 
-	constructor(props) {
-        super(props);
-
-        this.state = {
-            messages: _.sortBy(props.topic.messages, 'createDate')
-        };
-
-        let setState = this.setState.bind(this);
-        let userId = this.props.ctxt.userId;
-
-		setWsHandler('NEW_MESSAGE', message => {
-
-			if (message.userId == userId) {
-				message.read = true;
-			}
-
-			setState(prevState => ({
-				messages: prevState.messages.concat([message])
-			}));
-		});
-	}
-
 	componentDidMount() {
 		this.scrollToBottom('auto');
     }
@@ -45,13 +23,16 @@ export default class Conversation extends React.Component {
 	}
 
 	render() {
+
+		let messages = _.sortBy(this.props.topic.messages, 'createDate');
+
 		return(
 			<div className="cmd-topic-conversation">
 				<div
 					className="cmd-conversation-message-list"
 					ref={(ref) => this.messageList = ref}
 				>
-					{this.state.messages.map(message =>
+					{messages.map(message =>
 						<Message ctxt={this.props.ctxt} key={message.messageId} message={message} />
 					)}
 				</div>

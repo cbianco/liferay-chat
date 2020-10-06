@@ -12,7 +12,7 @@ export default class ChatBarContainer extends React.Component {
 
         this.state = {
             topics: {},
-			activeTopics: [],
+            activeTopics: [],
 			onlineUsers: {}
         };
 
@@ -21,6 +21,7 @@ export default class ChatBarContainer extends React.Component {
 		this.setState = this.setState.bind(this);
 
         let setState = this.setState;
+        let userId = this.props.ctxt.userId;
 
         setWsHandler('ACTIVE_USER', ({ activeUser }) => {
         	setState(prevState => {
@@ -52,31 +53,32 @@ export default class ChatBarContainer extends React.Component {
 				return { topics };
 			});
 		});
+
+		setWsHandler('NEW_MESSAGE', message => {
+
+			if (message.userId == userId) {
+				message.read = true;
+			}
+
+			setState(prevState => {
+				let topics = Object.assign({}, prevState.topics);
+				let topic = topics[message.topicId];
+				topic.messages = topic.messages.concat([message]);
+				topics[message.topicId] = topic;
+				return { topics };
+			});
+		});
     }
 
     openTopic(topic) {
 
-    	let isAlreadyActive = _.find(
-    		this.state.activeTopics,
-    		topic2 => topic2.topicId === topic.topicId);
+    	let activeTopics = this.state.activeTopics;
 
-    	if (!isAlreadyActive) {
+    	if (!activeTopics.includes(topic.topicId)) {
 
-			let setState = this.setState;
-			let Liferay = this.props.ctxt.Liferay;
-
-			Liferay.Service('/conversation.message/get-topic-messages', {
-				topicId: topic.topicId,
-				userId: this.props.ctxt.userId
-			},
-			function(messages) {
-
-				topic.messages = messages;
-
-				setState(prevState => ({
-					activeTopics: prevState.activeTopics.concat([topic])
-				}));
-			});
+			this.setState(prevState => ({
+				activeTopics: prevState.activeTopics.concat([topic.topicId])
+			}));
 		}
 	}
 
@@ -134,7 +136,7 @@ export default class ChatBarContainer extends React.Component {
 
         return(
 			<div className="cmd-chat-bar-container container-fluid-1280">
-				<ActiveTopics ctxt={this.props.ctxt} activeTopics={this.state.activeTopics} />
+				<ActiveTopics ctxt={this.props.ctxt} activeTopics={_.filter(this.state.topics, ({ topicId }) => this.state.activeTopics.includes(topicId))} />
 				<OpenableTab
 					head={
 						<div className="cmd-chat-bar-main-topper">

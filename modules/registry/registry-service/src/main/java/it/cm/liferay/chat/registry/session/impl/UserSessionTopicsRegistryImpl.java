@@ -17,6 +17,7 @@ import it.cm.liferay.chat.registry.session.UserSession.UserStatus;
 import it.cm.liferay.chat.registry.session.UserSessionRegistry;
 import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.model.Topic;
+import it.cm.liferay.chat.topic.service.MessageService;
 import it.cm.liferay.chat.topic.service.MessageUserService;
 import it.cm.liferay.chat.topic.service.TopicService;
 import it.cm.liferay.chat.topic.service.TopicUserService;
@@ -289,6 +290,9 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 		topicJSON.put("topicId", topicId);
 
 		topicJSON.put(
+			"messages", _messageService.getTopicMessages(userId, topicId));
+
+		topicJSON.put(
 			"unreads", _messageUserService.countUnreadTopicMessages(
 				userId, topicId));
 
@@ -376,6 +380,9 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 			userSession.updateLastActivityTime();
 		}
 	}
+
+	@Reference
+	private MessageService _messageService;
 
 	@Reference
 	private MessageUserService _messageUserService;
