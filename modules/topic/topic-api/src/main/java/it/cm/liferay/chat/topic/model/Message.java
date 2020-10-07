@@ -54,7 +54,7 @@ public interface Message extends MessageModel, PersistedModel {
 			}
 		};
 
-	public String toJsonString();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(long userId);
 
 	public it.cm.liferay.chat.topic.model.Topic getTopic()
 		throws com.liferay.portal.kernel.exception.PortalException;

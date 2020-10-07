@@ -17,11 +17,18 @@ package it.cm.liferay.chat.topic.model.impl;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONSerializer;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import it.cm.liferay.chat.topic.model.Topic;
+import it.cm.liferay.chat.topic.service.MessageService;
+import it.cm.liferay.chat.topic.service.MessageUserService;
+import it.cm.liferay.chat.topic.service.MessageUserServiceUtil;
 import it.cm.liferay.chat.topic.service.TopicService;
+import it.cm.liferay.chat.topic.service.TopicServiceUtil;
 
 /**
  * The extended model implementation for the Message service. Represents a row in the &quot;Conversation_Message&quot; database table, with each column mapped to a property of this class.
@@ -43,19 +50,32 @@ public class MessageImpl extends MessageBaseImpl {
 	}
 
 	@Override
-	public String toJsonString() {
+	public JSONObject toJSON(long userId) {
 
-		JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
+		try {
+			JSONSerializer jsonSerializer =
+				JSONFactoryUtil.createJSONSerializer();
 
-		return jsonSerializer.serialize(this);
+			JSONObject messageJSON = JSONFactoryUtil.createJSONObject(
+				jsonSerializer.serialize(this));
+
+			messageJSON.put(
+				"read", MessageUserServiceUtil.isRead(
+					userId, getMessageId()));
+
+			return messageJSON;
+		}
+		catch (PortalException e) {
+			_log.error(e, e);
+		}
+		return JSONFactoryUtil.createJSONObject();
 	}
 
 	@Override
 	public Topic getTopic() throws PortalException {
-		return topicService.getTopic(getTopicId());
+		return TopicServiceUtil.getTopic(getTopicId());
 	}
 
-	@BeanReference(type = TopicService.class)
-	protected TopicService topicService;
+	private static final Log _log = LogFactoryUtil.getLog(MessageImpl.class);
 
 }

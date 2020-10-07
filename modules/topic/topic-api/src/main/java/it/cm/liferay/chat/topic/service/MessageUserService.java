@@ -66,5 +66,9 @@ public interface MessageUserService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Collection<MessageUser> getUnreadTopicMessages(long topicId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isRead(long userId, long messageId)
+		throws PortalException;
+
 	public void setReadTopic(long userId, long topicId);
 }

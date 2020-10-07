@@ -32,8 +32,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.function.Predicate;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Mauro Celani
@@ -196,18 +196,17 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 	public void notifyMessageCreation(Message message) {
 
 		try {
-			Collection<Long> topicUserIds =
-				_topicService.getTopic(message.getTopicId())
-					.getUserIds();
+			_topicService.getTopic(message.getTopicId())
+				.getUserIds()
+				.forEach(userId -> {
+					JSONObject messageJSON = message.toJSON(userId);
 
-			JSONObject messageJson = JSONFactoryUtil.createJSONObject(
-				message.toJsonString());
+					messageJSON.put(
+						ServerToClientMessageType.MSG_TYPE,
+						ServerToClientMessageType.NEW_MESSAGE.name());
 
-			messageJson.put(
-				ServerToClientMessageType.MSG_TYPE,
-				ServerToClientMessageType.NEW_MESSAGE.name());
-
-			_broadcast(messageJson, t -> topicUserIds.contains(t.getKey()));
+					_userSessionMap.sendToClient(messageJSON, userId);
+				});
 		}
 		catch (PortalException e) {
 			_log.error(e, e);
@@ -230,7 +229,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 				ServerToClientMessageType.ADD_TOPIC.getJsonField(),
 				_getTopicJSON(topic, topic.getUserId()));
 
-			_multicast(topicJson, topic.getUserIds());
+			_userSessionMap.sendToClient(topicJson, topic.getUserIds());
 		}
 		catch (PortalException e) {
 			_log.error(e, e);
@@ -277,7 +276,7 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		responseJSON.put("onlineUsers", onlineUsersJSON);
 
-		_unicast(responseJSON, userId);
+		_userSessionMap.sendToClient(responseJSON, userId);
 	}
 
 	private JSONObject _getTopicJSON(
@@ -291,10 +290,6 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 		topicJSON.put(
 			"messages", _messageService.getTopicMessages(userId, topicId));
-
-		topicJSON.put(
-			"unreads", _messageUserService.countUnreadTopicMessages(
-				userId, topicId));
 
 		Collection<Long> userIds =
 			_topicUserService.getUserIdsByTopicId(topicId);
@@ -335,41 +330,13 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 				_userSessionMap.get(userId)
 					.toJSON());
 
-			_broadcast(newUserJSON, t -> t.getKey() != userId);
+			Set<Long> userIds = _userSessionMap.keySet()
+				.stream()
+				.filter(uId -> uId != userId)
+				.collect(Collectors.toSet());
+
+			_userSessionMap.sendToClient(newUserJSON, userIds);
 		}
-	}
-
-	private void _unicast(
-		JSONObject messageJSON, long userId) {
-
-		_broadcast(messageJSON, t -> t.getKey().equals(userId));
-	}
-
-	private void _multicast(
-		JSONObject messageJSON, Collection<Long> userIds) {
-
-		_broadcast(messageJSON, t -> userIds.contains(t.getKey()));
-	}
-
-	private void _broadcast(
-		JSONObject messageJSON,
-		Predicate<? super Entry<Long, UserSession>> predicate) {
-
-		_userSessionMap.entrySet()
-			.stream()
-			.filter(predicate)
-			.flatMap(t -> t.getValue().getSessions().stream())
-			.forEach(session -> {
-				try {
-					session.getBasicRemote().sendText(
-						messageJSON.toJSONString()
-					);
-				}
-				catch (IOException e) {
-					// TODO clearSession??
-					_log.error(e, e);
-				}
-			});
 	}
 
 	public void updateLastActivityTime(long userId) {
@@ -383,9 +350,6 @@ public class UserSessionTopicsRegistryImpl implements UserSessionRegistry {
 
 	@Reference
 	private MessageService _messageService;
-
-	@Reference
-	private MessageUserService _messageUserService;
 
 	@Reference
 	private Portal _portal;

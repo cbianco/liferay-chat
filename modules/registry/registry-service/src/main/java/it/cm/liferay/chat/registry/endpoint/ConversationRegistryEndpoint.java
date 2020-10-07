@@ -21,6 +21,7 @@ import it.cm.liferay.chat.registry.handler.AddMessageMessageHandler;
 import it.cm.liferay.chat.registry.handler.AddTopicMessageHandler;
 import it.cm.liferay.chat.registry.handler.BaseHandler;
 import it.cm.liferay.chat.registry.handler.ReadTopicMessageHandler;
+import it.cm.liferay.chat.registry.session.UserSession;
 import it.cm.liferay.chat.registry.session.UserSessionRegistryUtil;
 
 import javax.servlet.http.HttpSession;
@@ -70,6 +71,10 @@ public class ConversationRegistryEndpoint extends Endpoint {
 					new CloseReason(
 						CloseReason.CloseCodes.VIOLATED_POLICY,
 						"AUTH ERROR"));
+
+				_log.warn(
+					"Error during open websocket session " +
+					"due of no chat user role");
 			}
 			catch (IOException e) {
 				throw new RuntimeException(e);
@@ -112,7 +117,7 @@ public class ConversationRegistryEndpoint extends Endpoint {
 		try {
 			HttpSession httpSession = _getHttpSession(session);
 
-			User user =(User)httpSession.getAttribute(WebKeys.USER);
+			User user = (User)httpSession.getAttribute(WebKeys.USER);
 
 			if (user == null) {
 				return false;
@@ -121,7 +126,7 @@ public class ConversationRegistryEndpoint extends Endpoint {
 			return RoleLocalServiceUtil.hasUserRole(
 				user.getUserId(),
 				user.getCompanyId(),
-				"LIFERAY_CHAT",
+				UserSession.CHAT_USER_ROLE,
 				true
 			);
 
@@ -131,19 +136,19 @@ public class ConversationRegistryEndpoint extends Endpoint {
 		}
 
 		return false;
-
 	}
 
 	private HttpSession _getHttpSession(Session session) throws Exception {
+
 		if (_httpSessionIdField == null) {
+
 			_httpSessionIdField = ReflectionUtil
 				.getDeclaredField(session.getClass(), "httpSessionId");
 		}
 
-		String httpSessionId =(String)_httpSessionIdField.get(session);
+		String httpSessionId = (String)_httpSessionIdField.get(session);
 
 		return PortalSessionContext.get(httpSessionId);
-
 	}
 
 	private <A, T> Function<A, Optional<T>> _lift(

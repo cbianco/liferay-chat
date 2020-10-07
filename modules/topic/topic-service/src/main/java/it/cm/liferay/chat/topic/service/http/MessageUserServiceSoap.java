@@ -65,6 +65,21 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class MessageUserServiceSoap {
+	public static int countUnreadTopicMessages(long userId, long topicId)
+		throws RemoteException {
+		try {
+			int returnValue = MessageUserServiceUtil.countUnreadTopicMessages(userId,
+					topicId);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.util.Collection<it.cm.liferay.chat.topic.model.MessageUser> getUnreadTopicMessages(
 		long topicId) throws RemoteException {
 		try {
@@ -80,11 +95,11 @@ public class MessageUserServiceSoap {
 		}
 	}
 
-	public static int countUnreadTopicMessages(long userId, long topicId)
+	public static boolean isRead(long userId, long messageId)
 		throws RemoteException {
 		try {
-			int returnValue = MessageUserServiceUtil.countUnreadTopicMessages(userId,
-					topicId);
+			boolean returnValue = MessageUserServiceUtil.isRead(userId,
+					messageId);
 
 			return returnValue;
 		}

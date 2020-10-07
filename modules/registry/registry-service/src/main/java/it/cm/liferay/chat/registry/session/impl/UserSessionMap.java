@@ -3,12 +3,15 @@ package it.cm.liferay.chat.registry.session.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserConstants;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import it.cm.liferay.chat.registry.session.UserSession;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -80,6 +83,31 @@ public class UserSessionMap {
 		return _userSessionMap.remove(userId);
 	}
 
+
+	public void sendToClient(
+		JSONObject messageJSON, Collection<Long> userIds) {
+
+		userIds.forEach(userId -> sendToClient(messageJSON, userId));
+	}
+
+	public void sendToClient(
+		JSONObject messageJSON, long userId) {
+
+		_userSessionMap.get(userId)
+			.getSessions()
+			.forEach(session -> {
+				try {
+					session.getBasicRemote().sendText(
+						messageJSON.toJSONString()
+					);
+				}
+				catch (IOException e) {
+					// TODO clearSession??
+					_log.error(e, e);
+				}
+			});
+	}
+
 	public int size() {
 		return _userSessionMap.size();
 	}
@@ -89,4 +117,7 @@ public class UserSessionMap {
 	}
 
 	private Map<Long, UserSession> _userSessionMap;
+
+	private static final Log _log = LogFactoryUtil.getLog(UserSessionMap.class);
+
 }

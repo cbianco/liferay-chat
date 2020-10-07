@@ -2,7 +2,7 @@ import React from 'react';
 
 import Message from './message';
 import WriteBar from './write-bar';
-import { setWsHandler } from '../websocket';
+import { sendWsMessage, setWsHandler } from '../websocket';
 
 export default class Conversation extends React.Component {
 
@@ -11,15 +11,29 @@ export default class Conversation extends React.Component {
     }
 
 	componentDidUpdate() {
-		this.scrollToBottom('smooth');
+		if (this.props.isOpen) {
+			this.scrollToBottom('smooth');
+		}
     }
 
     scrollToBottom(behavior) {
 		let bottomPos = this.messageList.scrollHeight;
+
 		this.messageList.scroll({
 			top: bottomPos,
 			behavior: behavior
 		});
+
+		this.sendReadTopic();
+	}
+
+	sendReadTopic() {
+		let topic = this.props.topic;
+		let userId = this.props.ctxt.userId;
+
+        if (topic.unreads()) {
+			sendWsMessage('{msgType: "READ_TOPIC", userId: ' + userId + ', topicId: ' + topic.topicId + '}');
+		}
 	}
 
 	render() {

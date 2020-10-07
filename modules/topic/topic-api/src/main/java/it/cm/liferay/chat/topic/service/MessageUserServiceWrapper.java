@@ -54,6 +54,12 @@ public class MessageUserServiceWrapper implements MessageUserService,
 	}
 
 	@Override
+	public boolean isRead(long userId, long messageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _messageUserService.isRead(userId, messageId);
+	}
+
+	@Override
 	public void setReadTopic(long userId, long topicId) {
 		_messageUserService.setReadTopic(userId, topicId);
 	}

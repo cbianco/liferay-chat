@@ -14,7 +14,7 @@
 
 package it.cm.liferay.chat.topic.service.impl;
 
-import it.cm.liferay.chat.topic.model.Message;
+import com.liferay.portal.kernel.exception.PortalException;
 import it.cm.liferay.chat.topic.model.MessageUser;
 import it.cm.liferay.chat.topic.service.base.MessageUserServiceBaseImpl;
 
@@ -42,6 +42,16 @@ public class MessageUserServiceImpl extends MessageUserServiceBaseImpl {
 	 */
 
 	@Override
+	public int countUnreadTopicMessages(
+		long userId, long topicId) {
+
+		// TODO Add permission controls
+
+		return messageUserLocalService.countUnreadTopicMessages(
+			userId, topicId);
+	}
+
+	@Override
 	public Collection<MessageUser> getUnreadTopicMessages(
 		long topicId) {
 
@@ -51,13 +61,13 @@ public class MessageUserServiceImpl extends MessageUserServiceBaseImpl {
 	}
 
 	@Override
-	public int countUnreadTopicMessages(
-		long userId, long topicId) {
+	public boolean isRead(
+			long userId, long messageId)
+		throws PortalException {
 
 		// TODO Add permission controls
 
-		return messageUserLocalService.countUnreadTopicMessages(
-			userId, topicId);
+		return messageUserLocalService.isRead(userId, messageId);
 	}
 
 	@Override

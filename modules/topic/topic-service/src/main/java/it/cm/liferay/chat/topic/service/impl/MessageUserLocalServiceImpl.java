@@ -15,6 +15,7 @@
 package it.cm.liferay.chat.topic.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.model.MessageUser;
 import it.cm.liferay.chat.topic.service.base.MessageUserLocalServiceBaseImpl;
 import it.cm.liferay.chat.topic.service.persistence.MessageUserPK;
@@ -80,7 +81,9 @@ public class MessageUserLocalServiceImpl extends MessageUserLocalServiceBaseImpl
 	}
 
 	@Override
-	public boolean isRead(long userId, long messageId) throws PortalException {
+	public boolean isRead(
+			long userId, long messageId)
+		throws PortalException {
 
 		return messageUserPersistence.findByPrimaryKey(
 			new MessageUserPK(messageId, userId))

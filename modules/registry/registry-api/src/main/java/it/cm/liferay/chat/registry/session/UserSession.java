@@ -28,6 +28,8 @@ public class UserSession {
 
 	}
 
+	public static final String CHAT_USER_ROLE = "LIFERAY_CHAT";
+
 	private long _userId;
 	private String _fullName;
 	private String _portraitUrl;

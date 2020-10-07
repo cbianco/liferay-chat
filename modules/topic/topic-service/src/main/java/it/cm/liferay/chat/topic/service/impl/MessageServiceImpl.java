@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONSerializer;
 import it.cm.liferay.chat.topic.model.Message;
 import it.cm.liferay.chat.topic.service.base.MessageServiceBaseImpl;
+import it.cm.liferay.chat.topic.service.persistence.MessageUserPK;
 
 import java.util.Collection;
 
@@ -62,23 +63,14 @@ public class MessageServiceImpl extends MessageServiceBaseImpl {
 
 		// TODO Add permission controls
 
-		JSONSerializer serializer = JSONFactoryUtil.createJSONSerializer();
+		JSONArray messagesJSON = JSONFactoryUtil.createJSONArray();
 
-		JSONArray messagesJson = JSONFactoryUtil.createJSONArray();
+		messageLocalService.getTopicMessages(topicId)
+			.stream()
+			.map(msg -> msg.toJSON(userId))
+			.forEach(messagesJSON::put);
 
-		for (Message message : messageLocalService.getTopicMessages(topicId)) {
-
-			JSONObject messageJson = JSONFactoryUtil.createJSONObject(
-				serializer.serialize(message));
-
-			messageJson.put(
-				"read", messageUserLocalService.isRead(
-					userId, message.getMessageId()));
-
-			messagesJson.put(messageJson);
-		}
-
-		return messagesJson;
+		return messagesJSON;
 	}
 
 	@Override

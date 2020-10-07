@@ -442,8 +442,8 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	}
 
 	@Override
-	public String toJsonString() {
-		return _message.toJsonString();
+	public com.liferay.portal.kernel.json.JSONObject toJSON(long userId) {
+		return _message.toJSON(userId);
 	}
 
 	@Override

@@ -39,9 +39,24 @@ export default class ChatBarContainer extends React.Component {
 			}));
         });
 
+        function Topic(topic) {
+        	this.topicId = topic.topicId;
+        	this.messages = topic.messages;
+        	this.users = topic.users;
+
+        	this.unreads = () => _.sum(this.messages, msg => !msg.read);
+        }
+
         setWsHandler('TOPICS', message => {
+
+        	let topics = {};
+
+            Object.values(message.topics).forEach(topic => {
+            	topics[topic.topicId] = new Topic(topic);
+            });
+
         	setState({
-				topics: message.topics,
+				topics: topics,
 				onlineUsers: message.onlineUsers
 			});
         });
@@ -49,16 +64,12 @@ export default class ChatBarContainer extends React.Component {
         setWsHandler('ADD_TOPIC', ({ addTopic }) => {
 			setState(prevState => {
 				let topics = Object.assign({}, prevState.topics);
-				topics[addTopic.topicId] = addTopic;
+				topics[addTopic.topicId] = new Topic(addTopic);
 				return { topics };
 			});
 		});
 
 		setWsHandler('NEW_MESSAGE', message => {
-
-			if (message.userId == userId) {
-				message.read = true;
-			}
 
 			setState(prevState => {
 				let topics = Object.assign({}, prevState.topics);
@@ -72,14 +83,17 @@ export default class ChatBarContainer extends React.Component {
 
     openTopic(topic) {
 
-    	let activeTopics = this.state.activeTopics;
-
-    	if (!activeTopics.includes(topic.topicId)) {
+    	if (!this._isActiveTopic(topic.topicId)) {
 
 			this.setState(prevState => ({
 				activeTopics: prevState.activeTopics.concat([topic.topicId])
 			}));
 		}
+	}
+
+	_isActiveTopic(topicId) {
+
+		return this.state.activeTopics.includes(topicId);
 	}
 
 	handleAdd(event) {
@@ -132,11 +146,11 @@ export default class ChatBarContainer extends React.Component {
 		let Liferay = this.props.ctxt.Liferay;
         let onlineUsersSize = _.size(this.state.onlineUsers);
 		let onlineUsersCount = (onlineUsersSize > 0) ? onlineUsersSize - 1 : onlineUsersSize;
-		let unreads = _.reduce(this.state.topics, (memo, { unreads }) => { return memo + unreads }, 0);
+		let unreads = _.reduce(this.state.topics, (memo, { unreads }) => { return memo + unreads() }, 0);
 
         return(
 			<div className="cmd-chat-bar-container container-fluid-1280">
-				<ActiveTopics ctxt={this.props.ctxt} activeTopics={_.filter(this.state.topics, ({ topicId }) => this.state.activeTopics.includes(topicId))} />
+				<ActiveTopics ctxt={this.props.ctxt} activeTopics={_.filter(this.state.topics, ({ topicId }) => this._isActiveTopic(topicId))} />
 				<OpenableTab
 					head={
 						<div className="cmd-chat-bar-main-topper">

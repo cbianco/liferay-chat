@@ -62,8 +62,6 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 		message.setTopicId(topicId);
 		message.setContent(content);
 
-		messagePersistence.update(message);
-
 		// User Message
 
 		for (long userId2 : topicLocalService.getTopic(topicId)
@@ -72,6 +70,8 @@ public class MessageLocalServiceImpl extends MessageLocalServiceBaseImpl {
 			messageUserLocalService.addMessageUser(
 				messageId, userId2, topicId, userId2 == userId);
 		}
+
+		messagePersistence.update(message);
 
 		return message;
 	}

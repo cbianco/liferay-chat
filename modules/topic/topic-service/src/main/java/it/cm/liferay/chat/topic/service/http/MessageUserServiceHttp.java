@@ -55,39 +55,12 @@ import it.cm.liferay.chat.topic.service.MessageUserServiceUtil;
  */
 @ProviderType
 public class MessageUserServiceHttp {
-	public static java.util.Collection<it.cm.liferay.chat.topic.model.MessageUser> getUnreadTopicMessages(
-		HttpPrincipal httpPrincipal, long topicId) {
-		try {
-			MethodKey methodKey = new MethodKey(MessageUserServiceUtil.class,
-					"getUnreadTopicMessages",
-					_getUnreadTopicMessagesParameterTypes0);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (java.util.Collection<it.cm.liferay.chat.topic.model.MessageUser>)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
 	public static int countUnreadTopicMessages(HttpPrincipal httpPrincipal,
 		long userId, long topicId) {
 		try {
 			MethodKey methodKey = new MethodKey(MessageUserServiceUtil.class,
 					"countUnreadTopicMessages",
-					_countUnreadTopicMessagesParameterTypes1);
+					_countUnreadTopicMessagesParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
 					topicId);
@@ -110,11 +83,70 @@ public class MessageUserServiceHttp {
 		}
 	}
 
+	public static java.util.Collection<it.cm.liferay.chat.topic.model.MessageUser> getUnreadTopicMessages(
+		HttpPrincipal httpPrincipal, long topicId) {
+		try {
+			MethodKey methodKey = new MethodKey(MessageUserServiceUtil.class,
+					"getUnreadTopicMessages",
+					_getUnreadTopicMessagesParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, topicId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (java.util.Collection<it.cm.liferay.chat.topic.model.MessageUser>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static boolean isRead(HttpPrincipal httpPrincipal, long userId,
+		long messageId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(MessageUserServiceUtil.class,
+					"isRead", _isReadParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
+					messageId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return ((Boolean)returnObj).booleanValue();
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static void setReadTopic(HttpPrincipal httpPrincipal, long userId,
 		long topicId) {
 		try {
 			MethodKey methodKey = new MethodKey(MessageUserServiceUtil.class,
-					"setReadTopic", _setReadTopicParameterTypes2);
+					"setReadTopic", _setReadTopicParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, userId,
 					topicId);
@@ -134,13 +166,16 @@ public class MessageUserServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(MessageUserServiceHttp.class);
-	private static final Class<?>[] _getUnreadTopicMessagesParameterTypes0 = new Class[] {
-			long.class
-		};
-	private static final Class<?>[] _countUnreadTopicMessagesParameterTypes1 = new Class[] {
+	private static final Class<?>[] _countUnreadTopicMessagesParameterTypes0 = new Class[] {
 			long.class, long.class
 		};
-	private static final Class<?>[] _setReadTopicParameterTypes2 = new Class[] {
+	private static final Class<?>[] _getUnreadTopicMessagesParameterTypes1 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _isReadParameterTypes2 = new Class[] {
+			long.class, long.class
+		};
+	private static final Class<?>[] _setReadTopicParameterTypes3 = new Class[] {
 			long.class, long.class
 		};
 }
